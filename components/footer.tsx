@@ -1,0 +1,132 @@
+'use client';
+
+import { Mail, MapPin, Phone, Linkedin, Twitter, Instagram } from 'lucide-react';
+import Link from 'next/link';
+
+export default function Footer() {
+  return (
+    <footer className="relative border-t border-white/10 bg-gradient-to-b from-transparent to-purple-900/10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+          {/* Brand Column */}
+          <div className="md:col-span-1">
+            <Link href="/" className="flex items-center gap-2 mb-4 group">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center glow-pulse">
+                <span className="text-white font-bold text-sm">E</span>
+              </div>
+              <span className="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                EmprendeLab
+              </span>
+            </Link>
+            <p className="text-sm text-foreground/60 leading-relaxed">
+              Un ecosistema universitario de innovación que impulsa el emprendimiento a través de aceleración, consultoría y
+              formación.
+            </p>
+          </div>
+
+          {/* About Links */}
+          <div>
+            <h4 className="font-semibold text-white mb-4">Nosotros</h4>
+            <nav className="space-y-2">
+              {['Quiénes Somos', 'Nuestra Misión', 'Equipo', 'Eventos'].map((link) => (
+                <Link
+                  key={link}
+                  href="#"
+                  className="block text-sm text-foreground/60 hover:text-primary transition-colors"
+                >
+                  {link}
+                </Link>
+              ))}
+            </nav>
+          </div>
+
+          {/* Services Links */}
+          <div>
+            <h4 className="font-semibold text-white mb-4">Servicios</h4>
+            <nav className="space-y-2">
+              {['Centro de Propulsión', 'Centro de Abordaje', 'Academia', 'SpaceLab'].map((link) => (
+                <Link
+                  key={link}
+                  href="#"
+                  className="block text-sm text-foreground/60 hover:text-primary transition-colors"
+                >
+                  {link}
+                </Link>
+              ))}
+            </nav>
+          </div>
+
+          {/* Contact Column */}
+          <div>
+            <h4 className="font-semibold text-white mb-4">Contacto</h4>
+            <div className="space-y-3">
+              <a
+                href="mailto:hello@emprendelab.com"
+                className="flex items-center gap-2 text-sm text-foreground/60 hover:text-primary transition-colors group"
+              >
+                <Mail size={16} className="flex-shrink-0" />
+                <span>hello@emprendelab.com</span>
+              </a>
+              <a
+                href="tel:+1234567890"
+                className="flex items-center gap-2 text-sm text-foreground/60 hover:text-primary transition-colors group"
+              >
+                <Phone size={16} className="flex-shrink-0" />
+                <span>+1 (234) 567-890</span>
+              </a>
+              <div className="flex items-center gap-2 text-sm text-foreground/60">
+                <MapPin size={16} className="flex-shrink-0 flex-grow-0" />
+                <span>Ciudad, País</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div className="border-t border-white/10 my-8"></div>
+
+        {/* Bottom Section */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          {/* Copyright */}
+          <p className="text-sm text-foreground/50">
+            © {new Date().getFullYear()} EmprendeLab. Todos los derechos reservados.
+          </p>
+
+          {/* Social Links */}
+          <div className="flex items-center gap-4">
+            {[
+              { icon: Linkedin, href: '#', label: 'LinkedIn' },
+              { icon: Twitter, href: '#', label: 'Twitter' },
+              { icon: Instagram, href: '#', label: 'Instagram' },
+            ].map((social, index) => {
+              const Icon = social.icon;
+              return (
+                <a
+                  key={index}
+                  href={social.href}
+                  aria-label={social.label}
+                  className="p-2 rounded-lg hover:bg-white/10 text-foreground/60 hover:text-primary transition-all"
+                >
+                  <Icon size={20} />
+                </a>
+              );
+            })}
+          </div>
+
+          {/* Legal Links */}
+          <div className="flex items-center gap-6">
+            {['Privacidad', 'Términos'].map((link) => (
+              <Link
+                key={link}
+                href="#"
+                className="text-sm text-foreground/50 hover:text-foreground/80 transition-colors"
+              >
+                {link}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
