@@ -10,7 +10,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-
+import Logo from "./logo";
+import Image from "next/image";
 export default function Footer() {
   return (
     <footer className="relative border-t border-white/10 bg-gradient-to-b from-transparent to-purple-900/10 overflow-hidden">
@@ -24,13 +25,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           {/* Brand Column */}
           <div className="md:col-span-1">
-            <Link href="/" className="flex items-center gap-2 mb-4 group">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center glow-pulse">
-                <span className="text-white font-bold text-sm">E</span>
-              </div>
-              <span className="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-                EmprendeLab
-              </span>
+            <Link href="/" className="flex items-center gap-3 mb-4 group">
+              <Logo size={24} />
+              <Image
+                src="/placeholder_elab.svg"
+                alt="EmprendeLab"
+                width={140}
+                height={28}
+              />
             </Link>
             <p className="text-sm text-foreground/60 leading-relaxed">
               Un ecosistema universitario de innovación que impulsa el
@@ -109,9 +111,16 @@ export default function Footer() {
         {/* Bottom Section */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           {/* Copyright */}
-          <p className="text-sm text-foreground/50">
-            © {new Date().getFullYear()} EmprendeLab. Todos los derechos
-            reservados.
+          <p className="text-sm text-foreground/50 flex flex-wrap items-center justify-center sm:justify-start gap-1">
+            © {new Date().getFullYear()}{" "}
+            <Image
+              src="/placeholder_elab.svg"
+              alt="EmprendeLab"
+              width={100}
+              height={20}
+              className="inline align-middle -mt-0.5"
+            />
+            . Todos los derechos reservados.
           </p>
 
           {/* Social Links */}

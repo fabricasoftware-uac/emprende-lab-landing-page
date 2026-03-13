@@ -2,10 +2,11 @@
 
 import { Rocket, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen pt-20 flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen pt-20 flex items-center justify-center overflow-hidden bg-[#0a0e1a]">
       {/* Animated background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-purple-900/20 via-blue-900/10 to-transparent"></div>
 
@@ -31,7 +32,7 @@ export default function Hero() {
         >
           <Rocket size={16} className="text-purple-400" />
           <span className="text-sm text-purple-300">
-            Lanzando innovación al espacio
+            Laboratorio de Emprendimiento
           </span>
         </motion.div>
 
@@ -40,14 +41,15 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
+          className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight flex justify-center w-full"
         >
-          <span className="block bg-gradient-to-r from-purple-300 via-blue-300 to-purple-300 bg-clip-text text-transparent">
-            EmprendeLab
-          </span>
-          <span className="block text-2xl sm:text-3xl lg:text-4xl text-foreground/70 font-normal mt-2">
-            Tu ecosistema de innovación
-          </span>
+          <Image
+            src="/placeholder_elab.svg"
+            alt="EmprendeLab"
+            width={490}
+            height={390}
+            className="object-contain"
+          />
         </motion.h1>
 
         {/* Subtitle */}
@@ -57,9 +59,9 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.4 }}
           className="text-lg sm:text-xl text-foreground/60 mb-10 max-w-2xl mx-auto leading-relaxed"
         >
-          Los emprendedores son como astronautas lanzando ideas al espacio. Te
-          acompañamos en cada etapa de tu viaje hacia el éxito a través de
-          aceleración, consultoría y formación especializada.
+          Lanzamos tus ideas al espacio. Te acompañamos en cada etapa de tu viaje
+          hacia el éxito a través de aceleración, consultoría y formación
+          especializada.
         </motion.p>
 
         {/* CTA Buttons */}
@@ -69,15 +71,16 @@ export default function Hero() {
           transition={{ duration: 0.5, delay: 0.6 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <button className="px-8 py-4 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold hover:shadow-2xl hover:shadow-purple-500/40 transition-all hover:scale-105 flex items-center gap-2 group">
+          <button className="px-8 py-4 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold hover:shadow-2xl hover:shadow-purple-500/40 transition-all hover:scale-105 flex items-center gap-2 group cursor-pointer">
             Explorar emprendimientos
             <ArrowRight
               size={18}
               className="group-hover:translate-x-1 transition-transform"
             />
           </button>
-          <button className="px-8 py-4 rounded-full glass hover:glass-hover font-semibold text-foreground flex items-center gap-2 group">
-            Conoce EmprendeLab
+          <button className="px-8 py-4 rounded-full glass hover:glass-hover font-semibold text-foreground flex items-center gap-2 group cursor-pointer">
+            Conoce{" "}
+            <span className="text-purple-500">EmprendeLab</span>
             <ArrowRight
               size={18}
               className="group-hover:translate-x-1 transition-transform"

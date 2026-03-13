@@ -2,6 +2,7 @@
 
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const startups = [
   {
@@ -69,7 +70,7 @@ const itemVariants = {
 
 export default function Startups() {
   return (
-    <section id="startups" className="relative py-20 sm:py-32 overflow-hidden">
+    <section id="startups" className="relative py-20 sm:py-32 overflow-hidden bg-[#0c111e]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -85,8 +86,9 @@ export default function Startups() {
             </span>
           </h2>
           <p className="text-lg text-foreground/60 max-w-2xl mx-auto">
-            Descubre los emprendimientos activos del ecosistema EmprendeLab que
-            están transformando el mundo.
+            Descubre los emprendimientos activos del ecosistema{" "}
+            <span className="text-purple-500">EmprendeLab</span> que están
+            transformando el mundo.
           </p>
         </motion.div>
 

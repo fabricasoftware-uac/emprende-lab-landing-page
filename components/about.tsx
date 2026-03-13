@@ -2,6 +2,7 @@
 
 import { Rocket, Briefcase, BookOpen, Zap } from "lucide-react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const services = [
   {
@@ -20,7 +21,12 @@ const services = [
   },
   {
     icon: <BookOpen className="w-8 h-8" />,
-    title: "Academia EmprendeLab",
+    title: (
+      <span className="flex items-center gap-1.5 align-middle">
+        Academia{" "}
+        <span className="text-purple-500">EmprendeLab</span>
+      </span>
+    ),
     description:
       "Cursos, talleres y programas de formación para entrepreneurs en todas las etapas.",
     color: "from-orange-500 to-pink-500",
@@ -49,7 +55,7 @@ const itemVariants = {
 
 export default function About() {
   return (
-    <section id="about" className="relative py-20 sm:py-32 overflow-hidden">
+    <section id="about" className="relative py-20 sm:py-32 overflow-hidden bg-[#0c111e]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -59,9 +65,19 @@ export default function About() {
           transition={{ duration: 0.7 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 flex items-center justify-center flex-wrap gap-x-2">
             <span className="bg-gradient-to-r from-purple-300 via-blue-300 to-purple-300 bg-clip-text text-transparent">
-              ¿Qué es EmprendeLab?
+              ¿Qué es
+            </span>
+            <Image
+              src="/placeholder_elab.svg"
+              alt="EmprendeLab"
+              width={440}
+              height={70}
+              className="inline mt-4 -translate-y-1"
+            />
+            <span className="bg-gradient-to-r from-purple-300 via-blue-300 to-purple-300 bg-clip-text text-transparent">
+              ?
             </span>
           </h2>
           <p className="text-lg text-foreground/60 max-w-2xl mx-auto">
