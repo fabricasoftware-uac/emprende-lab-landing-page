@@ -1,12 +1,26 @@
-'use client';
+"use client";
 
-import { Mail, MapPin, Phone, Linkedin, Twitter, Instagram } from 'lucide-react';
-import Link from 'next/link';
+import {
+  Mail,
+  MapPin,
+  Phone,
+  Linkedin,
+  Twitter,
+  Instagram,
+} from "lucide-react";
+import Link from "next/link";
+import { motion } from "framer-motion";
 
 export default function Footer() {
   return (
-    <footer className="relative border-t border-white/10 bg-gradient-to-b from-transparent to-purple-900/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <footer className="relative border-t border-white/10 bg-gradient-to-b from-transparent to-purple-900/10 overflow-hidden">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7 }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16"
+      >
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           {/* Brand Column */}
           <div className="md:col-span-1">
@@ -19,8 +33,8 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-sm text-foreground/60 leading-relaxed">
-              Un ecosistema universitario de innovación que impulsa el emprendimiento a través de aceleración, consultoría y
-              formación.
+              Un ecosistema universitario de innovación que impulsa el
+              emprendimiento a través de aceleración, consultoría y formación.
             </p>
           </div>
 
@@ -28,15 +42,17 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold text-white mb-4">Nosotros</h4>
             <nav className="space-y-2">
-              {['Quiénes Somos', 'Nuestra Misión', 'Equipo', 'Eventos'].map((link) => (
-                <Link
-                  key={link}
-                  href="#"
-                  className="block text-sm text-foreground/60 hover:text-primary transition-colors"
-                >
-                  {link}
-                </Link>
-              ))}
+              {["Quiénes Somos", "Nuestra Misión", "Equipo", "Eventos"].map(
+                (link) => (
+                  <Link
+                    key={link}
+                    href="#"
+                    className="block text-sm text-foreground/60 hover:text-primary transition-colors"
+                  >
+                    {link}
+                  </Link>
+                ),
+              )}
             </nav>
           </div>
 
@@ -44,7 +60,12 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold text-white mb-4">Servicios</h4>
             <nav className="space-y-2">
-              {['Centro de Propulsión', 'Centro de Abordaje', 'Academia', 'SpaceLab'].map((link) => (
+              {[
+                "Centro de Propulsión",
+                "Centro de Abordaje",
+                "Academia",
+                "SpaceLab",
+              ].map((link) => (
                 <Link
                   key={link}
                   href="#"
@@ -89,15 +110,16 @@ export default function Footer() {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           {/* Copyright */}
           <p className="text-sm text-foreground/50">
-            © {new Date().getFullYear()} EmprendeLab. Todos los derechos reservados.
+            © {new Date().getFullYear()} EmprendeLab. Todos los derechos
+            reservados.
           </p>
 
           {/* Social Links */}
           <div className="flex items-center gap-4">
             {[
-              { icon: Linkedin, href: '#', label: 'LinkedIn' },
-              { icon: Twitter, href: '#', label: 'Twitter' },
-              { icon: Instagram, href: '#', label: 'Instagram' },
+              { icon: Linkedin, href: "#", label: "LinkedIn" },
+              { icon: Twitter, href: "#", label: "Twitter" },
+              { icon: Instagram, href: "#", label: "Instagram" },
             ].map((social, index) => {
               const Icon = social.icon;
               return (
@@ -115,7 +137,7 @@ export default function Footer() {
 
           {/* Legal Links */}
           <div className="flex items-center gap-6">
-            {['Privacidad', 'Términos'].map((link) => (
+            {["Privacidad", "Términos"].map((link) => (
               <Link
                 key={link}
                 href="#"
@@ -126,7 +148,7 @@ export default function Footer() {
             ))}
           </div>
         </div>
-      </div>
+      </motion.div>
     </footer>
   );
 }

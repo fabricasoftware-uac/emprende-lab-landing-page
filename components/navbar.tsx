@@ -1,14 +1,20 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { Menu, X } from 'lucide-react';
+import { useState } from "react";
+import Link from "next/link";
+import { Menu, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 w-full z-50 glass border-b border-white/10">
+    <motion.nav
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="fixed top-0 w-full z-50 glass border-b border-white/10"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -23,16 +29,28 @@ export default function Navbar() {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8">
-            <Link href="#about" className="text-sm text-foreground/80 hover:text-primary transition-colors">
+            <Link
+              href="#about"
+              className="text-sm text-foreground/80 hover:text-primary transition-colors"
+            >
               Nosotros
             </Link>
-            <Link href="#program" className="text-sm text-foreground/80 hover:text-primary transition-colors">
+            <Link
+              href="#program"
+              className="text-sm text-foreground/80 hover:text-primary transition-colors"
+            >
               SpaceLab
             </Link>
-            <Link href="#startups" className="text-sm text-foreground/80 hover:text-primary transition-colors">
+            <Link
+              href="#startups"
+              className="text-sm text-foreground/80 hover:text-primary transition-colors"
+            >
               Emprendimientos
             </Link>
-            <Link href="#innovation" className="text-sm text-foreground/80 hover:text-primary transition-colors">
+            <Link
+              href="#innovation"
+              className="text-sm text-foreground/80 hover:text-primary transition-colors"
+            >
               Unidades
             </Link>
             <button className="px-6 py-2 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium hover:shadow-lg hover:shadow-purple-500/30 transition-all hover:scale-105">
@@ -50,26 +68,49 @@ export default function Navbar() {
         </div>
 
         {/* Mobile Menu */}
-        {isOpen && (
-          <div className="md:hidden pb-4 space-y-3">
-            <Link href="#about" className="block text-sm text-foreground/80 hover:text-primary transition-colors py-2">
-              Nosotros
-            </Link>
-            <Link href="#program" className="block text-sm text-foreground/80 hover:text-primary transition-colors py-2">
-              SpaceLab
-            </Link>
-            <Link href="#startups" className="block text-sm text-foreground/80 hover:text-primary transition-colors py-2">
-              Emprendimientos
-            </Link>
-            <Link href="#innovation" className="block text-sm text-foreground/80 hover:text-primary transition-colors py-2">
-              Unidades
-            </Link>
-            <button className="w-full px-6 py-2 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium hover:shadow-lg hover:shadow-purple-500/30 transition-all">
-              Contacto
-            </button>
-          </div>
-        )}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden pb-4 space-y-3 overflow-hidden"
+            >
+              <Link
+                href="#about"
+                className="block text-sm text-foreground/80 hover:text-primary transition-colors py-2"
+                onClick={() => setIsOpen(false)}
+              >
+                Nosotros
+              </Link>
+              <Link
+                href="#program"
+                className="block text-sm text-foreground/80 hover:text-primary transition-colors py-2"
+                onClick={() => setIsOpen(false)}
+              >
+                SpaceLab
+              </Link>
+              <Link
+                href="#startups"
+                className="block text-sm text-foreground/80 hover:text-primary transition-colors py-2"
+                onClick={() => setIsOpen(false)}
+              >
+                Emprendimientos
+              </Link>
+              <Link
+                href="#innovation"
+                className="block text-sm text-foreground/80 hover:text-primary transition-colors py-2"
+                onClick={() => setIsOpen(false)}
+              >
+                Unidades
+              </Link>
+              <button className="w-full px-6 py-2 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium hover:shadow-lg hover:shadow-purple-500/30 transition-all">
+                Contacto
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-    </nav>
+    </motion.nav>
   );
 }
