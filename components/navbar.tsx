@@ -31,32 +31,50 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-6">
             <Link
-              href="#about"
+              href="#academia"
               className="text-sm font-bold hover:text-primary transition-colors"
             >
-              Nosotros
+              Academia
+            </Link>
+            <Link
+              href="#transferencia"
+              className="text-sm font-bold hover:text-primary transition-colors"
+            >
+              Transferencia
             </Link>
             <Link
               href="#program"
               className="text-sm font-bold hover:text-primary transition-colors"
             >
-              SpaceLab
-            </Link>
-            <Link
-              href="#startups"
-              className="text-sm font-bold hover:text-primary transition-colors"
-            >
-              Emprendimientos
+              Aceleración
             </Link>
             <Link
               href="#innovation"
               className="text-sm font-bold hover:text-primary transition-colors"
             >
-              Unidades
+              Servicios
             </Link>
-            <button className="px-6 py-2 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium hover:shadow-lg hover:shadow-purple-500/30 transition-all hover:scale-105 cursor-pointer">
+            <Link
+              href="#empresas"
+              className="text-sm font-bold hover:text-primary transition-colors"
+            >
+              Empresas
+            </Link>
+            <Link
+              href="#tienda"
+              className="text-sm font-bold hover:text-primary transition-colors"
+            >
+              Tienda
+            </Link>
+            <Link
+              href="#equipo"
+              className="text-sm font-bold hover:text-primary transition-colors"
+            >
+              Tripulación
+            </Link>
+            <button className="px-6 py-2 rounded-full bg-linear-to-r from-purple-500 to-blue-500 text-white font-medium hover:shadow-lg hover:shadow-purple-500/30 transition-all hover:scale-105 cursor-pointer">
               Contacto
             </button>
           </div>
@@ -80,34 +98,69 @@ export default function Navbar() {
               className="md:hidden pb-4 space-y-3 overflow-hidden"
             >
               <Link
-                href="#about"
-                className="block text-sm text-foreground/80 hover:text-primary transition-colors py-2"
+                href="#academia"
+                className="block text-sm text-foreground/80 hover:text-primary transition-colors py-1.5"
                 onClick={() => setIsOpen(false)}
               >
-                Nosotros
+                Academia
+              </Link>
+              <Link
+                href="#transferencia"
+                className="block text-sm text-foreground/80 hover:text-primary transition-colors py-1.5"
+                onClick={() => setIsOpen(false)}
+              >
+                Transferencia
               </Link>
               <Link
                 href="#program"
-                className="block text-sm text-foreground/80 hover:text-primary transition-colors py-2"
+                className="block text-sm text-foreground/80 hover:text-primary transition-colors py-1.5"
                 onClick={() => setIsOpen(false)}
               >
-                SpaceLab
+                Aceleración
               </Link>
               <Link
-                href="#startups"
-                className="block text-sm text-foreground/80 hover:text-primary transition-colors py-2"
+                href="#proyectos"
+                className="block text-sm text-foreground/80 hover:text-primary transition-colors py-1.5"
                 onClick={() => setIsOpen(false)}
               >
-                Emprendimientos
+                Proyectos
               </Link>
               <Link
                 href="#innovation"
-                className="block text-sm text-foreground/80 hover:text-primary transition-colors py-2"
+                className="block text-sm text-foreground/80 hover:text-primary transition-colors py-1.5"
                 onClick={() => setIsOpen(false)}
               >
-                Unidades
+                Servicios
               </Link>
-              <button className="w-full px-6 py-2 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium hover:shadow-lg hover:shadow-purple-500/30 transition-all">
+              <Link
+                href="#empresas"
+                className="block text-sm text-foreground/80 hover:text-primary transition-colors py-1.5"
+                onClick={() => setIsOpen(false)}
+              >
+                Empresas
+              </Link>
+              <Link
+                href="#becados"
+                className="block text-sm text-foreground/80 hover:text-primary transition-colors py-1.5"
+                onClick={() => setIsOpen(false)}
+              >
+                Becados
+              </Link>
+              <Link
+                href="#tienda"
+                className="block text-sm text-foreground/80 hover:text-primary transition-colors py-1.5"
+                onClick={() => setIsOpen(false)}
+              >
+                Tienda
+              </Link>
+              <Link
+                href="#equipo"
+                className="block text-sm text-foreground/80 hover:text-primary transition-colors py-1.5"
+                onClick={() => setIsOpen(false)}
+              >
+                Tripulación
+              </Link>
+              <button className="w-full px-6 py-2 rounded-full bg-linear-to-r from-purple-500 to-blue-500 text-white font-medium hover:shadow-lg hover:shadow-purple-500/30 transition-all mt-2">
                 Contacto
               </button>
             </motion.div>

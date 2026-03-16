@@ -2,6 +2,7 @@
 
 import { CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const phases = [
   {
@@ -9,7 +10,7 @@ const phases = [
     name: "Plan de Vuelo",
     description:
       "Transformación de mentalidad. Aprende a pensar como emprendedor.",
-    highlights: ["Mindset", "Fundamentos", "Visión estratégica"],
+    highlights: ["Describir", "Analizar", "Evaluar"],
     icon: "📋",
   },
   {
@@ -30,7 +31,7 @@ const phases = [
   },
   {
     number: "04",
-    name: "Aterrizaje",
+    name: "Amartizaje",
     description: "Escalado y exportación. Aprende a crecer sin límites.",
     highlights: ["Escalabilidad", "Mercados", "Expansión"],
     icon: "🚀",
@@ -52,7 +53,10 @@ const itemVariants = {
 
 export default function SpaceLabProgram() {
   return (
-    <section id="program" className="relative py-20 sm:py-32 overflow-hidden bg-[#0f172a]">
+    <section
+      id="program"
+      className="relative py-20 sm:py-32 overflow-hidden bg-[#0f172a]"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -63,12 +67,12 @@ export default function SpaceLabProgram() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-blue-300 via-purple-300 to-blue-300 bg-clip-text text-transparent">
-              Programa SpaceLab
+            <span className="bg-linear-to-r from-blue-300 via-purple-300 to-blue-300 bg-clip-text text-transparent">
+              Aceleración SpaceLab
             </span>
           </h2>
           <p className="text-lg text-foreground/60 max-w-2xl mx-auto">
-            Tu misión hacia el emprendimiento exitoso en 4 fases
+            Metodología de aceleración de emprendimientos en 4 fases
             transformacionales.
           </p>
         </motion.div>
@@ -81,7 +85,7 @@ export default function SpaceLabProgram() {
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 1.5, ease: "easeInOut" }}
-            className="hidden lg:block absolute top-32 left-0 right-0 h-1 bg-gradient-to-r from-purple-500/0 via-purple-500/50 to-purple-500/0 origin-left"
+            className="hidden lg:block absolute top-32 left-0 right-0 h-1 bg-linear-to-r from-purple-500/0 via-purple-500/50 to-purple-500/0 origin-left"
           ></motion.div>
 
           {/* Phases Grid */}
@@ -131,10 +135,7 @@ export default function SpaceLabProgram() {
                         key={hIndex}
                         className="flex items-center gap-2 text-sm text-foreground/60"
                       >
-                        <CheckCircle
-                          size={16}
-                          className="text-blue-400 flex-shrink-0"
-                        />
+                        <span className="w-1.5 h-1.5 rounded-full bg-purple-400 shrink-0 mt-2"></span>
                         {highlight}
                       </div>
                     ))}
@@ -151,7 +152,7 @@ export default function SpaceLabProgram() {
                 {/* Mobile connecting dots */}
                 {index < phases.length - 1 && (
                   <div className="lg:hidden flex justify-center my-2">
-                    <div className="w-1 h-4 bg-gradient-to-b from-purple-500 to-transparent rounded-full"></div>
+                    <div className="absolute bg-linear-to-b from-transparent to-[#0f172a] opacity-80 z-0"></div>
                   </div>
                 )}
               </motion.div>
@@ -167,8 +168,8 @@ export default function SpaceLabProgram() {
           transition={{ duration: 0.5, delay: 0.8 }}
           className="mt-16 text-center"
         >
-          <button className="px-10 py-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold hover:shadow-2xl hover:shadow-blue-500/40 transition-all hover:scale-105">
-            Inicia tu Misión SpaceLab
+          <button className="px-8 py-4 rounded-full bg-linear-to-r from-purple-500 to-blue-500 text-white font-semibold hover:shadow-2xl hover:shadow-purple-500/30 transition-all hover:scale-105 flex items-center gap-2 group mx-auto">
+            Inicia tu aceleración SpaceLab
           </button>
         </motion.div>
       </div>

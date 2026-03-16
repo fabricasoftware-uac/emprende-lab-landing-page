@@ -3,6 +3,7 @@
 import { Rocket, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -59,8 +60,8 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.4 }}
           className="text-lg sm:text-xl text-foreground/60 mb-10 max-w-2xl mx-auto leading-relaxed"
         >
-          Lanzamos tus ideas al espacio. Te acompañamos en cada etapa de tu viaje
-          hacia el éxito a través de aceleración, consultoría y formación
+          Lanzamos tus ideas al espacio. Te acompañamos en cada etapa de tu
+          viaje hacia el éxito a través de aceleración, consultoría y formación
           especializada.
         </motion.p>
 
@@ -71,21 +72,26 @@ export default function Hero() {
           transition={{ duration: 0.5, delay: 0.6 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <button className="px-8 py-4 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold hover:shadow-2xl hover:shadow-purple-500/40 transition-all hover:scale-105 flex items-center gap-2 group cursor-pointer">
+          <a
+            href="#empresas"
+            className="px-8 py-4 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold hover:shadow-2xl hover:shadow-purple-500/40 transition-all hover:scale-105 flex items-center gap-2 group cursor-pointer"
+          >
             Explorar emprendimientos
             <ArrowRight
               size={18}
               className="group-hover:translate-x-1 transition-transform"
             />
-          </button>
-          <button className="px-8 py-4 rounded-full glass hover:glass-hover font-semibold text-foreground flex items-center gap-2 group cursor-pointer">
-            Conoce{" "}
-            <span className="text-purple-500">EmprendeLab</span>
+          </a>
+          <a
+            href="#academia"
+            className="px-8 py-4 rounded-full glass hover:glass-hover font-semibold text-foreground flex items-center gap-2 group cursor-pointer"
+          >
+            Conoce <span className="text-purple-500">EmprendeLab</span>
             <ArrowRight
               size={18}
               className="group-hover:translate-x-1 transition-transform"
             />
-          </button>
+          </a>
         </motion.div>
 
         {/* Decorative rocket */}

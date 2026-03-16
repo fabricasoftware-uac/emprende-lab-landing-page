@@ -1,7 +1,8 @@
 "use client";
 
-import { Code, Lightbulb, ArrowRight } from "lucide-react";
+import { Code, Lightbulb, ArrowRight, Globe } from "lucide-react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const units = [
   {
@@ -21,6 +22,15 @@ const units = [
     features: ["Estrategia Digital", "Consultoría", "Implementación"],
     gradient: "from-orange-500 to-pink-500",
     accentColor: "orange",
+  },
+  {
+    title: "Proyectos",
+    description:
+      "Desarrollo e implementación de proyectos de base tecnológica e innovación científica de alto impacto para aliados estratégicos.",
+    icon: <Globe className="w-12 h-12" />,
+    features: ["Innovación", "Escalabilidad", "Impacto Real"],
+    gradient: "from-teal-500 to-emerald-500",
+    accentColor: "teal",
   },
 ];
 
@@ -53,13 +63,13 @@ export default function InnovationUnits() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-blue-300 via-orange-300 to-pink-300 bg-clip-text text-transparent">
-              Unidades de Innovación
+            <span className="bg-linear-to-r from-blue-300 via-orange-300 to-pink-300 bg-clip-text text-transparent">
+              Servicios del Ecosistema
             </span>
           </h2>
           <p className="text-lg text-foreground/60 max-w-2xl mx-auto">
-            Servicios profesionales especializados que necesitan visibilidad y
-            promoción.
+            Servicios profesionales especializados que impulsan y hacen crecer
+            tus ideas.
           </p>
         </motion.div>
 
@@ -69,51 +79,68 @@ export default function InnovationUnits() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+          className="grid grid-cols-1 md:grid-cols-3 gap-8"
         >
           {units.map((unit, index) => (
             <motion.div
               variants={itemVariants}
               key={index}
-              className="group glass-hover p-8 rounded-3xl transition-all duration-300 hover:scale-105"
+              className={`glass-hover flex flex-col rounded-3xl relative overflow-hidden group border border-${unit.accentColor}-500/10 hover:border-${unit.accentColor}-500/30 transition-all duration-300`}
             >
-              {/* Icon Background */}
-              <div
-                className={`inline-block p-6 rounded-2xl bg-gradient-to-br ${unit.gradient} text-white mb-6 group-hover:shadow-2xl transition-all`}
-              >
-                {unit.icon}
-              </div>
-
-              {/* Content */}
-              <h3 className="text-3xl font-bold mb-4 text-white">
-                {unit.title}
-              </h3>
-              <p className="text-lg text-foreground/70 mb-8 leading-relaxed">
-                {unit.description}
-              </p>
-
-              {/* Features */}
-              <div className="space-y-3 mb-8">
-                {unit.features.map((feature, fIndex) => (
-                  <div key={fIndex} className="flex items-center gap-3">
-                    <div
-                      className={`w-2 h-2 rounded-full bg-gradient-to-r ${unit.gradient}`}
-                    ></div>
-                    <span className="text-foreground/80">{feature}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* CTA Button */}
-              <button
-                className={`group/btn flex items-center gap-2 px-6 py-3 rounded-lg border border-white/10 hover:border-white/20 hover:bg-gradient-to-r ${unit.gradient} hover:text-white transition-all font-medium`}
-              >
-                Conocer más
-                <ArrowRight
-                  size={18}
-                  className="group-hover/btn:translate-x-1 transition-transform"
+              {/* Facility Image Placeholder */}
+              <div className="relative w-full h-48 bg-black/40 overflow-hidden shrink-0">
+                <Image
+                  src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800&auto=format&fit=crop" // REEMPLAZA CON FOTO DE ESTA UNIDAD
+                  alt={`Instalaciones ${unit.title}`}
+                  fill
+                  className="object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
                 />
-              </button>
+                <div
+                  className={`absolute inset-0 bg-linear-to-b from-transparent to-[#080b13]/90`}
+                ></div>
+              </div>
+
+              {/* Abstract background shape */}
+              <div
+                className={`absolute -right-10 top-20 w-40 h-40 bg-linear-to-br ${unit.gradient} rounded-full blur-3xl opacity-10 group-hover:opacity-20 transition-opacity z-0 pointer-events-none`}
+              ></div>
+
+              <div className="p-8 md:p-10 flex flex-col grow relative z-10 -mt-12">
+                {/* Icon Background */}
+                <div
+                  className={`inline-block p-6 rounded-2xl bg-linear-to-br ${unit.gradient} text-white mb-6 group-hover:shadow-2xl transition-all shadow-lg self-start`}
+                >
+                  {unit.icon}
+                </div>
+
+                {/* Content */}
+                <h3 className="text-3xl font-bold mb-4 text-white">
+                  {unit.title}
+                </h3>
+                <p className="text-lg text-foreground/70 mb-8 leading-relaxed">
+                  {unit.description}
+                </p>
+
+                {/* Features */}
+                <div className="space-y-3 mb-8">
+                  {unit.features.map((feature, fIndex) => (
+                    <div key={fIndex} className="flex items-center gap-3">
+                      <div
+                        className={`w-2 h-2 rounded-full bg-linear-to-r ${unit.gradient}`}
+                      ></div>
+                      <span className="text-foreground/80">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* CTA Button */}
+                <button
+                  className={`group/btn flex items-center gap-2 px-6 py-3 rounded-lg border border-white/10 hover:border-white/20 hover:bg-gradient-to-r ${unit.gradient} hover:text-white transition-all font-medium`}
+                >
+                  Explorar unidades
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
             </motion.div>
           ))}
         </motion.div>
