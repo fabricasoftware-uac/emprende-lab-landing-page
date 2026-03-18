@@ -112,10 +112,7 @@ const itemVariants = {
 
 export default function Empresas() {
   return (
-    <section
-      id="empresas"
-      className="relative py-20 sm:py-32 overflow-hidden bg-[#0a0f1d]"
-    >
+    <section id="empresas" className="relative py-20 sm:py-32 overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-900/10 via-transparent to-transparent"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

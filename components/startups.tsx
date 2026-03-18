@@ -70,7 +70,7 @@ const itemVariants = {
 
 export default function Startups() {
   return (
-    <section id="startups" className="relative py-20 sm:py-32 overflow-hidden bg-[#0c111e]">
+    <section id="startups" className="relative py-20 sm:py-32 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div

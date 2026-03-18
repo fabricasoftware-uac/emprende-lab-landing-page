@@ -13,6 +13,7 @@ const units = [
     features: ["Desarrollo Custom", "Tecnología Avanzada", "Equipo Experto"],
     gradient: "from-blue-500 to-purple-500",
     accentColor: "blue",
+    img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1000&auto=format&fit=crop",
   },
   {
     title: "Agencia InnHouse",
@@ -22,6 +23,7 @@ const units = [
     features: ["Estrategia Digital", "Consultoría", "Implementación"],
     gradient: "from-orange-500 to-pink-500",
     accentColor: "orange",
+    img: "/agencia_innHouse.webp",
   },
   {
     title: "Proyectos",
@@ -31,6 +33,7 @@ const units = [
     features: ["Innovación", "Escalabilidad", "Impacto Real"],
     gradient: "from-teal-500 to-emerald-500",
     accentColor: "teal",
+    img: "/proyectos.webp",
   },
 ];
 
@@ -51,7 +54,7 @@ export default function InnovationUnits() {
   return (
     <section
       id="innovation"
-      className="relative py-20 sm:py-32 overflow-hidden bg-[#080b13]"
+      className="relative py-20 sm:py-32 overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
@@ -64,7 +67,7 @@ export default function InnovationUnits() {
         >
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
             <span className="bg-linear-to-r from-blue-300 via-orange-300 to-pink-300 bg-clip-text text-transparent">
-              Servicios del Ecosistema
+              Nuestros Servicios
             </span>
           </h2>
           <p className="text-lg text-foreground/60 max-w-2xl mx-auto">
@@ -90,7 +93,7 @@ export default function InnovationUnits() {
               {/* Facility Image Placeholder */}
               <div className="relative w-full h-48 bg-black/40 overflow-hidden shrink-0">
                 <Image
-                  src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800&auto=format&fit=crop" // REEMPLAZA CON FOTO DE ESTA UNIDAD
+                  src={unit.img}
                   alt={`Instalaciones ${unit.title}`}
                   fill
                   className="object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"

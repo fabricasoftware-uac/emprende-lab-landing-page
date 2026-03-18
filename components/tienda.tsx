@@ -19,6 +19,7 @@ const items = [
     logoIcon: <ShoppingBag />,
     desc: "Marketplace de productos y servicios creados por nuestros emprendedores de la comunidad.",
     color: "from-green-500 to-emerald-500",
+    img: "/tienda.webp",
   },
   {
     name: "Coworking",
@@ -26,6 +27,7 @@ const items = [
     logoIcon: <Users />,
     desc: "Zonas de trabajo colaborativo para fomentar el networking y la cocreación de ideas.",
     color: "from-blue-500 to-indigo-500",
+    img: "/coworking.webp",
   },
   {
     name: "Sala de Juntas",
@@ -33,20 +35,7 @@ const items = [
     logoIcon: <Monitor />,
     desc: "Espacios equipados con tecnología para reuniones ejecutivas, pitchs y negociaciones.",
     color: "from-purple-500 to-pink-500",
-  },
-  {
-    name: "Proyectos",
-    category: "Desarrollo",
-    logoIcon: <Rocket />,
-    desc: "Exhibición y articulación de los proyectos más innovadores nacidos en EmprendeLab.",
-    color: "from-orange-500 to-red-500",
-  },
-  {
-    name: "Coffee Selling",
-    category: "Networking",
-    logoIcon: <Coffee />,
-    desc: "Estación de café y snacks para recargar energías y conectar con otros innovadores.",
-    color: "from-yellow-500 to-orange-500",
+    img: "/sala_de_juntas.webp",
   },
 ];
 
@@ -65,10 +54,7 @@ const itemVariants = {
 
 export default function Tienda() {
   return (
-    <section
-      id="tienda"
-      className="relative py-20 sm:py-32 overflow-hidden bg-black/40"
-    >
+    <section id="tienda" className="relative py-20 sm:py-32 overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-green-900/10 via-transparent to-transparent pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -119,7 +105,7 @@ export default function Tienda() {
 
                 {/* Image Placeholder */}
                 <Image
-                  src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=800&auto=format&fit=crop" // REEMPLAZA CON FOTO DE ESTE ESPACIO
+                  src={item.img}
                   alt={item.name}
                   fill
                   className="object-cover opacity-40 group-hover:opacity-50 group-hover:scale-105 transition-all duration-700"

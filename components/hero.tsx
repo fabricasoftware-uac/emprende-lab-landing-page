@@ -7,21 +7,40 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen pt-20 flex items-center justify-center overflow-hidden bg-[#0a0e1a]">
+    <section className="relative min-h-screen pt-20 flex items-center justify-center overflow-hidden">
       {/* Animated background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-purple-900/20 via-blue-900/10 to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-purple-600/10 via-blue-600/10 to-transparent"></div>
 
-      {/* Orbital paths */}
+      {/* Abstract Glowing Planets */}
+      <motion.div
+        animate={{ y: [-15, 15, -15], rotate: 360 }}
+        transition={{
+          y: { duration: 12, repeat: Infinity, ease: "easeInOut" },
+          rotate: { duration: 150, repeat: Infinity, ease: "linear" },
+        }}
+        className="absolute -top-32 -right-32 w-[30rem] h-[30rem] rounded-full bg-linear-to-br from-indigo-600/20 via-purple-600/10 to-transparent blur-3xl pointer-events-none"
+      ></motion.div>
+
+      <motion.div
+        animate={{ y: [20, -20, 20] }}
+        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/3 -left-20 w-64 h-64 rounded-full bg-linear-to-tr from-blue-500/20 to-cyan-400/10 blur-3xl pointer-events-none"
+      ></motion.div>
+
+      {/* Primary Orbital paths */}
       <motion.div
         animate={{ rotate: 360 }}
-        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 border border-purple-500/10 rounded-full border-t-purple-500/40"
+        transition={{ duration: 90, repeat: Infinity, ease: "linear" }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-160 h-160 border border-white/5 rounded-full border-t-purple-500/40 border-r-blue-500/20 pointer-events-none"
       ></motion.div>
+
       <motion.div
         animate={{ rotate: -360 }}
-        transition={{ duration: 45, repeat: Infinity, ease: "linear" }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 border border-blue-500/10 rounded-full border-b-blue-500/40"
-      ></motion.div>
+        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-112 h-112 border border-white/5 rounded-full border-b-cyan-500/40 pointer-events-none"
+      >
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-cyan-400 rounded-full shadow-[0_0_15px_rgba(34,211,238,0.8)]"></div>
+      </motion.div>
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Badge */}

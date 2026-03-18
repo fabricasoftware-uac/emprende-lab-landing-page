@@ -84,7 +84,7 @@ export default function Academia() {
             <div className="relative w-full aspect-video md:aspect-[21/9] lg:aspect-video rounded-3xl overflow-hidden glass p-2 group">
               <div className="w-full h-full relative rounded-2xl overflow-hidden bg-black/40 border border-white/10">
                 <Image
-                  src="https://images.unsplash.com/photo-1541818163554-6cb0531bdcff?q=80&w=1000&auto=format&fit=crop" // REEMPLAZA ESTA URL CON LA FOTO DE TUS INSTALACIONES
+                  src="/academia.webp"
                   alt="Instalaciones Academia EmprendeLab"
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-60"

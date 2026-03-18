@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ExternalLink, Building2, Code2, LineChart } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const projects = [
   {
@@ -13,6 +14,7 @@ const projects = [
     icon: <LineChart className="w-5 h-5 text-purple-400" />,
     color: "from-purple-500/20 to-pink-500/20",
     borderColor: "border-purple-500/30",
+    site_url: "",
   },
   {
     name: "Bantotal",
@@ -22,6 +24,7 @@ const projects = [
     icon: <Code2 className="w-5 h-5 text-blue-400" />,
     color: "from-blue-500/20 to-cyan-500/20",
     borderColor: "border-blue-500/30",
+    site_url: "",
   },
   {
     name: "PopayánInn",
@@ -31,6 +34,7 @@ const projects = [
     icon: <Building2 className="w-5 h-5 text-orange-400" />,
     color: "from-orange-500/20 to-yellow-500/20",
     borderColor: "border-orange-500/30",
+    site_url: "https://popayaninn.com/",
   },
 ];
 
@@ -109,14 +113,14 @@ export default function Proyectos() {
                 {project.description}
               </p>
 
-              <div className="pt-4 border-t border-white/10 flex justify-between items-center">
+              <Link href={project.site_url} className="pt-4 border-t border-white/10 flex justify-between items-center">
                 <span className="text-sm text-foreground/50 group-hover:text-foreground/80 transition-colors">
                   Conocer más
                 </span>
                 <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
                   <ExternalLink size={14} className="text-foreground/70" />
                 </div>
-              </div>
+              </Link>
             </motion.div>
           ))}
         </motion.div>

@@ -14,7 +14,7 @@ import FloatingElements from "@/components/floating-elements";
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen bg-background text-foreground overflow-hidden">
+    <div className="relative min-h-screen bg-linear-to-b from-[#2e1a47] to-background text-foreground overflow-hidden">
       {/* Cosmic background elements */}
       <FloatingElements />
 
@@ -26,7 +26,7 @@ export default function Home() {
 
       {/* Innovation Units Section (Servicios) */}
       <InnovationUnits />
-      
+
       {/* Academia */}
       <Academia />
 
@@ -39,15 +39,14 @@ export default function Home() {
       {/* Proyectos Destacados */}
       <Proyectos />
 
+      {/* Tienda */}
+      <Tienda />
 
       {/* Empresas */}
       <Empresas />
 
       {/* Becados */}
       <Becados />
-
-      {/* Tienda */}
-      <Tienda />
 
       {/* Tripulación Estelar */}
       <Equipo />

@@ -8,7 +8,7 @@ export default function Transferencia() {
   return (
     <section
       id="transferencia"
-      className="relative py-20 sm:py-32 overflow-hidden bg-black/20"
+      className="relative py-20 sm:py-32 overflow-hidden"
     >
       <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-purple-500/20 to-transparent"></div>
 
