@@ -44,14 +44,14 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold text-white mb-4">Nosotros</h4>
             <nav className="space-y-2">
-              {["Quiénes Somos", "Nuestra Misión", "Equipo", "Eventos"].map(
+              {[{ label: "Quiénes Somos", href: "#about" }, { label: "Equipo", href: "#equipo" }, { label: "Tienda", href: "#tienda" }, { label: "Administración", href: "/auth/login"}].map(
                 (link) => (
                   <Link
-                    key={link}
-                    href="#"
+                    key={link.label}
+                    href={link.href}
                     className="block text-sm text-foreground/60 hover:text-primary transition-colors"
                   >
-                    {link}
+                    {link.label}
                   </Link>
                 ),
               )}
@@ -62,18 +62,13 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold text-white mb-4">Servicios</h4>
             <nav className="space-y-2">
-              {[
-                "Centro de Propulsión",
-                "Centro de Abordaje",
-                "Academia",
-                "SpaceLab",
-              ].map((link) => (
+              {[{ label: "Centro de Propulsión", href: "#about" }, { label: "Transferencia de Conocimiento", href: "#transferencia" }, { label: "Academia", href: "#academia" }, { label: "SpaceLab", href: "#program" }].map((link) => (
                 <Link
-                  key={link}
-                  href="#"
+                  key={link.label}
+                  href={link.href}
                   className="block text-sm text-foreground/60 hover:text-primary transition-colors"
                 >
-                  {link}
+                  {link.label}
                 </Link>
               ))}
             </nav>
@@ -99,7 +94,7 @@ export default function Footer() {
               </a>
               <div className="flex items-center gap-2 text-sm text-foreground/60">
                 <MapPin size={16} className="flex-shrink-0 flex-grow-0" />
-                <span>Ciudad, País</span>
+                <span>Popayán, Cauca</span>
               </div>
             </div>
           </div>
