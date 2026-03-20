@@ -25,7 +25,7 @@ export default function LoginPage() {
     try {
       await pb.collection("users").authWithPassword(email, password);
       // Redirigir al dashboard
-      router.push("/views/dashboard");
+      router.push("/views/admin");
     } catch (err: any) {
       switch (err.code) {
         case 404:
