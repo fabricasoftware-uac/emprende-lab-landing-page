@@ -14,7 +14,7 @@ export default function CollectionPage() {
   const collectionKey = params.collection as string;
   const config: CollectionConfig | undefined = adminConfig[collectionKey];
 
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingRecord, setEditingRecord] = useState<any | null>(null);
@@ -25,11 +25,7 @@ export default function CollectionPage() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // Mock delay to simulate network request
-        await new Promise((resolve) => setTimeout(resolve, 800));
-
-        // Mock data loading strategy: read from localStorage or return empty array
-        const stored = localStorage.getItem(`admin_mock_${collectionKey}`);
+        
         if (stored) {
           setData(JSON.parse(stored));
         } else {

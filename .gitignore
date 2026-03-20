@@ -8,4 +8,7 @@ node_modules/
 .next/
 .env
 .DS_Store
+
+# PocketBase
 pb_data/
+

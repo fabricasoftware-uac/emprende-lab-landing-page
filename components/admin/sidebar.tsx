@@ -93,13 +93,6 @@ export function Sidebar({
             );
           })}
         </nav>
-
-        <div className="p-4 mt-auto">
-          <div className="flex items-center gap-3 px-4 py-3 rounded-xl text-purple-100/60 hover:text-purple-200 hover:bg-white/5 transition-all cursor-pointer">
-            <Settings className="w-5 h-5" />
-            <span className="font-medium">Configuración</span>
-          </div>
-        </div>
       </div>
     </>
   );
