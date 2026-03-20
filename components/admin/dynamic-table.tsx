@@ -1,6 +1,12 @@
 "use client";
 
-import { Edit, Trash2, Search, Plus, Image as ImageIcon, BotOff, BotOffIcon, PauseOctagonIcon } from "lucide-react";
+import {
+  Edit,
+  Search,
+  Plus,
+  Image as ImageIcon,
+  PauseOctagonIcon,
+} from "lucide-react";
 import { FieldConfig } from "@/lib/admin-config";
 import { useState } from "react";
 import Image from "next/image";
@@ -9,7 +15,7 @@ interface DynamicTableProps {
   fields: FieldConfig[];
   data: any[];
   onEdit: (record: any) => void;
-  onDeactivate: (id: string) => void;
+  onDeactivate: (record: any) => void;
   onCreate: () => void;
   title: string;
 }
@@ -78,7 +84,7 @@ export function DynamicTable({
                 filteredData.map((row, i) => (
                   <tr
                     key={row.id || i}
-                    className="hover:bg-white/5 transition-colors group"
+                    className={`transition-colors group ${row.activo !== false ? "hover:bg-white/5" : "bg-red-500/5 opacity-50 hover:bg-red-500/10"}`}
                   >
                     {fields.map((field) => (
                       <td
@@ -135,11 +141,21 @@ export function DynamicTable({
                           <Edit className="w-4 h-4" />
                         </button>
                         <button
-                          onClick={() => onDeactivate(row.id)}
-                          className="p-2 rounded-lg bg-orange-500/10 text-orange-400 hover:bg-orange-500/20 transition-colors border border-orange-500/20"
-                          title="Desactivar"
+                          onClick={() => onDeactivate(row)}
+                          className={`p-2 rounded-lg transition-colors border ${
+                            row.activo === false
+                              ? "bg-green-500/10 text-green-400 hover:bg-green-500/20 border-green-500/20"
+                              : "bg-orange-500/10 text-orange-400 hover:bg-orange-500/20 border-orange-500/20"
+                          }`}
+                          title={
+                            row.activo === false ? "Reactivar" : "Desactivar"
+                          }
                         >
-                          <PauseOctagonIcon className="w-4 h-4" />
+                          {row.activo === false ? (
+                            <Plus className="w-4 h-4" />
+                          ) : (
+                            <PauseOctagonIcon className="w-4 h-4" />
+                          )}
                         </button>
                       </div>
                     </td>
