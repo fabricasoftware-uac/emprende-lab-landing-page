@@ -10,7 +10,7 @@ import { ArrowRight, Loader2 } from "lucide-react";
 import Image from "next/image";
 
 export default function LoginPage() {
-  const pb = new PocketBase("http://127.0.0.1:8090");
+  const pb = new PocketBase(process.env.NEXT_PUBLIC_POCKETBASE_URL);
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,8 +27,17 @@ export default function LoginPage() {
       // Redirigir al dashboard
       router.push("/views/dashboard");
     } catch (err: any) {
-      setError(err.message || "Error al iniciar sesión");
-      console.log(err);
+      switch (err.code) {
+        case 404:
+          setError("Usuario no encontrado");
+          break;
+        case 401:
+          setError("Contraseña incorrecta");
+          break;
+        default:
+          setError("Credenciales incorrectas");
+          break;
+      }
     } finally {
       setLoading(false);
     }
