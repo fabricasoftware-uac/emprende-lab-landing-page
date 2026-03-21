@@ -25,7 +25,7 @@ export default function CollectionPage() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        
+        const stored = localStorage.getItem(`admin_mock_${collectionKey}`);
         if (stored) {
           setData(JSON.parse(stored));
         } else {
