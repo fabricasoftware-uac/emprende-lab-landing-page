@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Loader2, Plus, Edit, Trash2 } from "lucide-react";
 import { Modal } from "@/components/admin/modal";
 import { ConfirmModal } from "@/components/admin/confirm-modal";
+import { ImageUploader } from "@/components/admin/image-uploader";
 import { saveEntrada } from "./actions";
 import { useRouter } from "next/navigation";
 
@@ -150,23 +151,12 @@ export function DynamicCollectionClient({
         );
       case "image":
         return (
-          <div className="flex flex-col gap-2">
-            <input
-              type="url"
-              required={field.required}
-              value={formData[field.id] || ""}
-              onChange={(e) => handleFieldChange(field.id, e.target.value)}
-              className={commonClasses}
-              placeholder={`URL de ${field.label}`}
-            />
-            {formData[field.id] && (
-              <img
-                src={formData[field.id]}
-                alt="Preview"
-                className="h-20 w-auto rounded border border-purple-500/20 object-cover"
-              />
-            )}
-          </div>
+          <ImageUploader
+            value={formData[field.id] || ""}
+            onChange={(url: string) => handleFieldChange(field.id, url)}
+            label={field.label}
+            required={field.required}
+          />
         );
       default:
         return (
