@@ -4,6 +4,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Loader2, Plus, Edit, Trash2 } from "lucide-react";
 import { Modal } from "@/components/admin/modal";
+import { ConfirmModal } from "@/components/admin/confirm-modal";
 import { saveEntrada } from "./actions";
 import { useRouter } from "next/navigation";
 
@@ -24,6 +25,9 @@ export function DynamicCollectionClient({
 
   const [records, setRecords] = useState<any[]>(initialRecords);
   const [submitting, setSubmitting] = useState(false);
+
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   // Form State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -83,17 +87,27 @@ export function DynamicCollectionClient({
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!window.confirm("¿Seguro de eliminar este registro?")) return;
+  const confirmDelete = async () => {
+    if (!deleteId) return;
+    setDeleting(true);
     try {
-      const res = await fetch(`/api/entradas?id=${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/entradas?id=${deleteId}`, {
+        method: "DELETE",
+      });
       if (!res.ok) throw new Error();
-      toast.success("Eliminado");
+      toast.success("Registro eliminado");
       router.refresh();
     } catch (error) {
       toast.error("Error al eliminar");
       console.error(error);
+    } finally {
+      setDeleting(false);
+      setDeleteId(null);
     }
+  };
+
+  const executeDelete = (id: string) => {
+    setDeleteId(id);
   };
 
   const renderField = (field: any) => {
@@ -295,7 +309,7 @@ export function DynamicCollectionClient({
                       <Edit className="w-3.5 h-3.5" />
                     </button>
                     <button
-                      onClick={() => handleDelete(rec.id)}
+                      onClick={() => executeDelete(rec.id)}
                       className="p-1.5 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors border border-red-500/20"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -329,6 +343,15 @@ export function DynamicCollectionClient({
       >
         {renderForm()}
       </Modal>
+
+      <ConfirmModal
+        isOpen={!!deleteId}
+        onClose={() => setDeleteId(null)}
+        onConfirm={confirmDelete}
+        title={`Eliminar Registro de ${esquema?.nombre}`}
+        message="¿Estás seguro de que deseas eliminar permanentemente este registro? Esta acción no se puede deshacer."
+        isLoading={deleting}
+      />
     </>
   );
 }

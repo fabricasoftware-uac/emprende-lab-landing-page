@@ -2,8 +2,16 @@
 
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { Loader2, Plus, Edit, Trash2, Shield, User } from "lucide-react";
+import {
+  Loader2,
+  UserPlus, // Changed from Plus
+  Edit,
+  Trash2,
+  Shield, // Kept Shield
+  User, // Kept User
+} from "lucide-react";
 import { Modal } from "@/components/admin/modal";
+import { ConfirmModal } from "@/components/admin/confirm-modal"; // New import
 
 import { authClient } from "@/lib/auth-client";
 
@@ -11,6 +19,11 @@ export function UsersManager() {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  const [deleteId, setDeleteId] = useState<string | null>(null); // New state
+  const [deleting, setDeleting] = useState(false); // New state
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -18,7 +31,6 @@ export function UsersManager() {
     passwordConfirm: "",
     role: "user",
   });
-  const [submitting, setSubmitting] = useState(false);
   const [editingUser, setEditingUser] = useState<any | null>(null);
 
   const resetForm = () => {
@@ -114,12 +126,12 @@ export function UsersManager() {
     setIsModalOpen(true);
   };
 
-  const handleDelete = async (id: string) => {
-    if (!window.confirm("¿Estás seguro de que deseas eliminar este usuario?"))
-      return;
+  const confirmDelete = async () => {
+    if (!deleteId) return;
+    setDeleting(true);
     try {
       const { error } = await authClient.admin.updateUser({
-        userId: id,
+        userId: deleteId,
         data: {
           deletedAt: new Date(),
         } as any,
@@ -127,11 +139,18 @@ export function UsersManager() {
       if (error) throw error;
 
       toast.success("Usuario eliminado");
-      setUsers(users.filter((u) => u.id !== id));
+      setUsers(users.filter((u) => u.id !== deleteId));
     } catch (error: any) {
       console.error(error);
       toast.error("Error al eliminar el usuario");
+    } finally {
+      setDeleting(false);
+      setDeleteId(null);
     }
+  };
+
+  const executeDelete = (id: string) => {
+    setDeleteId(id);
   };
 
   return (
@@ -153,7 +172,7 @@ export function UsersManager() {
           }}
           className="px-4 py-2 rounded-full bg-linear-to-r from-purple-500 to-indigo-500 text-white font-medium text-sm flex items-center gap-2 hover:shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all"
         >
-          <Plus className="w-4 h-4" />
+          <UserPlus className="w-4 h-4" /> {/* Changed from Plus */}
           Nuevo Usuario
         </button>
       </div>
@@ -213,9 +232,9 @@ export function UsersManager() {
                       <Edit className="w-4 h-4" />
                     </button>
                     <button
-                      onClick={() => handleDelete(user.id)}
-                      className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors border border-red-500/20"
-                      title="Eliminar"
+                      onClick={() => executeDelete(user.id)} // Changed to executeDelete
+                      className="p-1.5 flex items-center justify-center rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors border border-red-500/20" // Updated classes
+                      title="Desactivar Usuario" // Updated title
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -333,6 +352,15 @@ export function UsersManager() {
           </div>
         </form>
       </Modal>
+
+      <ConfirmModal
+        isOpen={!!deleteId}
+        onClose={() => setDeleteId(null)}
+        onConfirm={confirmDelete}
+        title="Eliminar Usuario"
+        message="¿Estás seguro de que deseas eliminar este usuario? No podrá volver a iniciar sesión."
+        isLoading={deleting}
+      />
     </div>
   );
 }

@@ -10,8 +10,12 @@ import {
   X,
   Settings2,
   Database,
+  Edit,
+  Power,
+  PowerOff,
 } from "lucide-react";
 import { Modal } from "@/components/admin/modal";
+import { ConfirmModal } from "@/components/admin/confirm-modal";
 
 interface Field {
   id: string; // técnico: slug
@@ -24,10 +28,14 @@ export function CollectionsManager() {
   const [projects, setProjects] = useState<any[]>([]);
   const [selectedProjectId, setSelectedProjectId] = useState<string>("");
   const [collections, setCollections] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingCollection, setEditingCollection] = useState<any>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
   const [formData, setFormData] = useState({
     nombre: "",
     slug: "",
@@ -104,17 +112,25 @@ export function CollectionsManager() {
     }
     setSubmitting(true);
     try {
-      const res = await fetch("/api/esquemas", {
-        method: "POST",
+      const url = "/api/esquemas";
+      const method = editingCollection ? "PATCH" : "POST";
+      const body = editingCollection
+        ? { ...formData, id: editingCollection.id }
+        : { ...formData, proyectoId: selectedProjectId };
+
+      const res = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...formData,
-          proyectoId: selectedProjectId,
-        }),
+        body: JSON.stringify(body),
       });
       if (!res.ok) throw new Error("Error al guardar");
-      toast.success("Esquema creado correctamente");
+      toast.success(
+        editingCollection
+          ? "Esquema actualizado correctamente"
+          : "Esquema creado correctamente",
+      );
       setIsModalOpen(false);
+      setEditingCollection(null);
       setFormData({ nombre: "", slug: "", esRegistroUnico: false, campos: [] });
       fetchCollections(selectedProjectId);
     } catch (error) {
@@ -125,15 +141,51 @@ export function CollectionsManager() {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!window.confirm("¿Estás seguro de eliminar este esquema?")) return;
+  const confirmDelete = async () => {
+    if (!deleteId) return;
+    setDeleting(true);
     try {
-      const res = await fetch(`/api/esquemas?id=${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/esquemas?id=${deleteId}`, {
+        method: "DELETE",
+      });
       if (!res.ok) throw new Error();
       toast.success("Esquema eliminado");
       fetchCollections(selectedProjectId);
     } catch (error) {
       toast.error("Error al eliminar");
+    } finally {
+      setDeleting(false);
+      setDeleteId(null);
+    }
+  };
+
+  const executeDelete = (id: string) => {
+    setDeleteId(id);
+  };
+
+  const handleEdit = (col: any) => {
+    setEditingCollection(col);
+    setFormData({
+      nombre: col.nombre,
+      slug: col.slug,
+      esRegistroUnico: col.esRegistroUnico,
+      campos: col.campos,
+    });
+    setIsModalOpen(true);
+  };
+
+  const toggleActive = async (col: any) => {
+    try {
+      const res = await fetch("/api/esquemas", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: col.id, activo: !col.activo }),
+      });
+      if (!res.ok) throw new Error();
+      toast.success(col.activo ? "Esquema desactivado" : "Esquema activado");
+      fetchCollections(selectedProjectId);
+    } catch (error) {
+      toast.error("Error al cambiar estado");
     }
   };
 
@@ -163,7 +215,16 @@ export function CollectionsManager() {
             ))}
           </select>
           <button
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => {
+              setEditingCollection(null);
+              setFormData({
+                nombre: "",
+                slug: "",
+                esRegistroUnico: false,
+                campos: [],
+              });
+              setIsModalOpen(true);
+            }}
             disabled={!selectedProjectId}
             className="shrink-0 px-4 py-2 rounded-full bg-linear-to-r from-purple-500 to-indigo-500 text-white font-medium text-sm flex items-center gap-2 hover:shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all disabled:opacity-50"
           >
@@ -207,15 +268,45 @@ export function CollectionsManager() {
                     >
                       {col.esRegistroUnico ? "Registro Único" : "Colección"}
                     </span>
+                    {!col.activo && (
+                      <span className="ml-2 px-2.5 py-1 rounded-full text-[10px] font-bold border uppercase tracking-widest bg-red-500/10 text-red-400 border-red-500/20">
+                        INACTIVO
+                      </span>
+                    )}
                   </td>
                   <td className="px-6 py-4 text-right">
-                    <button
-                      onClick={() => handleDelete(col.id)}
-                      className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors border border-red-500/20"
-                      title="Eliminar"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    <div className="flex justify-end gap-2">
+                      <button
+                        onClick={() => handleEdit(col)}
+                        className="p-2 rounded-lg bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 transition-colors border border-blue-500/20"
+                        title="Editar"
+                      >
+                        <Edit className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => toggleActive(col)}
+                        className={`p-2 rounded-lg transition-colors border ${
+                          col.activo
+                            ? "bg-red-500/10 text-red-400 hover:bg-red-500/20 border-red-500/20"
+                            : "bg-green-500/10 text-green-400 hover:bg-green-500/20 border-green-500/20"
+                        }`}
+                        title={col.activo ? "Desactivar" : "Activar"}
+                      >
+                        {col.activo ? (
+                          <PowerOff className="w-4 h-4" />
+                        ) : (
+                          <Power className="w-4 h-4" />
+                        )}
+                      </button>
+
+                      <button
+                        onClick={() => executeDelete(col.id)}
+                        className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors border border-red-500/20"
+                        title="Eliminar"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -237,7 +328,11 @@ export function CollectionsManager() {
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title="Diseñador de Esquema (Molde)"
+        title={
+          editingCollection
+            ? `Editar Esquema: ${editingCollection.nombre}`
+            : "Diseñador de Esquema (Molde)"
+        }
       >
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-2 gap-4">
@@ -406,11 +501,20 @@ export function CollectionsManager() {
               className="px-5 py-2 rounded-full bg-linear-to-r from-purple-500 to-indigo-500 text-white font-medium text-xs flex items-center justify-center gap-2 hover:shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all disabled:opacity-50"
             >
               {submitting && <Loader2 className="w-3 h-3 animate-spin" />}
-              Guardar Molde (Schema)
+              {editingCollection ? "Guardar Cambios" : "Guardar Molde (Schema)"}
             </button>
           </div>
         </form>
       </Modal>
+
+      <ConfirmModal
+        isOpen={!!deleteId}
+        onClose={() => setDeleteId(null)}
+        onConfirm={confirmDelete}
+        title="Eliminar Esquema"
+        message="¿Estás seguro de eliminar este esquema? Toda la data asociada registrada por los clientes podría quedar inaccesible o huérfana."
+        isLoading={deleting}
+      />
     </div>
   );
 }

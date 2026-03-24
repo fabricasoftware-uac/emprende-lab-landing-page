@@ -2,14 +2,24 @@
 
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { Loader2, Plus, Edit, Trash2, FolderGit2 } from "lucide-react";
+import {
+  Loader2,
+  Plus,
+  Edit,
+  Trash2,
+  FolderGit2,
+  ArrowRight,
+  UserCircle2,
+} from "lucide-react";
 import { Modal } from "@/components/admin/modal";
+import { ConfirmModal } from "@/components/admin/confirm-modal";
 import { authClient } from "@/lib/auth-client";
 
 export function ProjectsManager() {
   const [projects, setProjects] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState<any>(null);
   const [formData, setFormData] = useState({
@@ -21,6 +31,8 @@ export function ProjectsManager() {
   });
 
   const [submitting, setSubmitting] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   const fetchData = async () => {
     setLoading(true);
@@ -41,6 +53,7 @@ export function ProjectsManager() {
     } catch (error: any) {
       console.error(error);
       toast.error("Error al cargar datos.");
+      setError(error?.message || "Error al cargar datos.");
     } finally {
       setLoading(false);
     }
@@ -106,20 +119,29 @@ export function ProjectsManager() {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!window.confirm("¿Estás seguro de eliminar este proyecto?")) return;
+  const confirmDelete = async () => {
+    if (!deleteId) return;
+    setDeleting(true);
     try {
-      const res = await fetch(`/api/proyectos?id=${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/proyectos?id=${deleteId}`, {
+        method: "DELETE",
+      });
       if (!res.ok) {
         const err = await res.json();
         throw err;
       }
-      toast.success("Proyecto eliminado");
+      toast.success("Proyecto eliminado correctamente");
       fetchData();
     } catch (error: any) {
-      console.error(error);
-      toast.error("Error al eliminar el proyecto");
+      toast.error(error?.error || "Error al eliminar");
+    } finally {
+      setDeleting(false);
+      setDeleteId(null);
     }
+  };
+
+  const executeDelete = (id: string) => {
+    setDeleteId(id);
   };
 
   return (
@@ -203,7 +225,7 @@ export function ProjectsManager() {
                       <Edit className="w-4 h-4" />
                     </button>
                     <button
-                      onClick={() => handleDelete(project.id)}
+                      onClick={() => executeDelete(project.id)}
                       className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors border border-red-500/20"
                       title="Eliminar"
                     >
@@ -268,7 +290,7 @@ export function ProjectsManager() {
               onChange={(e) =>
                 setFormData({ ...formData, descripcion: e.target.value })
               }
-              className="w-full px-4 py-2.5 bg-white/5 border border-purple-500/20 rounded-xl text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all text-sm min-h-[100px]"
+              className="w-full px-4 py-2.5 bg-white/5 border border-purple-500/20 rounded-xl text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all text-sm min-h-25"
               placeholder="Breve descripción del proyecto..."
             />
           </div>
@@ -345,6 +367,15 @@ export function ProjectsManager() {
           </div>
         </form>
       </Modal>
+
+      <ConfirmModal
+        isOpen={!!deleteId}
+        onClose={() => setDeleteId(null)}
+        onConfirm={confirmDelete}
+        title="Eliminar Proyecto"
+        message="¿Estás seguro de que deseas eliminar este proyecto? Esta acción no se puede deshacer y se eliminarán todas sus colecciones y registros asociados."
+        isLoading={deleting}
+      />
     </div>
   );
 }

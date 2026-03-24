@@ -47,13 +47,6 @@ export function Topbar({ onMenuToggle }: TopbarProps) {
       </div>
 
       <div className="flex items-center gap-6">
-        <button className="relative text-purple-200/60 hover:text-purple-300 transition-colors">
-          <Bell className="w-5 h-5" />
-          <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-purple-500 rounded-full shadow-[0_0_8px_#a855f7]"></span>
-        </button>
-
-        <div className="h-8 w-px bg-purple-500/20"></div>
-
         <div className="flex items-center gap-3">
           <div className="text-right hidden sm:block">
             <p className="text-sm font-medium text-white">

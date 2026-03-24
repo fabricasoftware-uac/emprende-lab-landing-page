@@ -80,6 +80,7 @@ export const esquemas = pgTable("esquemas", {
     slug: text("slug").notNull(), // Nombre técnico: "nuestro-equipo" 
     campos: jsonb("campos").notNull(), // El JSON con los tipos 
     esRegistroUnico: boolean("es_registro_unico").default(false), // true para 'Configuración' 
+    activo: boolean("activo").default(true), // Estado de la colección
     creadoEn: timestamp("creado_en").defaultNow(),
 });
 

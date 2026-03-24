@@ -18,8 +18,7 @@ import { useEffect, useState } from "react";
 const fabricaNavItems = [
   { name: "Usuarios", href: "/views/fabrica/usuarios", icon: Shield },
   { name: "Proyectos", href: "/views/fabrica", icon: FolderGit2 },
-  { name: "Colecciones", href: "/views/fabrica/colecciones", icon: Layers },
-  { name: "Registros", href: "/views/fabrica/registros", icon: Database },
+  { name: "Esquemas", href: "/views/fabrica/colecciones", icon: Layers },
 ];
 
 export function Sidebar({
@@ -111,7 +110,7 @@ export function Sidebar({
             return (
               <Link key={item.name} href={item.href}>
                 <div
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl flex-shrink-0 cursor-pointer transition-all duration-300 relative group
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl shrink-0 cursor-pointer transition-all duration-300 relative group
                   ${
                     isActive
                       ? "bg-purple-500/10 text-purple-300 shadow-[inset_0_0_20px_rgba(168,85,247,0.1)]"
