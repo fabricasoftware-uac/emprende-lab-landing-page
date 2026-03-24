@@ -28,10 +28,10 @@ const adminNavItems = [
 ];
 
 const fabricaNavItems = [
+  { name: "Usuarios", href: "/views/fabrica/usuarios", icon: Shield },
   { name: "Proyectos", href: "/views/fabrica", icon: FolderGit2 },
   { name: "Colecciones", href: "/views/fabrica/colecciones", icon: Layers },
   { name: "Registros", href: "/views/fabrica/registros", icon: Database },
-  { name: "Usuarios", href: "/views/fabrica/usuarios", icon: Shield },
 ];
 
 export function Sidebar({

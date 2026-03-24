@@ -19,17 +19,31 @@ export function UsersManager() {
     role: "user",
   });
   const [submitting, setSubmitting] = useState(false);
+  const [editingUser, setEditingUser] = useState<any | null>(null);
+
+  const resetForm = () => {
+    setFormData({
+      name: "",
+      email: "",
+      password: "",
+      passwordConfirm: "",
+      role: "user",
+    });
+    setEditingUser(null);
+  };
 
   const fetchUsers = async () => {
     setLoading(true);
     try {
       const { data, error } = await authClient.admin.listUsers({
         query: {
-          limit: 50,
+          limit: 100,
         },
       });
       if (error) throw error;
-      setUsers(data?.users || []);
+      // Filter out soft-deleted users
+      const activeUsers = (data?.users || []).filter((u: any) => !u.deletedAt);
+      setUsers(activeUsers);
     } catch (error: any) {
       console.error(error);
       toast.error("Error al cargar los usuarios. Asegúrate de tener permisos.");
@@ -44,45 +58,71 @@ export function UsersManager() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.password !== formData.passwordConfirm) {
+
+    // Only validate password for brand new users
+    if (!editingUser && formData.password !== formData.passwordConfirm) {
       toast.error("Las contraseñas no coinciden");
       return;
     }
 
     setSubmitting(true);
     try {
-      const { data, error } = await authClient.admin.createUser({
-        email: formData.email,
-        password: formData.password,
-        name: formData.name || formData.email.split("@")[0],
-        role: formData.role as "user",
-      });
-      if (error) throw error;
+      if (editingUser) {
+        // Edit existing user
+        const { error } = await authClient.admin.updateUser({
+          userId: editingUser.id,
+          data: {
+            name: formData.name,
+            email: formData.email,
+            role: formData.role as "admin" | "user",
+          },
+        });
+        if (error) throw error;
+        toast.success("Usuario actualizado correctamente");
+      } else {
+        // Create new user
+        const { error } = await authClient.admin.createUser({
+          email: formData.email,
+          password: formData.password,
+          name: formData.name || formData.email.split("@")[0],
+          role: formData.role as "admin" | "user",
+        });
+        if (error) throw error;
+        toast.success("Usuario creado correctamente");
+      }
 
-      toast.success("Usuario creado correctamente");
       setIsModalOpen(false);
-      setFormData({
-        name: "",
-        email: "",
-        password: "",
-        passwordConfirm: "",
-        role: "admin",
-      });
+      resetForm();
       fetchUsers();
     } catch (error: any) {
       console.error(error);
-      toast.error(error?.message || "Error al crear el usuario");
+      toast.error(error?.message || "Error al procesar la solicitud");
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const handleEdit = (user: any) => {
+    setEditingUser(user);
+    setFormData({
+      name: user.name || "",
+      email: user.email || "",
+      password: "", // We don't change password via this edit for now
+      passwordConfirm: "",
+      role: user.role || "user",
+    });
+    setIsModalOpen(true);
   };
 
   const handleDelete = async (id: string) => {
     if (!window.confirm("¿Estás seguro de que deseas eliminar este usuario?"))
       return;
     try {
-      const { data, error } = await authClient.admin.removeUser({
+      const { error } = await authClient.admin.updateUser({
         userId: id,
+        data: {
+          deletedAt: new Date(),
+        } as any,
       });
       if (error) throw error;
 
@@ -107,7 +147,10 @@ export function UsersManager() {
           </p>
         </div>
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            resetForm();
+            setIsModalOpen(true);
+          }}
           className="px-4 py-2 rounded-full bg-linear-to-r from-purple-500 to-indigo-500 text-white font-medium text-sm flex items-center gap-2 hover:shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all"
         >
           <Plus className="w-4 h-4" />
@@ -136,11 +179,20 @@ export function UsersManager() {
                   key={user.id}
                   className="hover:bg-white/5 transition-colors"
                 >
-                  <td className="px-6 py-4 text-sm text-purple-100 font-medium flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center border border-purple-500/30">
-                      <User className="w-4 h-4 text-purple-300" />
+                  <td className="px-6 py-4 text-sm text-purple-100 font-medium">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center border border-purple-500/30 shrink-0">
+                        <User className="w-5 h-5 text-purple-300" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="font-semibold text-white">
+                          {user.name || "Sin nombre"}
+                        </span>
+                        <span className="text-xs text-purple-300/50">
+                          {user.email}
+                        </span>
+                      </div>
                     </div>
-                    {user.email || user.username || "Sin Email"}
                   </td>
                   <td className="px-6 py-4 text-sm">
                     <span
@@ -152,7 +204,14 @@ export function UsersManager() {
                   <td className="px-6 py-4 text-xs text-purple-300/50 font-mono">
                     {user.id}
                   </td>
-                  <td className="px-6 py-4 text-right">
+                  <td className="px-6 py-4 text-right flex justify-end gap-2">
+                    <button
+                      onClick={() => handleEdit(user)}
+                      className="p-2 rounded-lg bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 transition-colors border border-blue-500/20"
+                      title="Editar"
+                    >
+                      <Edit className="w-4 h-4" />
+                    </button>
                     <button
                       onClick={() => handleDelete(user.id)}
                       className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors border border-red-500/20"
@@ -178,11 +237,10 @@ export function UsersManager() {
         </div>
       )}
 
-      {/* Creación Modal */}
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title="Nuevo Usuario"
+        title={editingUser ? "Editar Usuario" : "Nuevo Usuario"}
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -214,39 +272,47 @@ export function UsersManager() {
               placeholder="ejemplo@correo.com"
             />
           </div>
-          
-          <div>
-            <label className="block text-sm font-medium text-purple-200 mb-1.5">
-              Contraseña
-            </label>
-            <input
-              type="password"
-              required
-              minLength={8}
-              value={formData.password}
-              onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
-              className="w-full px-4 py-2.5 bg-white/5 border border-purple-500/20 rounded-xl text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all text-sm"
-              placeholder="Mínimo 8 caracteres"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-purple-200 mb-1.5">
-              Confirmar Contraseña
-            </label>
-            <input
-              type="password"
-              required
-              minLength={8}
-              value={formData.passwordConfirm}
-              onChange={(e) =>
-                setFormData({ ...formData, passwordConfirm: e.target.value })
-              }
-              className="w-full px-4 py-2.5 bg-white/5 border border-purple-500/20 rounded-xl text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all text-sm"
-              placeholder="Mínimo 8 caracteres"
-            />
-          </div>
+
+          {/* Password fields only for new users */}
+          {!editingUser && (
+            <>
+              <div>
+                <label className="block text-sm font-medium text-purple-200 mb-1.5">
+                  Contraseña
+                </label>
+                <input
+                  type="password"
+                  required
+                  minLength={8}
+                  value={formData.password}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
+                  className="w-full px-4 py-2.5 bg-white/5 border border-purple-500/20 rounded-xl text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all text-sm"
+                  placeholder="Mínimo 8 caracteres"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-purple-200 mb-1.5">
+                  Confirmar Contraseña
+                </label>
+                <input
+                  type="password"
+                  required
+                  minLength={8}
+                  value={formData.passwordConfirm}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      passwordConfirm: e.target.value,
+                    })
+                  }
+                  className="w-full px-4 py-2.5 bg-white/5 border border-purple-500/20 rounded-xl text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all text-sm"
+                  placeholder="Mínimo 8 caracteres"
+                />
+              </div>
+            </>
+          )}
 
           <div className="pt-4 flex justify-end gap-3">
             <button
@@ -262,7 +328,7 @@ export function UsersManager() {
               className="px-5 py-2.5 rounded-full bg-linear-to-r from-purple-500 to-indigo-500 text-white font-medium text-sm flex items-center justify-center gap-2 hover:shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all disabled:opacity-50"
             >
               {submitting && <Loader2 className="w-4 h-4 animate-spin" />}
-              Crear Usuario
+              {editingUser ? "Guardar Cambios" : "Crear Usuario"}
             </button>
           </div>
         </form>

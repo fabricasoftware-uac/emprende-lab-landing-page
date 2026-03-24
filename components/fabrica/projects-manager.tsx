@@ -4,31 +4,122 @@ import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Loader2, Plus, Edit, Trash2, FolderGit2 } from "lucide-react";
 import { Modal } from "@/components/admin/modal";
+import { authClient } from "@/lib/auth-client";
 
 export function ProjectsManager() {
   const [projects, setProjects] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingProject, setEditingProject] = useState<any>(null);
   const [formData, setFormData] = useState({
-    name: "",
+    nombre: "",
+    descripcion: "",
     slug: "",
-    user_id: "",
-    template: "",
+    template: "default",
+    userId: "",
   });
+
   const [submitting, setSubmitting] = useState(false);
 
   const fetchData = async () => {
-    
+    setLoading(true);
+    try {
+      // Fetch projects
+      const res = await fetch("/api/proyectos");
+      const list = await res.json();
+      if (!res.ok) throw list;
+      setProjects(list.data || []);
+
+      // Fetch users for assignment (non-deleted)
+      const { data: usersData, error: usersError } =
+        await authClient.admin.listUsers({
+          query: { limit: 100 },
+        });
+      if (usersError) throw usersError;
+      setUsers((usersData?.users || []).filter((u: any) => !u.deletedAt));
+    } catch (error: any) {
+      console.error(error);
+      toast.error("Error al cargar datos.");
+    } finally {
+      setLoading(false);
+    }
   };
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleEdit = (project: any) => {
+    setEditingProject(project);
+    setFormData({
+      nombre: project.nombre,
+      descripcion: project.descripcion,
+      slug: project.slug,
+      template: project.template || "default",
+      userId: project.userId || "",
+    });
+    setIsModalOpen(true);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    
+    e.preventDefault();
+    if (!formData.userId) {
+      toast.error("Debes asignar un propietario");
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const url = "/api/proyectos";
+      const method = editingProject ? "PATCH" : "POST";
+      const body = editingProject
+        ? { ...formData, id: editingProject.id }
+        : formData;
+
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json();
+      if (!res.ok) throw data;
+
+      toast.success(
+        editingProject ? "Proyecto actualizado" : "Proyecto creado",
+      );
+      setIsModalOpen(false);
+      setEditingProject(null);
+      setFormData({
+        nombre: "",
+        descripcion: "",
+        slug: "",
+        template: "default",
+        userId: "",
+      });
+      fetchData();
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error?.error || "Error al procesar el proyecto");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleDelete = async (id: string) => {
-   
+    if (!window.confirm("¿Estás seguro de eliminar este proyecto?")) return;
+    try {
+      const res = await fetch(`/api/proyectos?id=${id}`, { method: "DELETE" });
+      if (!res.ok) {
+        const err = await res.json();
+        throw err;
+      }
+      toast.success("Proyecto eliminado");
+      fetchData();
+    } catch (error: any) {
+      console.error(error);
+      toast.error("Error al eliminar el proyecto");
+    }
   };
 
   return (
@@ -74,21 +165,43 @@ export function ProjectsManager() {
                   key={project.id}
                   className="hover:bg-white/5 transition-colors"
                 >
-                  <td className="px-6 py-4 text-sm text-purple-100 font-medium">
-                    {project.name}
+                  <td className="px-6 py-4 text-sm">
+                    <div className="flex flex-col">
+                      <span className="font-semibold text-purple-100">
+                        {project.nombre}
+                      </span>
+                      <span className="text-xs text-purple-300/50 truncate max-w-50">
+                        {project.descripcion}
+                      </span>
+                    </div>
                   </td>
-                  <td className="px-6 py-4 text-sm text-purple-300/80">
+                  <td className="px-6 py-4 text-purple-300/80 font-mono text-xs">
                     {project.slug}
                   </td>
                   <td className="px-6 py-4 text-sm text-purple-300">
-                    {project.expand?.user_id?.email ||
-                      project.user_id ||
-                      "Sin asignar"}
+                    <div className="flex flex-col">
+                      <span className="text-white text-xs font-medium">
+                        {project.userName || "N/A"}
+                      </span>
+                      <span className="text-[10px] text-purple-300/40">
+                        {project.userEmail || "Sin asignar"}
+                      </span>
+                    </div>
                   </td>
                   <td className="px-6 py-4 text-sm text-purple-300">
-                    {project.template || "-"}
+                    <span className="px-2 py-0.5 rounded bg-white/5 border border-purple-500/10 text-[10px]">
+                      {project.template || "default"}
+                    </span>
                   </td>
-                  <td className="px-6 py-4 text-right">
+
+                  <td className="px-6 py-4 text-right flex justify-end gap-2">
+                    <button
+                      onClick={() => handleEdit(project)}
+                      className="p-2 rounded-lg bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 transition-colors border border-blue-500/20"
+                      title="Editar"
+                    >
+                      <Edit className="w-4 h-4" />
+                    </button>
                     <button
                       onClick={() => handleDelete(project.id)}
                       className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors border border-red-500/20"
@@ -116,8 +229,18 @@ export function ProjectsManager() {
 
       <Modal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title="Nuevo Proyecto"
+        onClose={() => {
+          setIsModalOpen(false);
+          setEditingProject(null);
+          setFormData({
+            nombre: "",
+            descripcion: "",
+            slug: "",
+            template: "default",
+            userId: "",
+          });
+        }}
+        title={editingProject ? "Editar Proyecto" : "Nuevo Proyecto"}
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -127,12 +250,26 @@ export function ProjectsManager() {
             <input
               type="text"
               required
-              value={formData.name}
+              value={formData.nombre}
               onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
+                setFormData({ ...formData, nombre: e.target.value })
               }
               className="w-full px-4 py-2.5 bg-white/5 border border-purple-500/20 rounded-xl text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all text-sm"
               placeholder="Ej. Mi Proyecto Increíble"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-purple-200 mb-1.5">
+              Descripción
+            </label>
+            <textarea
+              required
+              value={formData.descripcion}
+              onChange={(e) =>
+                setFormData({ ...formData, descripcion: e.target.value })
+              }
+              className="w-full px-4 py-2.5 bg-white/5 border border-purple-500/20 rounded-xl text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all text-sm min-h-[100px]"
+              placeholder="Breve descripción del proyecto..."
             />
           </div>
           <div>
@@ -155,24 +292,25 @@ export function ProjectsManager() {
           </div>
           <div>
             <label className="block text-sm font-medium text-purple-200 mb-1.5">
-              Propietario (Usuario)
+              Propietario (Asignar a Usuario)
             </label>
             <select
               required
-              value={formData.user_id}
+              value={formData.userId}
               onChange={(e) =>
-                setFormData({ ...formData, user_id: e.target.value })
+                setFormData({ ...formData, userId: e.target.value })
               }
-              className="w-full px-4 py-2.5 bg-white/5 border border-purple-500/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all text-sm appearance-none [&>option]:bg-[#1a0f2e]"
+              className="w-full px-4 py-2.5 bg-[#1a0f2e] border border-purple-500/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all text-sm appearance-none"
             >
               <option value="">Selecciona un usuario</option>
               {users.map((u) => (
                 <option key={u.id} value={u.id}>
-                  {u.email}
+                  {u.name} ({u.email})
                 </option>
               ))}
             </select>
           </div>
+
           <div>
             <label className="block text-sm font-medium text-purple-200 mb-1.5">
               Plantilla (Template)
@@ -202,7 +340,7 @@ export function ProjectsManager() {
               className="px-5 py-2.5 rounded-full bg-linear-to-r from-purple-500 to-indigo-500 text-white font-medium text-sm flex items-center justify-center gap-2 hover:shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all disabled:opacity-50"
             >
               {submitting && <Loader2 className="w-4 h-4 animate-spin" />}
-              Crear Proyecto
+              {editingProject ? "Guardar Cambios" : "Crear Proyecto"}
             </button>
           </div>
         </form>
