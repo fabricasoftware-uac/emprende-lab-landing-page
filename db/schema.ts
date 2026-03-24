@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, jsonb } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -72,32 +72,24 @@ export const proyectos = pgTable("proyectos", {
     updatedAt: timestamp("updatedAt").notNull().defaultNow(),
 });
 
-export const tripulacion = pgTable("tripulacion", {
+// Molde o tipo de contenido
+export const esquemas = pgTable("esquemas", {
     id: text("id").primaryKey(),
-    nombre: text("nombre").notNull(),
-    rol: text("rol").notNull(),
-    descripcion: text("descripcion").notNull(),
-    imagen: text("imagen").notNull(),
-    createdAt: timestamp("createdAt").notNull().defaultNow(),
+    proyectoId: text("proyecto_id").notNull().references(() => proyectos.id),
+    nombre: text("nombre").notNull(), // Nombre legible: "Nuestro Equipo" 
+    slug: text("slug").notNull(), // Nombre técnico: "nuestro-equipo" 
+    campos: jsonb("campos").notNull(), // El JSON con los tipos 
+    esRegistroUnico: boolean("es_registro_unico").default(false), // true para 'Configuración' 
+    creadoEn: timestamp("creado_en").defaultNow(),
 });
 
-export const becados = pgTable("becados", {
+// Los datos reales que el cliente llena 
+export const entradas = pgTable("entradas", {
     id: text("id").primaryKey(),
-    nombre: text("nombre").notNull(),
-    rol: text("rol").notNull(),
-    descripcion: text("descripcion").notNull(),
-    imagen: text("imagen").notNull(),
-    createdAt: timestamp("createdAt").notNull().defaultNow(),
+    proyectoId: text("proyecto_id").notNull().references(() => proyectos.id),
+    coleccionSlug: text("coleccion_slug").notNull(), // Para saber si es 'equipo' o 'becado' 
+    contenido: jsonb("contenido").notNull(), // El JSON con la data dinámica 
+    creadoEn: timestamp("creado_en").defaultNow(),
+    actualizadoEn: timestamp("actualizado_en").defaultNow().$onUpdate(() => new Date()),
 });
-
-export const empresas = pgTable("empresas", {
-    id: text("id").primaryKey(),
-    nombre: text("nombre").notNull(),
-    descripcion: text("descripcion").notNull(),
-    logo: text("logo").notNull(),
-    tipo: text("tipo").notNull(), // 'acelerada' | 'tripulada'
-    area: text("area").notNull(),
-    createdAt: timestamp("createdAt").notNull().defaultNow(),
-});
-
 

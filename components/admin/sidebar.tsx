@@ -4,28 +4,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
-  Users,
-  GraduationCap,
-  Building2,
   FolderGit2,
   Layers,
   Database,
   Shield,
   Rocket,
+  FileText,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { authClient } from "@/lib/auth-client";
-
-const adminNavItems = [
-  { name: "Dashboard", href: "/views/admin", icon: LayoutDashboard },
-  {
-    name: "Tripulación Estelar",
-    href: "/views/admin/tripulacion",
-    icon: Users,
-  },
-  { name: "Becados", href: "/views/admin/becados", icon: GraduationCap },
-  { name: "Empresas", href: "/views/admin/empresas", icon: Building2 },
-];
+import { useEffect, useState } from "react";
 
 const fabricaNavItems = [
   { name: "Usuarios", href: "/views/fabrica/usuarios", icon: Shield },
@@ -45,8 +33,52 @@ export function Sidebar({
   const { data: session } = authClient.useSession();
   const role = session?.user?.role || "user";
 
-  const navItems = role === "admin" ? fabricaNavItems : adminNavItems;
-  const panelName = role === "admin" ? "Admin Control" : "Panel Fábrica";
+  const [esquemasNavItems, setEsquemasNavItems] = useState<
+    { name: string; href: string; icon: any }[]
+  >([]);
+
+  useEffect(() => {
+    if (role === "user") {
+      const fetchMenu = async () => {
+        try {
+          // Get the user's project
+          const resProj = await fetch("/api/proyectos");
+          const dataProj = await resProj.json();
+          const userProject = dataProj.data?.[0]; // Assuming user has at least 1 project
+
+          if (userProject) {
+            // Get schemas for the project
+            const resEsq = await fetch(
+              `/api/esquemas?proyectoId=${userProject.id}`,
+            );
+            const dataEsq = await resEsq.json();
+
+            if (dataEsq.data) {
+              const items = dataEsq.data.map((esq: any) => ({
+                name: esq.nombre,
+                href: `/views/admin/${userProject.slug}/${esq.slug}`,
+                icon: FileText,
+              }));
+              setEsquemasNavItems([
+                {
+                  name: "Dashboard",
+                  href: "/views/admin",
+                  icon: LayoutDashboard,
+                },
+                ...items,
+              ]);
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching dynamic sidebar menu", error);
+        }
+      };
+      fetchMenu();
+    }
+  }, [role]);
+
+  const navItems = role === "admin" ? fabricaNavItems : esquemasNavItems;
+  const panelName = role === "admin" ? "Admin Control" : "Panel Cliente";
 
   return (
     <>
@@ -73,13 +105,13 @@ export function Sidebar({
           </span>
         </div>
 
-        <nav className="flex-1 px-4 space-y-2 mt-4">
+        <nav className="flex-1 px-4 space-y-2 mt-4 overflow-y-auto custom-scrollbar">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             return (
               <Link key={item.name} href={item.href}>
                 <div
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer transition-all duration-300 relative group
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl flex-shrink-0 cursor-pointer transition-all duration-300 relative group
                   ${
                     isActive
                       ? "bg-purple-500/10 text-purple-300 shadow-[inset_0_0_20px_rgba(168,85,247,0.1)]"
@@ -103,7 +135,9 @@ export function Sidebar({
                   <item.icon
                     className={`w-5 h-5 ${isActive ? "text-purple-400" : "group-hover:text-purple-300"}`}
                   />
-                  <span className="font-medium text-sm">{item.name}</span>
+                  <span className="font-medium text-sm truncate">
+                    {item.name}
+                  </span>
                 </div>
               </Link>
             );

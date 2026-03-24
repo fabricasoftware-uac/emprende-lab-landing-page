@@ -11,8 +11,7 @@ export async function GET(req: NextRequest) {
     }
 
     try {
-        // Fetch projects with owner info
-        const list = await db
+        let query = db
             .select({
                 id: proyectos.id,
                 nombre: proyectos.nombre,
@@ -27,7 +26,13 @@ export async function GET(req: NextRequest) {
             })
             .from(proyectos)
             .leftJoin(user, eq(proyectos.user_id, user.id))
-            .orderBy(proyectos.createdAt);
+            .$dynamic();
+            
+        if (session.user.role !== "admin") {
+            query = query.where(eq(proyectos.user_id, session.user.id));
+        }
+
+        const list = await query.orderBy(proyectos.createdAt);
 
         return NextResponse.json({ data: list });
     } catch (error) {
