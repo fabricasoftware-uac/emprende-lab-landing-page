@@ -4,9 +4,26 @@ import { ReactNode, useState } from "react";
 import { Sidebar } from "@/components/admin/sidebar";
 import { Topbar } from "@/components/admin/topbar";
 import FloatingElements from "@/components/floating-elements";
+import { authClient } from "@/lib/auth-client";
+import Unauthorized from "@/components/global/Unauthorized";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
+  const { data: session, isPending } = authClient.useSession();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  if (isPending) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-[#2e1a47]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+      </div>
+    );
+  }
+
+  if (!session) {
+    return <Unauthorized />;
+  }
+
+
 
   return (
     <div className="relative flex h-screen bg-linear-to-b from-[#2e1a47]/90 to-background text-foreground overflow-hidden">

@@ -3,7 +3,7 @@
 import { LogOut, Bell, User as UserIcon, Menu } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import { useState } from "react";
-import PocketBase from "pocketbase";
+import { authClient } from "@/lib/auth-client";
 
 interface TopbarProps {
   onMenuToggle?: () => void;
@@ -27,9 +27,8 @@ export function Topbar({ onMenuToggle }: TopbarProps) {
   const handleLogout = () => {
     setLoading(true);
     // Even though backend logic isn't heavily needed, we can clear the PB auth store
-    const pb = new PocketBase("http://localhost:8000");
-    pb.authStore.clear();
-    router.push("/auth/login");
+    authClient.signOut();
+    router.push("/");
   };
 
   return (

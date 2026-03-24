@@ -1,16 +1,16 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
-import PocketBase from "pocketbase";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import FloatingElements from "@/components/floating-elements";
 import { motion } from "framer-motion";
 import { ArrowRight, Loader2 } from "lucide-react";
 import Image from "next/image";
+import { toast } from "sonner";
 
 export default function LoginPage() {
-  const pb = new PocketBase(process.env.NEXT_PUBLIC_POCKETBASE_URL);
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,32 +19,20 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError("");
-
-    try {
-      const authData = await pb.collection("users").authWithPassword(email, password);
-      // Redirigir al dashboard
-      if (authData.record.role === "admin") {
-        router.push("/views/admin");
-      } else {
-        router.push("/views/fabrica");
-      }
-    } catch (err: any) {
-      switch (err.code) {
-        case 404:
-          setError("Usuario no encontrado");
-          break;
-        case 401:
-          setError("Contraseña incorrecta");
-          break;
-        default:
-          setError("Credenciales incorrectas");
-          break;
-      }
-    } finally {
-      setLoading(false);
-    }
+        setLoading(true);
+        const { data, error } = await authClient.signIn.email({
+          email,
+          password,
+        });
+    
+        if (error) {
+          toast.error(error.message || "Something went wrong");
+        } else {
+          console.log("DATOS", data)
+          toast.success("Logged in successfully!");
+          router.push("/views/admin"); // or wherever
+        }
+        setLoading(false);
   };
 
   return (
