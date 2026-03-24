@@ -7,12 +7,16 @@ import {
   Users,
   GraduationCap,
   Building2,
-  Settings,
+  FolderGit2,
+  Layers,
+  Database,
+  Shield,
   Rocket,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { authClient } from "@/lib/auth-client";
 
-const navItems = [
+const adminNavItems = [
   { name: "Dashboard", href: "/views/admin", icon: LayoutDashboard },
   {
     name: "Tripulación Estelar",
@@ -23,6 +27,13 @@ const navItems = [
   { name: "Empresas", href: "/views/admin/empresas", icon: Building2 },
 ];
 
+const fabricaNavItems = [
+  { name: "Proyectos", href: "/views/fabrica", icon: FolderGit2 },
+  { name: "Colecciones", href: "/views/fabrica/colecciones", icon: Layers },
+  { name: "Registros", href: "/views/fabrica/registros", icon: Database },
+  { name: "Usuarios", href: "/views/fabrica/usuarios", icon: Shield },
+];
+
 export function Sidebar({
   isOpen,
   onClose,
@@ -31,6 +42,11 @@ export function Sidebar({
   onClose?: () => void;
 }) {
   const pathname = usePathname();
+  const { data: session } = authClient.useSession();
+  const role = session?.user?.role || "user";
+
+  const navItems = role === "admin" ? fabricaNavItems : adminNavItems;
+  const panelName = role === "admin" ? "Admin Control" : "Panel Fábrica";
 
   return (
     <>
@@ -49,11 +65,11 @@ export function Sidebar({
       `}
       >
         <div className="p-6 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-linear-to-br from-purple-500 to-blue-500 flex items-center justify-center shadow-[0_0_15px_rgba(168,85,247,0.5)]">
+          <div className="w-10 h-10 rounded-xl bg-linear-to-br from-purple-500 to-indigo-500 flex items-center justify-center shadow-[0_0_15px_rgba(168,85,247,0.5)]">
             <Rocket className="w-6 h-6 text-white" />
           </div>
-          <span className="text-xl font-bold bg-clip-text text-transparent bg-linear-to-r from-purple-400 to-blue-400">
-            Admin Control
+          <span className="text-xl font-bold bg-clip-text text-transparent bg-linear-to-r from-purple-400 to-indigo-400">
+            {panelName}
           </span>
         </div>
 
@@ -87,7 +103,7 @@ export function Sidebar({
                   <item.icon
                     className={`w-5 h-5 ${isActive ? "text-purple-400" : "group-hover:text-purple-300"}`}
                   />
-                  <span className="font-medium">{item.name}</span>
+                  <span className="font-medium text-sm">{item.name}</span>
                 </div>
               </Link>
             );

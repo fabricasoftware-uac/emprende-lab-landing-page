@@ -1,16 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import PocketBase from "pocketbase";
 import { toast } from "sonner";
 import { Loader2, Plus, Edit, Trash2, FolderGit2 } from "lucide-react";
 import { Modal } from "@/components/admin/modal";
 
 export function ProjectsManager() {
-  const pb = new PocketBase(process.env.NEXT_PUBLIC_POCKETBASE_URL);
   const [projects, setProjects] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -21,58 +19,16 @@ export function ProjectsManager() {
   const [submitting, setSubmitting] = useState(false);
 
   const fetchData = async () => {
-    setLoading(true);
-    try {
-      const [projectsRecord, usersRecord] = await Promise.all([
-        pb
-          .collection("projects")
-          .getFullList({ sort: "-created", expand: "user_id" }),
-        pb.collection("users").getFullList({ sort: "-created" }),
-      ]);
-      setProjects(projectsRecord);
-      setUsers(usersRecord);
-      console.log(projects);
-      console.log(users);
-    } catch (error) {
-      console.error(error);
-      toast.error("Error al cargar los proyectos");
-    } finally {
-      setLoading(false);
-    }
+    
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitting(true);
-    try {
-      await pb.collection("projects").create(formData);
-      toast.success("Proyecto creado correctamente");
-      setIsModalOpen(false);
-      setFormData({ name: "", slug: "", user_id: "", template: "" });
-      fetchData();
-    } catch (error: any) {
-      console.error(error);
-      toast.error(error?.message || "Error al crear el proyecto");
-    } finally {
-      setSubmitting(false);
-    }
+    
   };
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm("¿Estás seguro de que deseas eliminar este proyecto?"))
-      return;
-    try {
-      await pb.collection("projects").delete(id);
-      toast.success("Proyecto eliminado");
-      setProjects(projects.filter((p) => p.id !== id));
-    } catch (error) {
-      console.error(error);
-      toast.error("Error al eliminar el proyecto");
-    }
+   
   };
 
   return (

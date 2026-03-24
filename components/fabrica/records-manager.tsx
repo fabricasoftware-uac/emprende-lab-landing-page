@@ -1,13 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import PocketBase from "pocketbase";
 import { toast } from "sonner";
 import { Loader2, Plus, Trash2, Database } from "lucide-react";
 import { Modal } from "@/components/admin/modal";
 
 export function RecordsManager() {
-  const pb = new PocketBase(process.env.NEXT_PUBLIC_POCKETBASE_URL);
   const [projects, setProjects] = useState<any[]>([]);
   const [selectedProjectId, setSelectedProjectId] = useState<string>("");
 
@@ -23,115 +21,18 @@ export function RecordsManager() {
     data: '{\n  "title": "Example"\n}',
   });
 
-  // Fetch projects on mount
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const res = await pb
-          .collection("projects")
-          .getFullList({ sort: "-created" });
-        setProjects(res);
-        if (res.length > 0) setSelectedProjectId(res[0].id);
-      } catch (error) {
-        console.error(error);
-        toast.error("Error al cargar proyectos");
-      }
-    };
-    fetchProjects();
-  }, []);
-
-  // Fetch configs when project changes
-  useEffect(() => {
-    const fetchConfigs = async () => {
-      if (!selectedProjectId) {
-        setConfigs([]);
-        setSelectedConfigSlug("");
-        return;
-      }
-      try {
-        const res = await pb.collection("collections_config").getFullList({
-          filter: `project_id = "${selectedProjectId}"`,
-          sort: "-created",
-        });
-        setConfigs(res);
-        if (res.length > 0) setSelectedConfigSlug(res[0].slug);
-        else setSelectedConfigSlug("");
-      } catch (error) {
-        console.error(error);
-        toast.error("Error al cargar configuraciones");
-      }
-    };
-    fetchConfigs();
-  }, [selectedProjectId]);
 
   // Fetch records when project or config changes
   const fetchRecords = async () => {
-    if (!selectedProjectId || !selectedConfigSlug) {
-      setRecords([]);
-      return;
-    }
-    setLoading(true);
-    try {
-      const res = await pb.collection("records").getFullList({
-        filter: `project_id = "${selectedProjectId}" && collection_slug = "${selectedConfigSlug}"`,
-        sort: "-created",
-      });
-      setRecords(res);
-    } catch (error) {
-      console.error(error);
-      toast.error("Error al cargar registros");
-    } finally {
-      setLoading(false);
-    }
+    
   };
 
-  useEffect(() => {
-    fetchRecords();
-  }, [selectedProjectId, selectedConfigSlug]);
-
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedProjectId || !selectedConfigSlug) return;
-
-    // Validate JSON string
-    let parsedData;
-    try {
-      parsedData = JSON.parse(formData.data);
-    } catch (error) {
-      toast.error("El formato JSON de los datos es inválido");
-      return;
-    }
-
-    setSubmitting(true);
-    try {
-      await pb.collection("records").create({
-        project_id: selectedProjectId,
-        collection_slug: selectedConfigSlug,
-        data: parsedData,
-      });
-      toast.success("Registro creado correctamente");
-      setIsModalOpen(false);
-      setFormData({ data: "{\n\n}" });
-      fetchRecords();
-    } catch (error: any) {
-      console.error(error);
-      toast.error(error?.message || "Error al crear el registro");
-    } finally {
-      setSubmitting(false);
-    }
+    
   };
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm("¿Estás seguro de que deseas eliminar este registro?"))
-      return;
-    try {
-      await pb.collection("records").delete(id);
-      toast.success("Registro eliminado");
-      setRecords(records.filter((r) => r.id !== id));
-    } catch (error) {
-      console.error(error);
-      toast.error("Error al eliminar el registro");
-    }
+    
   };
 
   return (

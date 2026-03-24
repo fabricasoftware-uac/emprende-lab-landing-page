@@ -13,10 +13,12 @@ export function Topbar({ onMenuToggle }: TopbarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const [loading, setLoading] = useState(false);
+  const { data: session } = authClient.useSession();
 
   // Format the breadcrumb name based on the path
   const getPageTitle = () => {
     if (pathname === "/views/admin") return "Dashboard";
+    if (pathname === "/views/fabrica") return "Fabrica Core";
     const segment = pathname.split("/").pop() || "";
     // capitalize and replace hyphens if any
     return (
@@ -26,7 +28,6 @@ export function Topbar({ onMenuToggle }: TopbarProps) {
 
   const handleLogout = () => {
     setLoading(true);
-    // Even though backend logic isn't heavily needed, we can clear the PB auth store
     authClient.signOut();
     router.push("/");
   };
@@ -55,8 +56,12 @@ export function Topbar({ onMenuToggle }: TopbarProps) {
 
         <div className="flex items-center gap-3">
           <div className="text-right hidden sm:block">
-            <p className="text-sm font-medium text-white">Admin EmprendeLab</p>
-            <p className="text-xs text-purple-300/60">admin@emprendelab.com</p>
+            <p className="text-sm font-medium text-white">
+              {session?.user?.name || "Usuario"}
+            </p>
+            <p className="text-xs text-purple-300/60">
+              {session?.user?.email || ""}
+            </p>
           </div>
           <div className="w-10 h-10 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-300">
             <UserIcon className="w-5 h-5" />

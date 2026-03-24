@@ -1,13 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import PocketBase from "pocketbase";
 import { toast } from "sonner";
 import { Loader2, Plus, Trash2, Layers } from "lucide-react";
 import { Modal } from "@/components/admin/modal";
 
 export function CollectionsManager() {
-  const pb = new PocketBase(process.env.NEXT_PUBLIC_POCKETBASE_URL);
   const [projects, setProjects] = useState<any[]>([]);
   const [selectedProjectId, setSelectedProjectId] = useState<string>("");
   const [collections, setCollections] = useState<any[]>([]);
@@ -24,90 +22,19 @@ export function CollectionsManager() {
   });
 
   // Fetch projects on mount
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const records = await pb
-          .collection("projects")
-          .getFullList({ sort: "-created" });
-        setProjects(records);
-        if (records.length > 0) {
-          setSelectedProjectId(records[0].id);
-        }
-      } catch (error) {
-        console.error(error);
-        toast.error("Error al cargar proyectos");
-      }
-    };
-    fetchProjects();
-  }, []);
+
 
   // Fetch collections when selected project changes
   const fetchCollections = async (projectId: string) => {
-    if (!projectId) return;
-    setLoading(true);
-    try {
-      const records = await pb.collection("collections_config").getFullList({
-        filter: `project_id = "${projectId}"`,
-        sort: "-created",
-      });
-      setCollections(records);
-    } catch (error) {
-      console.error(error);
-      toast.error("Error al cargar las configuraciones");
-    } finally {
-      setLoading(false);
-    }
+    
   };
 
-  useEffect(() => {
-    fetchCollections(selectedProjectId);
-  }, [selectedProjectId]);
-
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Validate JSON
-    let parsedFields;
-    try {
-      parsedFields = JSON.parse(formData.fields);
-    } catch (error) {
-      toast.error("El formato JSON de los campos es inválido");
-      return;
-    }
-
-    setSubmitting(true);
-    try {
-      await pb.collection("collections_config").create({
-        project_id: selectedProjectId,
-        name: formData.name,
-        slug: formData.slug,
-        fields: parsedFields,
-        is_singleton: formData.is_singleton,
-      });
-      toast.success("Colección configurada correctamente");
-      setIsModalOpen(false);
-      setFormData({ ...formData, name: "", slug: "", is_singleton: false });
-      fetchCollections(selectedProjectId);
-    } catch (error: any) {
-      console.error(error);
-      toast.error(error?.message || "Error al crear la colección");
-    } finally {
-      setSubmitting(false);
-    }
+    
   };
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm("¿Estás seguro de que deseas eliminar esta colección?"))
-      return;
-    try {
-      await pb.collection("collections_config").delete(id);
-      toast.success("Colección eliminada");
-      setCollections(collections.filter((c) => c.id !== id));
-    } catch (error) {
-      console.error(error);
-      toast.error("Error al eliminar la colección");
-    }
+    
   };
 
   return (

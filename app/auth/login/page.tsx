@@ -30,7 +30,7 @@ export default function LoginPage() {
         } else {
           console.log("DATOS", data)
           toast.success("Logged in successfully!");
-          router.push("/views/admin"); // or wherever
+          router.push("/views/fabrica");
         }
         setLoading(false);
   };

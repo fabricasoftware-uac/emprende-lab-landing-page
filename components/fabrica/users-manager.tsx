@@ -1,15 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import PocketBase from "pocketbase";
 import { toast } from "sonner";
 import { Loader2, Plus, Edit, Trash2, Shield, User } from "lucide-react";
 import { Modal } from "@/components/admin/modal";
 
 export function UsersManager() {
-  const pb = new PocketBase(process.env.NEXT_PUBLIC_POCKETBASE_URL);
   const [users, setUsers] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -20,67 +18,16 @@ export function UsersManager() {
   const [submitting, setSubmitting] = useState(false);
 
   const fetchUsers = async () => {
-    setLoading(true);
-    try {
-      const records = await pb.collection("users").getFullList({
-        sort: "-created",
-      });
-      setUsers(records);
-    } catch (error) {
-      console.error(error);
-      toast.error("Error al cargar los usuarios. Asegúrate de tener permisos.");
-    } finally {
-      setLoading(false);
-    }
+    
   };
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
 
   const handleSubmit = async (e: React.SubmitEvent) => {
-    e.preventDefault();
-    if (formData.password !== formData.passwordConfirm) {
-      toast.error("Las contraseñas no coinciden");
-      return;
-    }
-
-    setSubmitting(true);
-    try {
-      await pb.collection("users").create({
-        email: formData.email,
-        password: formData.password,
-        passwordConfirm: formData.passwordConfirm,
-        role: formData.role,
-      });
-      toast.success("Usuario creado correctamente");
-      setIsModalOpen(false);
-      setFormData({
-        email: "",
-        password: "",
-        passwordConfirm: "",
-        role: "fabrica",
-      });
-      fetchUsers();
-    } catch (error: any) {
-      console.error(error);
-      toast.error(error?.message || "Error al crear el usuario");
-    } finally {
-      setSubmitting(false);
-    }
+    
   };
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm("¿Estás seguro de que deseas eliminar este usuario?"))
-      return;
-    try {
-      await pb.collection("users").delete(id);
-      toast.success("Usuario eliminado");
-      setUsers(users.filter((u) => u.id !== id));
-    } catch (error) {
-      console.error(error);
-      toast.error("Error al eliminar el usuario");
-    }
+    
   };
 
   return (

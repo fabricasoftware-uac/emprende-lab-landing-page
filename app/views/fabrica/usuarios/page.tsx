@@ -1,20 +1,20 @@
 "use client";
 
-import { ProjectsManager } from "@/components/fabrica/projects-manager";
+import { UsersManager } from "@/components/fabrica/users-manager";
 
-export default function ProyectosPage() {
+export default function UsuariosPage() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-1">
         <h2 className="text-2xl font-bold text-white tracking-tight">
-          Proyectos
+          Usuarios
         </h2>
         <p className="text-purple-300/60 font-medium">
-          Gestiona y monitorea los proyectos activos.
+          Control de acceso y roles del panel.
         </p>
       </div>
       <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
-        <ProjectsManager />
+        <UsersManager />
       </div>
     </div>
   );
