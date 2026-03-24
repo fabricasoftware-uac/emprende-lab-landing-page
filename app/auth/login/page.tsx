@@ -23,9 +23,13 @@ export default function LoginPage() {
     setError("");
 
     try {
-      await pb.collection("users").authWithPassword(email, password);
+      const authData = await pb.collection("users").authWithPassword(email, password);
       // Redirigir al dashboard
-      router.push("/views/admin");
+      if (authData.record.role === "admin") {
+        router.push("/views/admin");
+      } else {
+        router.push("/views/fabrica");
+      }
     } catch (err: any) {
       switch (err.code) {
         case 404:
