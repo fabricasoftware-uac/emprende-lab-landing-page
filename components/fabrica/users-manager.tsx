@@ -5,29 +5,93 @@ import { toast } from "sonner";
 import { Loader2, Plus, Edit, Trash2, Shield, User } from "lucide-react";
 import { Modal } from "@/components/admin/modal";
 
+import { authClient } from "@/lib/auth-client";
+
 export function UsersManager() {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
     passwordConfirm: "",
-    role: "admin",
+    role: "user",
   });
   const [submitting, setSubmitting] = useState(false);
 
   const fetchUsers = async () => {
-    
+    setLoading(true);
+    try {
+      const { data, error } = await authClient.admin.listUsers({
+        query: {
+          limit: 50,
+        },
+      });
+      if (error) throw error;
+      setUsers(data?.users || []);
+    } catch (error: any) {
+      console.error(error);
+      toast.error("Error al cargar los usuarios. Asegúrate de tener permisos.");
+    } finally {
+      setLoading(false);
+    }
   };
 
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
-  const handleSubmit = async (e: React.SubmitEvent) => {
-    
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formData.password !== formData.passwordConfirm) {
+      toast.error("Las contraseñas no coinciden");
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const { data, error } = await authClient.admin.createUser({
+        email: formData.email,
+        password: formData.password,
+        name: formData.name || formData.email.split("@")[0],
+        role: formData.role as "user",
+      });
+      if (error) throw error;
+
+      toast.success("Usuario creado correctamente");
+      setIsModalOpen(false);
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+        passwordConfirm: "",
+        role: "admin",
+      });
+      fetchUsers();
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error?.message || "Error al crear el usuario");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleDelete = async (id: string) => {
-    
+    if (!window.confirm("¿Estás seguro de que deseas eliminar este usuario?"))
+      return;
+    try {
+      const { data, error } = await authClient.admin.removeUser({
+        userId: id,
+      });
+      if (error) throw error;
+
+      toast.success("Usuario eliminado");
+      setUsers(users.filter((u) => u.id !== id));
+    } catch (error: any) {
+      console.error(error);
+      toast.error("Error al eliminar el usuario");
+    }
   };
 
   return (
@@ -123,6 +187,20 @@ export function UsersManager() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-purple-200 mb-1.5">
+              Nombre Completo
+            </label>
+            <input
+              type="text"
+              value={formData.name}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
+              className="w-full px-4 py-2.5 bg-white/5 border border-purple-500/20 rounded-xl text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all text-sm"
+              placeholder="Juan Pérez"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-purple-200 mb-1.5">
               Email
             </label>
             <input
@@ -136,6 +214,7 @@ export function UsersManager() {
               placeholder="ejemplo@correo.com"
             />
           </div>
+          
           <div>
             <label className="block text-sm font-medium text-purple-200 mb-1.5">
               Contraseña
@@ -168,7 +247,7 @@ export function UsersManager() {
               placeholder="Mínimo 8 caracteres"
             />
           </div>
-        
+
           <div className="pt-4 flex justify-end gap-3">
             <button
               type="button"
