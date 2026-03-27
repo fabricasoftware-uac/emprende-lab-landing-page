@@ -26,7 +26,7 @@ interface EquipoProps {
 export default function Equipo({ team = [] }: EquipoProps) {
   if (!team || team.length === 0) return null;
   return (
-    <section id="equipo" className="relative py-20 sm:py-32 overflow-hidden">
+    <section id="equipo" className="relative py-8 overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-blue-900/10 via-transparent to-transparent pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

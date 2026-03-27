@@ -31,7 +31,7 @@ export default function Empresas() {
   const destacadas = [...tripuladas, ...aceleradas].slice(0, 6);
 
   return (
-    <section id="empresas" className="relative overflow-hidden bg-black/20">
+    <section id="empresas" className="relative py-8 overflow-hidden bg-black/20">
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 blur-[120px] -z-10 rounded-full"></div>
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/10 blur-[120px] -z-10 rounded-full"></div>
 
@@ -46,7 +46,7 @@ export default function Empresas() {
             NUESTRAS EMPRESAS
           </span>
           <h2 className="text-4xl sm:text-6xl font-black mb-6 tracking-tight">
-            Ecosistema <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-cyan-400">Universidad </span>
+            Ecosistema <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-cyan-400">EmprendeLab </span>
           </h2>
           <p className="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed mb-8">
             Un vistazo a algunas de las increíbles empresas impulsadas por nuestro ecosistema de innovación.
@@ -145,8 +145,8 @@ export default function Empresas() {
             </div>
           </Carousel>
         </div>
-        <Link href="/empresas">
-            <span className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-black font-bold hover:bg-slate-200 hover:scale-105 transition-all mx-auto">
+        <Link href="/empresas" className="flex justify-center">
+            <span className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-black font-bold hover:bg-slate-200 hover:scale-105 transition-all">
               Conócelas <ArrowRight size={20} />
             </span>
         </Link>

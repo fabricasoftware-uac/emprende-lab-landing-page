@@ -53,7 +53,7 @@ const itemVariants = {
 
 export default function SpaceLabProgram() {
   return (
-    <section id="program" className="relative py-20 sm:py-32 overflow-hidden">
+    <section id="program" className="relative py-8 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div

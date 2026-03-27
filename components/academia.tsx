@@ -50,7 +50,7 @@ const itemVariants = {
 
 export default function Academia() {
   return (
-    <section id="academia" className="relative py-20 sm:py-32 overflow-hidden">
+    <section id="academia" className="relative py-8 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header & Image Split */}
         <div className="flex flex-col lg:flex-row items-center gap-12 mb-20">

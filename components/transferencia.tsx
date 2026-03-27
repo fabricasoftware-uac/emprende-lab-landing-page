@@ -8,7 +8,7 @@ export default function Transferencia() {
   return (
     <section
       id="transferencia"
-      className="relative py-20 sm:py-32 overflow-hidden"
+      className="relative py-4 overflow-hidden"
     >
       <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-purple-500/20 to-transparent"></div>
 
@@ -63,7 +63,7 @@ export default function Transferencia() {
               <Rocket size={120} className="text-purple-400" />
             </div>
 
-            <div className="relative z-10 p-8 pt-6 flex-grow flex flex-col">
+            <div className="relative z-10 p-8 pt-6 grow flex flex-col">
               <h3 className="text-3xl font-bold mb-4 text-white">
                 Centro de Propulsión al Emprendedor
               </h3>
@@ -87,7 +87,7 @@ export default function Transferencia() {
                 </ul>
               </div>
 
-              <button className="flex items-center gap-2 text-purple-400 font-semibold group-hover:text-purple-300 transition-colors mt-auto">
+              <button className="flex items-center gap-2 text-purple-400 font-semibold group-hover:text-purple-300 transition-colors mt-auto cursor-pointer">
                 Aplicar al programa
                 <ArrowRight
                   size={18}
@@ -125,7 +125,7 @@ export default function Transferencia() {
               <Target size={120} className="text-cyan-400" />
             </div>
 
-            <div className="relative z-10 p-8 pt-6 flex-grow flex flex-col">
+            <div className="relative z-10 p-8 pt-6 grow flex flex-col">
               <h3 className="text-3xl font-bold mb-4 text-white">
                 Centro de Abordaje Empresarial
               </h3>
@@ -147,7 +147,7 @@ export default function Transferencia() {
                 </ul>
               </div>
 
-              <button className="flex items-center gap-2 text-cyan-400 font-semibold group-hover:text-cyan-300 transition-colors">
+              <button className="flex items-center gap-2 text-cyan-400 font-semibold cursor-pointer group-hover:text-cyan-300 transition-colors">
                 Solicitar servicios
                 <ArrowRight
                   size={18}
