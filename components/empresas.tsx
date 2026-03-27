@@ -46,7 +46,7 @@ export default function Empresas() {
             NUESTRAS EMPRESAS
           </span>
           <h2 className="text-4xl sm:text-6xl font-black mb-6 tracking-tight">
-            Ecosistema <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">EmprendeLab</span>
+            Ecosistema <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-cyan-400">Universidad </span>
           </h2>
           <p className="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed mb-8">
             Un vistazo a algunas de las increíbles empresas impulsadas por nuestro ecosistema de innovación.
@@ -76,7 +76,7 @@ export default function Empresas() {
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true }}
-                    className="relative bg-[#0a0a0b] border border-white/5 rounded-2xl p-6 hover:bg-white/5 hover:border-cyan-500/30 transition-all duration-300 flex flex-col min-w-75 w-[300px] sm:min-w-[350px] sm:w-[350px] h-full"
+                    className="relative bg-[#0a0a0b] border border-white/5 rounded-2xl p-6 hover:bg-white/5 hover:border-cyan-500/30 transition-all duration-300 flex flex-col min-w-75 w-75 sm:min-w-75 sm:w-75 h-full"
                   >
                     <div className="flex items-center gap-4 mb-4">
                       <div className="w-12 h-12 relative shrink-0 flex items-center justify-center rounded-xl bg-cyan-500/5 border border-cyan-500/10 group-hover:bg-cyan-500/10 transition-colors">
@@ -103,7 +103,7 @@ export default function Empresas() {
                       </div>
                     </div>
                     
-                    <p className="text-sm text-slate-400 leading-relaxed group-hover:text-slate-300 transition-colors mb-6 flex-grow line-clamp-3">
+                    <p className="text-sm text-slate-400 leading-relaxed group-hover:text-slate-300 transition-colors mb-6 grow line-clamp-3">
                       {empresa.desc}
                     </p>
 
@@ -113,14 +113,6 @@ export default function Empresas() {
                         Dirigida por <span className="text-slate-200 font-medium">{empresa.encargado}</span>
                       </span>
                     </div>
-                    
-                    {/* @ts-ignore */}
-                    {empresa.status && (
-                       <span className="absolute top-4 right-4 text-[9px] text-white/40 uppercase font-bold tracking-widest italic bg-white/5 px-2 py-1 rounded-full border border-white/5">
-                         {/* @ts-ignore */}
-                         {empresa.status}
-                       </span>
-                    )}
                   </motion.div>
                 </CarouselItem>
               ))}
@@ -132,7 +124,7 @@ export default function Empresas() {
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
-                  className="group relative flex items-center justify-center rounded-2xl p-6 border border-white/5 border-dashed hover:border-cyan-500/30 transition-all duration-300 min-w-[250px] h-full cursor-pointer"
+                  className="group relative flex items-center justify-center rounded-2xl p-6 border border-white/5 border-dashed hover:border-cyan-500/30 transition-all duration-300 min-w-75 w-75 h-full cursor-pointer"
                 >
                   <Link href="/empresas" className="absolute inset-0 z-10" aria-label="Ver todas las empresas"></Link>
                   <div className="flex flex-col items-center text-center gap-4">

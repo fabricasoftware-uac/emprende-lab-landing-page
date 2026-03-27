@@ -5,6 +5,7 @@ import { Sparkles, Rocket, ArrowLeft, ExternalLink, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { aceleradas, tripuladas } from "../../lib/data-empresas";
+import Navbar from "@/components/navbar";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -22,9 +23,10 @@ const itemVariants = {
 export default function EmpresasPage() {
   return (
     <div className="min-h-screen bg-[#050505] text-white pt-24 pb-32 relative overflow-hidden">
+      <Navbar />
       {/* Background decoration */}
-      <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-blue-500/10 blur-[150px] -z-10 rounded-full mix-blend-screen"></div>
-      <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-cyan-500/10 blur-[120px] -z-10 rounded-full mix-blend-screen"></div>
+      <div className="absolute top-0 left-1/4 w-200 h-200 bg-blue-500/10 blur-[150px] -z-10 rounded-full mix-blend-screen"></div>
+      <div className="absolute bottom-0 right-1/4 w-150 h-150 bg-cyan-500/10 blur-[120px] -z-10 rounded-full mix-blend-screen"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <Link 
@@ -41,7 +43,7 @@ export default function EmpresasPage() {
           className="mb-20"
         >
           <h1 className="text-5xl sm:text-7xl font-black mb-6 tracking-tight">
-            Directorio <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">EmprendeLab</span>
+            Directorio <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-cyan-400">EmprendeLab</span>
           </h1>
           <p className="text-xl text-slate-400 max-w-3xl leading-relaxed">
             Conoce en detalle a todas las startups y emprendedores que forman parte de nuestro ecosistema de innovación.
@@ -51,7 +53,7 @@ export default function EmpresasPage() {
         {/* --- TRIPULADAS SECTION --- */}
         <div className="mb-32">
           <div className="flex items-center gap-4 mb-12 border-b border-white/5 pb-8">
-            <div className="w-16 h-16 flex flex-shrink-0 items-center justify-center rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400">
+            <div className="w-16 h-16 flex shrink-0 items-center justify-center rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400">
               <Rocket size={32} />
             </div>
             <div>
@@ -72,8 +74,8 @@ export default function EmpresasPage() {
                 variants={itemVariants}
                 className="group relative"
               >
-                <div className="absolute -inset-0.5 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-[2rem] blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
-                <div className="relative bg-[#0a0a0b] border border-white/10 p-8 rounded-[2rem] h-full flex flex-col hover:border-white/20 transition-colors">
+                <div className="absolute -inset-0.5 bg-linear-to-br from-cyan-500/20 to-blue-500/20 rounded-4xl blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                <div className="relative bg-[#0a0a0b] border border-white/10 p-8 rounded-4xl h-full flex flex-col hover:border-white/20 transition-colors">
                   <div className="flex justify-between items-start mb-8">
                     <div className="w-16 h-16 relative overflow-hidden rounded-2xl bg-white/5 flex items-center justify-center border border-white/5 group-hover:border-cyan-500/30 transition-colors">
                       {empresa.logo ? (
@@ -90,7 +92,7 @@ export default function EmpresasPage() {
                   <h4 className="text-2xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors">
                     {empresa.name}
                   </h4>
-                  <p className="text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
+                  <p className="text-slate-400 text-sm leading-relaxed mb-6 grow">
                     {empresa.desc}
                   </p>
                   
@@ -109,7 +111,7 @@ export default function EmpresasPage() {
         {/* --- ACELERADAS SECTION --- */}
         <div>
           <div className="flex items-center gap-4 mb-12 border-b border-white/5 pb-8">
-            <div className="w-16 h-16 flex flex-shrink-0 items-center justify-center rounded-2xl bg-blue-500/10 border border-blue-500/20 text-blue-400">
+            <div className="w-16 h-16 flex shrink-0 items-center justify-center rounded-2xl bg-blue-500/10 border border-blue-500/20 text-blue-400">
               <Sparkles size={32} />
             </div>
             <div>
@@ -132,7 +134,7 @@ export default function EmpresasPage() {
                 className="group relative bg-[#0a0a0b] border border-white/5 rounded-2xl p-6 hover:bg-white/2 hover:border-blue-500/30 transition-all duration-300 flex flex-col"
               >
                 <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 relative flex-shrink-0 flex items-center justify-center rounded-xl bg-blue-500/5 border border-blue-500/10 group-hover:bg-blue-500/10 transition-colors">
+                  <div className="w-12 h-12 relative shrink-0 flex items-center justify-center rounded-xl bg-blue-500/5 border border-blue-500/10 group-hover:bg-blue-500/10 transition-colors">
                     {empresa.logo ? (
                       <Image src={empresa.logo} alt={empresa.name} fill className="object-contain p-2 opacity-70 group-hover:opacity-100 transition-opacity" />
                     ) : (
@@ -149,7 +151,7 @@ export default function EmpresasPage() {
                   </div>
                 </div>
                 
-                <p className="text-sm text-slate-400 leading-relaxed group-hover:text-slate-300 transition-colors mb-4 flex-grow">
+                <p className="text-sm text-slate-400 leading-relaxed group-hover:text-slate-300 transition-colors mb-4 grow">
                   {empresa.desc}
                 </p>
 
