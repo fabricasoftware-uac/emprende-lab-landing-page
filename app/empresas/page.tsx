@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Sparkles, Rocket, ArrowLeft, ExternalLink, User } from "lucide-react";
+import { Sparkles, Rocket, ArrowLeft, ExternalLink, User, Linkedin, Instagram, Globe } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { aceleradas, tripuladas } from "../../lib/data-empresas";
@@ -96,12 +96,32 @@ export default function EmpresasPage() {
                     {empresa.desc}
                   </p>
                   
-                  <div className="flex items-center gap-2 mb-6 bg-white/5 p-3 rounded-xl border border-white/5">
+                  <div className="flex items-center gap-2 bg-white/5 p-3 rounded-xl border border-white/5">
                     <User size={16} className="text-cyan-400/50" />
                     <span className="text-sm font-medium text-slate-300">
                       Dirigida por <span className="text-white">{empresa.encargado}</span>
                     </span>
                   </div>
+
+                  {empresa.social && (
+                    <div className="flex items-center gap-4 mt-6 pt-4 border-t border-white/5">
+                      {empresa.social.linkedin && (
+                        <Link href={empresa.social.linkedin} target="_blank" className="text-slate-400 hover:text-cyan-400 transition-colors">
+                          <Linkedin size={18} />
+                        </Link>
+                      )}
+                      {empresa.social.instagram && (
+                        <Link href={empresa.social.instagram} target="_blank" className="text-slate-400 hover:text-cyan-400 transition-colors">
+                          <Instagram size={18} />
+                        </Link>
+                      )}
+                      {empresa.social.website && (
+                        <Link href={empresa.social.website} target="_blank" className="text-slate-400 hover:text-cyan-400 transition-colors">
+                          <Globe size={18} />
+                        </Link>
+                      )}
+                    </div>
+                  )}
                 </div>
               </motion.div>
             ))}
@@ -155,9 +175,31 @@ export default function EmpresasPage() {
                   {empresa.desc}
                 </p>
 
-                <div className="flex items-center gap-2 mt-auto pt-4 border-t border-white/5">
-                  <User size={14} className="text-blue-400/50" />
-                  <span className="text-xs text-slate-400">Líder: <span className="text-slate-200">{empresa.encargado}</span></span>
+                <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/5">
+                  <div className="flex items-center gap-2">
+                    <User size={14} className="text-blue-400/50" />
+                    <span className="text-xs text-slate-400">Líder: <span className="text-slate-200">{empresa.encargado}</span></span>
+                  </div>
+                  
+                  {empresa.social && (
+                    <div className="flex items-center gap-3">
+                      {empresa.social.linkedin && (
+                        <Link href={empresa.social.linkedin} target="_blank" className="text-slate-400 hover:text-blue-400 transition-colors">
+                          <Linkedin size={16} />
+                        </Link>
+                      )}
+                      {empresa.social.instagram && (
+                        <Link href={empresa.social.instagram} target="_blank" className="text-slate-400 hover:text-blue-400 transition-colors">
+                          <Instagram size={16} />
+                        </Link>
+                      )}
+                      {empresa.social.website && (
+                        <Link href={empresa.social.website} target="_blank" className="text-slate-400 hover:text-blue-400 transition-colors">
+                          <Globe size={16} />
+                        </Link>
+                      )}
+                    </div>
+                  )}
                 </div>
               </motion.div>
             ))}

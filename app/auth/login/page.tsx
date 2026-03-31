@@ -17,26 +17,27 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.SubmitEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-        setLoading(true);
-        const { data, error } = await authClient.signIn.email({
-          email,
-          password,
-        });
-    
-        if (error) {
-          toast.error(error.message || "Something went wrong");
-        } else {
-          console.log("DATOS", data)
-          toast.success("Logged in successfully!");
-          if(data.user.role === "user") {
-            router.push("/views/admin");
-          } else {
-            router.push("/views/fabrica");
-          }
-        }
-        setLoading(false);
+    setError("");
+    setLoading(true);
+    const { data, error: signInError } = await authClient.signIn.email({
+      email,
+      password,
+    });
+
+    if (signInError) {
+      setError(signInError.message || "Usuario o contraseña inválidos");
+      toast.error(signInError.message || "Ocurrió un error");
+    } else {
+      toast.success("Logged in successfully!");
+      if(data.user.role === "user") {
+        router.push("/views/admin");
+      } else {
+        router.push("/views/fabrica");
+      }
+    }
+    setLoading(false);
   };
 
   return (

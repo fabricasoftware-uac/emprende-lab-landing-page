@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { ArrowRight, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { aceleradas, tripuladas } from "../lib/data-empresas";
 import Autoplay from "embla-carousel-autoplay";
 import {
   Carousel,
@@ -14,20 +13,33 @@ import {
   CarouselPrevious,
 } from "./ui/carousel";
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
-};
 
 const itemVariants = {
   hidden: { opacity: 0, x: 20 },
   visible: { opacity: 1, x: 0, transition: { duration: 0.5 } },
 };
 
-export default function Empresas() {
+interface Empresa {
+  name: string;
+  category: string;
+  desc: string;
+  encargado: string;
+  esAcelerada: boolean;
+  logo?: string;
+  instagram?: string;
+  otro?: string;
+}
+
+interface EmpresaProps {
+  empresas?: Empresa[];
+}
+
+export default function Empresas({ empresas }: EmpresaProps) {
+  if (!empresas) return <div className="flex items-center justify-center h-64">
+    <p className="text-lg text-slate-400">Ups, no se pudo cargar las empresas</p>
+  </div>;
+  const tripuladas = empresas.filter((e) => !e.esAcelerada);
+  const aceleradas = empresas.filter((e) => e.esAcelerada);
   const destacadas = [...tripuladas, ...aceleradas].slice(0, 6);
 
   return (
@@ -78,20 +90,15 @@ export default function Empresas() {
                     viewport={{ once: true }}
                     className="relative bg-[#0a0a0b] border border-white/5 rounded-2xl p-6 hover:bg-white/5 hover:border-cyan-500/30 transition-all duration-300 flex flex-col min-w-75 w-75 sm:min-w-75 sm:w-75 h-full"
                   >
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 relative shrink-0 flex items-center justify-center rounded-xl bg-cyan-500/5 border border-cyan-500/10 group-hover:bg-cyan-500/10 transition-colors">
-                        {empresa.logo ? (
-                          <Image 
-                            src={empresa.logo} 
-                            alt={empresa.name} 
-                            fill 
-                            className="object-contain p-2 opacity-80 group-hover:opacity-100 transition-opacity"
-                          />
-                        ) : (
-                          <div className="text-cyan-400/80 group-hover:text-cyan-400 transition-colors">
-                            {empresa.icon}
-                          </div>
-                        )}
+                    <div className="flex flex-col gap-2 mb-4">
+                      {/* Logo Transparent like 'Proyectos' */}
+                      <div className="relative w-32 sm:w-40 h-10 sm:h-12 transform group-hover:scale-105 transition-transform duration-500 mb-2">
+                        <Image 
+                          src={empresa.logo || "/placeholder_elab.svg"} 
+                          alt={empresa.name} 
+                          fill
+                          className="object-contain object-left relative z-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" 
+                        />
                       </div>
                       <div>
                         <h4 className="text-lg font-bold text-white group-hover:text-cyan-400 transition-colors line-clamp-1">

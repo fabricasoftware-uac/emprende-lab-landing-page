@@ -4,7 +4,22 @@ import {
 } from "lucide-react";
 import React from 'react';
 
-export const aceleradas = [
+export type Empresa = { 
+  name: string; 
+  category: string; 
+  desc: string; 
+  encargado: string; 
+  icon: React.ReactNode; 
+  logo: string | null; 
+  status?: string; 
+  social?: { 
+    linkedin?: string; 
+    instagram?: string; 
+    website?: string; 
+  }; 
+};
+
+export const aceleradas: Empresa[] = [
   {
     name: "NovaTech",
     category: "IA & Data",
@@ -12,6 +27,10 @@ export const aceleradas = [
     encargado: "María Fernanda López",
     icon: <Cpu size={20} />,
     logo: "/placeholder_elab.svg",
+    social: {
+      linkedin: "https://linkedin.com",
+      website: "https://example.com"
+    }
   },
   {
     name: "EcoOrbital",
@@ -28,6 +47,10 @@ export const aceleradas = [
     encargado: "Andrés Silva",
     icon: <Box size={20} />,
     logo: "/placeholder_elab.svg",
+    social: {
+      instagram: "https://instagram.com",
+      linkedin: "https://linkedin.com"
+    }
   },
   {
     name: "BioGenix",
@@ -79,7 +102,7 @@ export const aceleradas = [
   },
 ];
 
-export const tripuladas = [
+export const tripuladas: Empresa[] = [
   {
     name: "NextWallet",
     category: "Fintech",
@@ -88,6 +111,10 @@ export const tripuladas = [
     icon: <Zap size={24} />,
     logo: "/placeholder_elab.svg",
     status: "Fase de Crecimiento",
+    social: {
+      website: "https://example.com",
+      instagram: "https://instagram.com"
+    }
   },
   {
     name: "AgroData",

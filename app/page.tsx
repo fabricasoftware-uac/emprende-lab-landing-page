@@ -29,6 +29,22 @@ export default async function Home() {
     imageColor: r.contenido.color || "from-blue-600 to-indigo-600",
   }));
 
+  const empresasRecords = await db
+    .select({ contenido: entradas.contenido })
+    .from(entradas)
+    .where(eq(entradas.coleccionSlug, "empresas"));
+
+  const empresasDb = empresasRecords.map((r: any) => ({
+    name: r.contenido.nombre || r.contenido.name || "Sin Nombre",
+    category: r.contenido.categoria || r.contenido.category || "Sin Categoría",
+    desc: r.contenido.descripcion || r.contenido.desc || "Sin Descripción",
+    encargado: r.contenido.encargado || "No especificado",
+    logo: r.contenido.logo || r.contenido.imagen || r.contenido.image || null,
+    esAcelerada: r.contenido.esAcelerada || false,
+    instagram: r.contenido.instagram || null,
+    otro: r.contenido.otro || null,
+  }));
+
   return (
     <div className="relative min-h-screen bg-linear-to-b from-[#2e1a47] to-background text-foreground overflow-hidden">
       {/* Cosmic background elements */}
@@ -59,7 +75,7 @@ export default async function Home() {
       <Tienda />
 
       {/* Empresas */}
-      <Empresas />
+      <Empresas empresas={empresasDb} />
 
       {/* Becados */}
       <Becados />

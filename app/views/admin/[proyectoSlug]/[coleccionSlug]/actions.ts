@@ -4,6 +4,7 @@ import { db } from "@/db";
 import { entradas } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 import { z } from "zod";
+import { revalidatePath } from "next/cache";
 
 export async function saveEntrada(
   proyectoId: string,
@@ -25,7 +26,8 @@ export async function saveEntrada(
         validator = z.coerce.number();
         break;
       case "boolean":
-        validator = z.boolean();
+        // Fallback to false if missing or undefined
+        validator = z.boolean().optional().default(false);
         break;
       case "image":
         validator = z.string();
@@ -34,8 +36,11 @@ export async function saveEntrada(
         validator = z.any();
     }
     
-    if (!field.required && field.type !== 'boolean') {
-      validator = validator.optional().or(z.literal(""));
+    // For non-boolean fields, handle optionality and empty string
+    if (field.type !== "boolean") {
+      if (!field.required) {
+        validator = validator.optional().or(z.literal("")).or(z.null());
+      }
     }
     
     shape[field.id] = validator;
@@ -65,6 +70,7 @@ export async function saveEntrada(
         contenido: parsed.data,
       });
     }
+    revalidatePath("/", "layout");
     return { success: true };
   } catch (error) {
     console.error("Error saving entrada", error);
