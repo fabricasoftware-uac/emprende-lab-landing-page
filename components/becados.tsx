@@ -7,6 +7,8 @@ import {
   Palette,
   Briefcase,
   ChevronRight,
+  Store,
+  Sparkles,
 } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
 import {
@@ -17,46 +19,25 @@ import {
   CarouselPrevious,
 } from "./ui/carousel";
 
-const becados = [
-  {
-    name: "Valentina Soler",
-    role: "Frontend Developer",
-    project: "ProApoyo / PopayánInn",
-    icon: <Terminal />,
-    color: "from-blue-400 to-cyan-400",
-    desc: "Desarrolladora principal enfocada en crear interfaces de usuario accesibles y modernas.",
-    image: "",
-  },
-  {
-    name: "Mateo Rivas",
-    role: "UX/UI Designer",
-    project: "Fundación Mundo Mujer",
-    icon: <Palette />,
-    color: "from-pink-400 to-purple-400",
-    desc: "Diseñador creativo, experto en flujos de usuario y prototipado espacial.",
-    image: "",
-  },
-  {
-    name: "Carmen Torres",
-    role: "Project Manager",
-    project: "Agencia InnHouse",
-    icon: <Briefcase />,
-    color: "from-orange-400 to-yellow-400",
-    desc: "Líder de equipo y facilitadora ágil que asegura la gestión óptima de los recursos.",
-    image: "",
-  },
-  {
-    name: "Julian Paz",
-    role: "Backend Engineer",
-    project: "Bantotal Integration",
-    icon: <Terminal />,
-    color: "from-teal-400 to-emerald-400",
-    desc: "Especialista en arquitecturas escalables y bases de datos relacionales.",
-    image: "",
-  },
-];
 
-export default function Becados() {
+interface Becados {
+  nombre: string;
+  rol: string;
+  imagen?: string;
+  desc: string;
+  proyecto?: string;
+  color?: string;
+}
+
+interface BecadosProps {
+  becados?: Becados[];
+}
+
+const defaultIcons = [<Terminal size={18} key="1"/>, <Palette size={18} key="2"/>, <Briefcase size={18} key="3"/>];
+
+export default function Becados({becados}: BecadosProps) {
+  if (!becados || becados.length === 0) return null;
+
   return (
     <section id="becados" className="relative py-8 overflow-hidden">
       {/* Background gradients */}
@@ -100,60 +81,72 @@ export default function Becados() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: idx * 0.05 }}
-                    className="glass p-6 rounded-3xl relative overflow-hidden group hover:-translate-y-2 transition-transform duration-300 h-full flex flex-col"
+                    className="group relative h-full flex flex-col"
                   >
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-br from-white/5 to-transparent rounded-bl-full -z-10"></div>
-
-                    {/* Avatar placeholder / Cutout Image */}
-                    <div className="flex justify-center mb-6 shrink-0 relative h-32 w-full mt-4">
-                      {/* Glow effect matching the role color in the background */}
-                      <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-24 h-24 bg-linear-to-t ${becado.color} blur-[30px] opacity-40 mix-blend-screen z-0 group-hover:opacity-60 transition-opacity duration-500`}></div>
+                   
+                    
+                    <div className="relative bg-[#0a0a0b] p-8 rounded-4xl overflow-hidden border border-white/10 group-hover:border-white/20 transition-all duration-300 h-full flex flex-col z-10">
                       
-                      {becado.image ? (
-                        <img 
-                           src={becado.image} 
-                           alt={becado.name}
-                           className="absolute bottom-0 w-full h-[140%] object-contain object-bottom z-10 transition-transform duration-500 group-hover:scale-105 drop-shadow-[0_0_15px_rgba(255,255,255,0.08)] brightness-95 group-hover:brightness-110"
-                        />
-                      ) : (
-                        <div className="w-24 h-24 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center relative z-10 group-hover:scale-105 transition-transform duration-300">
-                          <div
-                            className={`absolute inset-0 bg-linear-to-br ${becado.color} opacity-20 rounded-full`}
-                          ></div>
-                          <UserCircle
-                            size={64}
-                            strokeWidth={1}
-                            className="text-white/60 mx-auto"
-                          />
+                      {/* Top Accent Line */}
+                      <div className={`absolute top-0 inset-x-0 h-1.5 bg-linear-to-r ${becado.color || "from-purple-500 to-pink-500"} opacity-80 group-hover:opacity-100 transition-opacity`}></div>
+
+                      {/* Decorative Background Elements */}
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-br from-white/5 to-transparent rounded-bl-full -z-10 pointer-events-none"></div>
+                      <div className="absolute bottom-0 left-0 w-32 h-32 bg-linear-to-tr from-white/5 to-transparent rounded-tr-full -z-10 pointer-events-none"></div>
+
+                      {/* Avatar Section */}
+                      <div className="relative w-28 h-28 mx-auto mb-6 shrink-0 mt-2">
+                        {/* Ambient Glow */}
+                        <div className={`absolute inset-0 bg-linear-to-tr ${becado.color || "from-purple-500 to-pink-500"} blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500 rounded-full`}></div>
+                        
+                        {/* Image Wrapper */}
+                        <div className="relative w-full h-full rounded-full p-0.75 bg-linear-to-b from-white/20 to-transparent group-hover:from-white/40 transition-colors duration-500">
+                          <div className="w-full h-full rounded-full overflow-hidden bg-[#050505] flex items-center justify-center relative">
+                            {becado.imagen ? (
+                              <img 
+                                src={becado.imagen} 
+                                alt={becado.nombre}
+                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                              />
+                            ) : (
+                              <div className="w-full h-full bg-linear-to-b from-white/5 to-transparent flex items-center justify-center">
+                                <UserCircle size={48} strokeWidth={1.5} className="text-white/40" />
+                              </div>
+                            )}
+                            <div className="absolute inset-0 rounded-full ring-1 ring-inset ring-black/50 pointer-events-none"></div>
+                          </div>
                         </div>
-                      )}
-                    </div>
-
-                    <div className="text-center text-white mb-6">
-                      <h4 className="text-xl font-bold mb-1">{becado.name}</h4>
-                      <div
-                        className={`text-sm font-semibold bg-linear-to-r ${becado.color} bg-clip-text text-transparent`}
-                      >
-                        {becado.role}
                       </div>
-                    </div>
 
-                    <p className="text-sm text-center text-foreground/60 leading-relaxed mb-6 grow line-clamp-4">
-                      {becado.desc}
-                    </p>
-
-                    <div className="pt-4 border-t border-white/5 flex items-center justify-between shrink-0">
-                      <div className="flex items-center gap-2">
-                        <div className="p-1.5 rounded bg-white/5 text-foreground/60 w-8 h-8 flex items-center justify-center">
-                          {becado.icon}
+                      {/* Content Section */}
+                      <div className="text-center mt-2 grow flex flex-col items-center">
+                        <h4 className="text-2xl font-black text-white mb-2 tracking-tight line-clamp-1">{becado.nombre}</h4>
+                        
+                        {/* Role Pill */}
+                        <div className={`inline-flex items-center px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-white/5 border border-white/10 text-transparent bg-clip-text bg-linear-to-r ${becado.color || "from-purple-400 to-pink-400"} mb-5 shadow-inner`}>
+                          {becado.rol}
                         </div>
-                        <span className="text-xs font-semibold text-foreground/80 truncate max-w-30">
-                          {becado.project}
-                        </span>
+
+                        <p className="text-sm text-center text-slate-400 leading-relaxed mb-6 line-clamp-4">
+                          {becado.desc}
+                        </p>
                       </div>
-                      <button className="w-6 h-6 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                        <ChevronRight size={14} />
-                      </button>
+
+                      {/* Footer Section */}
+                      <div className="mt-auto pt-5 border-t border-white/10 flex items-center justify-between shrink-0">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/5 group-hover:border-white/20 transition-colors shadow-[inset_0_1px_rgba(255,255,255,0.1)]">
+                            <Store size={18} className="text-slate-300" />
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="text-[9px] uppercase font-black text-slate-500 tracking-wider">Proyecto</span>
+                            <span className="text-sm font-bold text-slate-200 line-clamp-1 max-w-35">
+                              {becado.proyecto || "EmprendeLab"}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
                     </div>
                   </motion.div>
                 </CarouselItem>

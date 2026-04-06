@@ -8,7 +8,7 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Emprendelab",
-  description: "Emprendelab, Impulsando la innovación y el emprendimiento",
+  description: "Laboratorio de innovación y emprendimiento",
   generator: "Emprendelab",
   icons: {
     icon: [
@@ -19,9 +19,6 @@ export const metadata: Metadata = {
       {
         url: "/light_elab_favicon.png",
         media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: "/icon.svg",
       },
     ],
     apple: "/apple-icon.svg",

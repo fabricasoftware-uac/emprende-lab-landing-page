@@ -32,7 +32,7 @@ export default async function Home() {
   const empresasRecords = await db
     .select({ contenido: entradas.contenido })
     .from(entradas)
-    .where(eq(entradas.coleccionSlug, "empresas"));
+    .where(eq(entradas.coleccionSlug, "empresas")).limit(6);
 
   const empresasDb = empresasRecords.map((r: any) => ({
     name: r.contenido.nombre || r.contenido.name || "Sin Nombre",
@@ -43,6 +43,20 @@ export default async function Home() {
     esAcelerada: r.contenido.esAcelerada || false,
     instagram: r.contenido.instagram || null,
     otro: r.contenido.otro || null,
+  }));
+
+  const becadosRecords = await db
+    .select({ contenido: entradas.contenido })
+    .from(entradas)
+    .where(eq(entradas.coleccionSlug, "becados"));
+
+  const becadosDb = becadosRecords.map((r: any) => ({
+    nombre: r.contenido.nombre || r.contenido.name || "Sin Nombre",
+    desc: r.contenido.descripcion || r.contenido.desc || "Sin Descripción",
+    rol: r.contenido.rol || r.contenido.role || "Sin Rol",
+    imagen: r.contenido.imagen || r.contenido.image || null,
+    proyecto: r.contenido.proyecto || r.contenido.project || "EmprendeLab",
+    color: "from-purple-400 to-pink-400",
   }));
 
   return (
@@ -78,7 +92,7 @@ export default async function Home() {
       <Empresas empresas={empresasDb} />
 
       {/* Becados */}
-      <Becados />
+      <Becados becados={becadosDb} />
 
       {/* Tripulación Estelar */}
       <Equipo team={team} />
