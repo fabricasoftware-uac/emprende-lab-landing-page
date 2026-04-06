@@ -27,7 +27,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 min-h-screen flex items-center justify-center p-4 sm:p-6 overflow-hidden">
+        <div className="fixed inset-0 z-50 min-h-screen flex items-start justify-center p-4 sm:p-6 overflow-hidden">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -43,7 +43,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: "spring", duration: 0.5 }}
-            className="relative w-full max-w-2xl max-h-[calc(100vh-2rem)] md:max-h-[85vh] glass border border-purple-500/30 rounded-2xl shadow-[0_0_50px_rgba(168,85,247,0.15)] flex flex-col overflow-hidden"
+            className="relative w-full max-w-2xl glass border border-purple-500/30 rounded-2xl flex flex-col"
           >
             {/* Glow effect */}
             <div className="absolute inset-0 bg-linear-to-br from-purple-500/10 to-transparent pointer-events-none rounded-2xl" />
@@ -62,7 +62,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
             </div>
 
             {/* Body */}
-            <div className="p-6 relative z-10 overflow-y-auto flex-1 custom-scrollbar">
+            <div className="p-6 relative z-10 overflow-y-auto flex-1 h-full overflow-hidden">
               {children}
             </div>
           </motion.div>
