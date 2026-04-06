@@ -23,10 +23,8 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     return <Unauthorized />;
   }
 
-
-
   return (
-    <div className="relative flex h-screen bg-linear-to-b from-[#2e1a47]/90 to-background text-foreground overflow-hidden">
+    <div className="relative flex h-screen bg-linear-to-b from-[#2e1a47]/90 to-background text-foreground">
       {/* Background layer */}
       <FloatingElements />
 
@@ -38,7 +36,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         <Topbar onMenuToggle={() => setIsSidebarOpen(!isSidebarOpen)} />
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 scrollbars-hidden">
+        <main className="flex-1 overflow-y-auto p-4 md:p-6 scrollbars-hidden overflow-hidden">
           <div className="mx-auto max-w-7xl relative w-full">{children}</div>
         </main>
       </div>
