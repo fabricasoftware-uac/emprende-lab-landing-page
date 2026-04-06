@@ -170,7 +170,8 @@ export default function Proyectos() {
               </p>
               
               <Link 
-                href="#contacto" 
+                href="https://ig.me/m/emprende_lab" 
+                target="_blank"
                 className="mt-4 flex items-center gap-3 px-8 py-4 rounded-full bg-white text-blue-950 font-bold hover:bg-slate-200 hover:scale-105 transition-all shadow-[0_0_30px_rgba(59,130,246,0.3)]"
               >
                 <span>Hablemos de tu idea</span>

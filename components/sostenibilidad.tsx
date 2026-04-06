@@ -169,7 +169,8 @@ export default function Tienda() {
               </div>
               
               <Link 
-                href="#contacto" 
+                href="https://ig.me/m/emprende_lab" 
+                target="_blank"
                 className="flex items-center gap-3 px-8 py-4 rounded-full bg-white text-emerald-950 font-bold hover:bg-emerald-100 hover:scale-105 transition-all shadow-[0_0_30px_rgba(16,185,129,0.3)]"
               >
                 <ShoppingBag size={20} />

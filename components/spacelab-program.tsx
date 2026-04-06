@@ -156,19 +156,6 @@ export default function SpaceLabProgram() {
             ))}
           </motion.div>
         </div>
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.8 }}
-          className="mt-16 text-center"
-        >
-          <button className="px-8 py-4 rounded-full bg-linear-to-r from-purple-500 to-blue-500 text-white font-semibold hover:shadow-2xl hover:shadow-purple-500/30 transition-all hover:scale-105 flex items-center gap-2 group mx-auto">
-            Inicia tu aceleración SpaceLab
-          </button>
-        </motion.div>
       </div>
     </section>
   );

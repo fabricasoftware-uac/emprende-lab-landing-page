@@ -83,18 +83,12 @@ export default function Footer() {
                 className="flex items-center gap-2 text-sm text-foreground/60 hover:text-primary transition-colors group"
               >
                 <Mail size={16} className="flex-shrink-0" />
-                <span>hello@emprendelab.com</span>
+                <span>director.emprendelab@uniautonoma.edu.co</span>
               </a>
-              <a
-                href="tel:+1234567890"
-                className="flex items-center gap-2 text-sm text-foreground/60 hover:text-primary transition-colors group"
-              >
-                <Phone size={16} className="flex-shrink-0" />
-                <span>+1 (234) 567-890</span>
-              </a>
+              
               <div className="flex items-center gap-2 text-sm text-foreground/60">
                 <MapPin size={16} className="flex-shrink-0 flex-grow-0" />
-                <span>Popayán, Cauca</span>
+                <span>Cra. 3 #114, Centro, Popayán, Cauca</span>
               </div>
             </div>
           </div>
@@ -121,9 +115,7 @@ export default function Footer() {
           {/* Social Links */}
           <div className="flex items-center gap-4">
             {[
-              { icon: Linkedin, href: "#", label: "LinkedIn" },
-              { icon: Twitter, href: "#", label: "Twitter" },
-              { icon: Instagram, href: "#", label: "Instagram" },
+              { icon: Instagram, href: "https://www.instagram.com/emprende_lab/", label: "Instagram" },
             ].map((social, index) => {
               const Icon = social.icon;
               return (

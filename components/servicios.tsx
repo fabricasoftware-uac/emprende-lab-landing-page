@@ -169,7 +169,8 @@ export default function InnovationUnits() {
               </div>
               
               <Link 
-                href="#contacto" 
+                href="https://ig.me/m/emprende_lab" 
+                target="_blank"
                 className="shrink-0 flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black font-bold hover:bg-slate-200 hover:scale-105 transition-all shadow-[0_0_40px_rgba(255,255,255,0.3)]"
               >
                 <Phone size={20} />
