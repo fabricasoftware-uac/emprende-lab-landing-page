@@ -68,10 +68,10 @@ export default function Navbar() {
               Empresas
             </Link>
             <Link
-              href={getHref("#tienda")}
+              href={getHref("#becados")}
               className="text-sm font-bold hover:text-primary transition-colors"
             >
-              Tienda
+              Becados
             </Link>
             <Link
               href={getHref("#equipo")}

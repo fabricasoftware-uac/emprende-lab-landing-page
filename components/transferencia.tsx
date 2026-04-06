@@ -86,14 +86,6 @@ export default function Transferencia() {
                   </li>
                 </ul>
               </div>
-
-              <button className="flex items-center gap-2 text-purple-400 font-semibold group-hover:text-purple-300 transition-colors mt-auto cursor-pointer">
-                Aplicar al programa
-                <ArrowRight
-                  size={18}
-                  className="group-hover:translate-x-1 transition-transform"
-                />
-              </button>
             </div>
           </motion.div>
 
@@ -146,14 +138,6 @@ export default function Transferencia() {
                   </li>
                 </ul>
               </div>
-
-              <button className="flex items-center gap-2 text-cyan-400 font-semibold cursor-pointer group-hover:text-cyan-300 transition-colors">
-                Solicitar servicios
-                <ArrowRight
-                  size={18}
-                  className="group-hover:translate-x-1 transition-transform"
-                />
-              </button>
             </div>
           </motion.div>
         </div>
