@@ -15,6 +15,8 @@ import { db } from "@/db";
 import { entradas } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const tripulacionRecords = await db
     .select({ contenido: entradas.contenido })
