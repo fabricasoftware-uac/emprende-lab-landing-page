@@ -291,7 +291,7 @@ export function DynamicCollectionClient({
                   </td>
                 ))}
                 <td className="px-6 py-4 text-right">
-                  <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex justify-end gap-2">
                     <button
                       onClick={() => handleOpenModal(rec)}
                       className="p-1.5 rounded-lg bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 transition-colors border border-blue-500/20"
