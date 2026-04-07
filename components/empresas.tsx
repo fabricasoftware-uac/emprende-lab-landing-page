@@ -38,6 +38,7 @@ export default function Empresas({ empresas }: EmpresaProps) {
   if (!empresas) return <div className="flex items-center justify-center h-64">
     <p className="text-lg text-slate-400">Ups, no se pudo cargar las empresas</p>
   </div>;
+  if (empresas.length === 0) return null;
   const tripuladas = empresas.filter((e) => !e.esAcelerada);
   const aceleradas = empresas.filter((e) => e.esAcelerada);
   const destacadas = [...tripuladas, ...aceleradas].slice(0, 6);
