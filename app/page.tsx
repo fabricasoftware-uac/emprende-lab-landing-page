@@ -14,7 +14,6 @@ import FloatingElements from "@/components/floating-elements";
 import { db } from "@/db";
 import { entradas } from "@/db/schema";
 import { eq } from "drizzle-orm";
-
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
