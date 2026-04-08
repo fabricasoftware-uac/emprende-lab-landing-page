@@ -13,14 +13,20 @@ import Footer from "@/components/footer";
 import FloatingElements from "@/components/floating-elements";
 import { db } from "@/db";
 import { entradas } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, and, ne, isNull, or } from "drizzle-orm";
+
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const tripulacionRecords = await db
     .select({ contenido: entradas.contenido })
     .from(entradas)
-    .where(eq(entradas.coleccionSlug, "tripulacion-estelar"));
+    .where(
+      and(
+        eq(entradas.coleccionSlug, "tripulacion"),
+        or(isNull(entradas.activo), eq(entradas.activo, true))
+      )
+    );
 
   const team = tripulacionRecords.map((r: any) => ({
     name: r.contenido.nombre || r.contenido.name || "Sin Nombre",
@@ -33,7 +39,12 @@ export default async function Home() {
   const empresasRecords = await db
     .select({ contenido: entradas.contenido })
     .from(entradas)
-    .where(eq(entradas.coleccionSlug, "empresas")).limit(6);
+    .where(
+      and(
+        eq(entradas.coleccionSlug, "empresas"),
+        or(isNull(entradas.activo), eq(entradas.activo, true))
+      )
+    ).limit(6);
 
   const empresasDb = empresasRecords.map((r: any) => ({
     name: r.contenido.nombre || r.contenido.name || "Sin Nombre",
@@ -49,7 +60,12 @@ export default async function Home() {
   const becadosRecords = await db
     .select({ contenido: entradas.contenido })
     .from(entradas)
-    .where(eq(entradas.coleccionSlug, "becados"));
+    .where(
+      and(
+        eq(entradas.coleccionSlug, "becados"),
+        or(isNull(entradas.activo), eq(entradas.activo, true))
+      )
+    );
 
   const becadosDb = becadosRecords.map((r: any) => ({
     nombre: r.contenido.nombre || r.contenido.name || "Sin Nombre",

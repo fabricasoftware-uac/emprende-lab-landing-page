@@ -2,21 +2,27 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { Loader2, Plus, Edit, Trash2 } from "lucide-react";
+import { Loader2, Plus, Edit, Trash2, Eye, EyeOff, ChevronLeft, ChevronRight } from "lucide-react";
 import { Modal } from "@/components/admin/modal";
 import { ConfirmModal } from "@/components/admin/confirm-modal";
 import { ImageUploader } from "@/components/admin/image-uploader";
-import { saveEntrada } from "./actions";
+import { saveEntrada, toggleActiveEntrada } from "./actions";
 import { useRouter } from "next/navigation";
 
 export function DynamicCollectionClient({
   proyecto,
   esquema,
   initialRecords,
+  currentPage = 1,
+  totalPages = 1,
+  totalRecords = 0,
 }: {
   proyecto: any;
   esquema: any;
   initialRecords: any[];
+  currentPage?: number;
+  totalPages?: number;
+  totalRecords?: number;
 }) {
   const router = useRouter();
   const isSingleton = esquema.esRegistroUnico;
@@ -29,6 +35,7 @@ export function DynamicCollectionClient({
 
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [togglingId, setTogglingId] = useState<string | null>(null);
 
   // Form State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -109,6 +116,20 @@ export function DynamicCollectionClient({
 
   const executeDelete = (id: string) => {
     setDeleteId(id);
+  };
+
+  const handleToggleActive = async (record: any) => {
+    setTogglingId(record.id);
+    try {
+      const res = await toggleActiveEntrada(record.id, record.activo !== false);
+      if (res.error) throw new Error(res.error);
+      toast.success(record.activo === false ? "Registro activado" : "Registro desactivado");
+      router.refresh();
+    } catch (error) {
+      toast.error("Error al cambiar estado");
+    } finally {
+      setTogglingId(null);
+    }
   };
 
   const renderField = (field: any) => {
@@ -258,7 +279,7 @@ export function DynamicCollectionClient({
             {initialRecords.map((rec) => (
               <tr
                 key={rec.id}
-                className="hover:bg-white/5 transition-colors group"
+                className={`transition-colors group ${rec.activo === false ? "bg-red-500/5 opacity-60" : "hover:bg-white/5"}`}
               >
                 {esquema?.campos?.slice(0, 4).map((f: any) => (
                   <td
@@ -293,6 +314,24 @@ export function DynamicCollectionClient({
                 <td className="px-6 py-4 text-right">
                   <div className="flex justify-end gap-2">
                     <button
+                      onClick={() => handleToggleActive(rec)}
+                      disabled={togglingId === rec.id}
+                      className={`p-1.5 rounded-lg transition-colors border ${
+                        rec.activo === false
+                          ? "bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 border-amber-500/20"
+                          : "bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 border-emerald-500/20"
+                      }`}
+                      title={rec.activo === false ? "Activar" : "Desactivar"}
+                    >
+                      {togglingId === rec.id ? (
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      ) : rec.activo === false ? (
+                        <EyeOff className="w-3.5 h-3.5" />
+                      ) : (
+                        <Eye className="w-3.5 h-3.5" />
+                      )}
+                    </button>
+                    <button
                       onClick={() => handleOpenModal(rec)}
                       className="p-1.5 rounded-lg bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 transition-colors border border-blue-500/20"
                     >
@@ -321,6 +360,44 @@ export function DynamicCollectionClient({
           </tbody>
         </table>
       </div>
+
+      {!isSingleton && totalPages > 1 && (
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 px-2">
+          <p className="text-sm text-purple-300/60 font-medium order-2 sm:order-1">
+            Mostrando <span className="text-purple-100 font-bold">{initialRecords.length}</span> de{" "}
+            <span className="text-purple-100 font-bold">{totalRecords}</span> registros
+          </p>
+          <div className="flex items-center gap-2 order-1 sm:order-2">
+            <button
+              onClick={() => {
+                const url = new URL(window.location.href);
+                url.searchParams.set("page", (currentPage - 1).toString());
+                router.push(url.pathname + url.search);
+              }}
+              disabled={currentPage <= 1}
+              className="p-2.5 rounded-xl bg-white/5 border border-purple-500/20 text-purple-200 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all hover:scale-105 active:scale-95"
+              title="Anterior"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <div className="h-10 flex items-center px-5 rounded-xl bg-purple-500/10 border border-purple-500/30 text-sm font-bold text-purple-100 shadow-[0_0_15px_rgba(168,85,247,0.15)]">
+              {currentPage} / {totalPages}
+            </div>
+            <button
+              onClick={() => {
+                const url = new URL(window.location.href);
+                url.searchParams.set("page", (currentPage + 1).toString());
+                router.push(url.pathname + url.search);
+              }}
+              disabled={currentPage >= totalPages}
+              className="p-2.5 rounded-xl bg-white/5 border border-purple-500/20 text-purple-200 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all hover:scale-105 active:scale-95"
+              title="Siguiente"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+      )}
 
       <Modal
         isOpen={isModalOpen}

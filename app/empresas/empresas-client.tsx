@@ -1,10 +1,10 @@
 "use client";
-
 import { motion } from "framer-motion";
-import { Sparkles, Rocket, ArrowLeft, User, Linkedin, Instagram, Globe } from "lucide-react";
+import { Sparkles, Rocket, ArrowLeft, User, Linkedin, Instagram, Globe, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
+import { useRouter } from "next/navigation";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -19,7 +19,11 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
-export default function EmpresasClient({ empresas }: { empresas: any[] }) {
+export default function EmpresasClient({ 
+  empresas
+}: { 
+  empresas: any[]
+}) {
   const tripuladas = empresas.filter((e) => !e.esAcelerada);
   const aceleradas = empresas.filter((e) => e.esAcelerada);
 

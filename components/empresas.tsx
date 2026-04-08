@@ -140,7 +140,7 @@ export default function Empresas({ empresas }: EmpresaProps) {
                       <ArrowRight size={24} className="group-hover:translate-x-1 transition-transform" />
                     </div>
                     <span className="text-sm font-bold text-slate-400 group-hover:text-white transition-colors">
-                      Ver todas las <br/> {tripuladas.length + aceleradas.length} empresas
+                      Ver todas las empresas
                     </span>
                   </div>
                 </motion.div>
@@ -155,7 +155,7 @@ export default function Empresas({ empresas }: EmpresaProps) {
         </div>
         <Link href="/empresas" className="flex justify-center">
             <span className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-black font-bold hover:bg-slate-200 hover:scale-105 transition-all">
-              Conócelas <ArrowRight size={20} />
+              Ver Todas <ArrowRight size={20} />
             </span>
         </Link>
       </div>

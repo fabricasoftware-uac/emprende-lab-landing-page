@@ -77,3 +77,17 @@ export async function saveEntrada(
     return { error: "Database error" };
   }
 }
+
+export async function toggleActiveEntrada(id: string, currentStatus: boolean) {
+  try {
+    await db.update(entradas)
+      .set({ activo: !currentStatus, actualizadoEn: new Date() })
+      .where(eq(entradas.id, id));
+    
+    revalidatePath("/", "layout");
+    return { success: true };
+  } catch (error) {
+    console.error("Error toggling active status", error);
+    return { error: "Database error" };
+  }
+}

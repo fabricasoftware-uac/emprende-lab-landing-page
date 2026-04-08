@@ -90,6 +90,7 @@ export const entradas = pgTable("entradas", {
     proyectoId: text("proyecto_id").notNull().references(() => proyectos.id),
     coleccionSlug: text("coleccion_slug").notNull(), // Para saber si es 'equipo' o 'becado' 
     contenido: jsonb("contenido").notNull(), // El JSON con la data dinámica 
+    activo: boolean("activo").default(true), // Nuevo campo para visibilidad
     creadoEn: timestamp("creado_en").defaultNow(),
     actualizadoEn: timestamp("actualizado_en").defaultNow().$onUpdate(() => new Date()),
 });

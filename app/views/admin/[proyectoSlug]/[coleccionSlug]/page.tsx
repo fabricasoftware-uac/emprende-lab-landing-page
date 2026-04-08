@@ -1,15 +1,21 @@
 import { db } from "@/db";
 import { proyectos, esquemas, entradas } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { eq, and, sql, count } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import { DynamicCollectionClient } from "./client-page";
 
 interface Props {
   params: Promise<{ proyectoSlug: string; coleccionSlug: string }>;
+  searchParams: Promise<{ page?: string }>;
 }
 
-export default async function ColeccionPage({ params }: Props) {
+export default async function ColeccionPage({ params, searchParams }: Props) {
   const { proyectoSlug, coleccionSlug } = await params;
+  const { page } = await searchParams;
+  
+  const currentPage = parseInt(page || "1");
+  const limit = 10;
+  const offset = (currentPage - 1) * limit;
 
   // 1. Fetch Proyecto
   const [proyecto] = await db
@@ -31,7 +37,7 @@ export default async function ColeccionPage({ params }: Props) {
 
   if (!esquema) return notFound();
 
-  // 3. Fetch Data (Entradas)
+  // 3. Fetch Data (Entradas) with Pagination
   const records = await db
     .select()
     .from(entradas)
@@ -41,7 +47,22 @@ export default async function ColeccionPage({ params }: Props) {
         eq(entradas.coleccionSlug, coleccionSlug),
       ),
     )
-    .orderBy(entradas.creadoEn);
+    .orderBy(sql`${entradas.creadoEn} DESC`)
+    .limit(limit)
+    .offset(offset);
+
+  // 4. Get Total Count
+  const [totalResult] = await db
+    .select({ total: count() })
+    .from(entradas)
+    .where(
+      and(
+        eq(entradas.proyectoId, proyecto.id),
+        eq(entradas.coleccionSlug, coleccionSlug),
+      ),
+    );
+
+  const totalPages = Math.ceil(totalResult.total / limit);
 
   return (
     <div className="space-y-6">
@@ -59,7 +80,10 @@ export default async function ColeccionPage({ params }: Props) {
         <DynamicCollectionClient
           proyecto={proyecto}
           esquema={esquema}
-          initialRecords={records} // passed as props
+          initialRecords={records}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          totalRecords={totalResult.total}
         />
       </div>
     </div>

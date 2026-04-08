@@ -165,9 +165,9 @@ export default function Navbar() {
               >
                 Tripulación
               </Link>
-              <button className="w-full px-6 py-2 rounded-full bg-linear-to-r from-purple-500 to-blue-500 text-white font-medium hover:shadow-lg hover:shadow-purple-500/30 transition-all mt-2">
-                Contacto
-              </button>
+              <Link href="https://ig.me/m/emprende_lab" className="px-6 py-2 rounded-full bg-linear-to-r from-purple-500 to-blue-500 text-white font-medium hover:shadow-lg hover:shadow-purple-500/30 transition-all hover:scale-105 cursor-pointer">
+              Contacto
+            </Link>
             </motion.div>
           )}
         </AnimatePresence>
