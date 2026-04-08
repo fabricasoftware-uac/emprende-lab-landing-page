@@ -80,10 +80,14 @@ export default function Equipo({ team = [] }: EquipoProps) {
                         <div className="absolute inset-0 bg-[linear-gradient(110deg,rgba(255,255,255,0)_40%,rgba(255,255,255,0.05)_50%,rgba(255,255,255,0)_60%)] -translate-x-full group-hover:animate-shimmer z-20"></div>
                         
                         {member.image ? (
-                          <img
+                          <div className="relative w-full h-full z-20 overflow-hidden">
+                              <Image
                             src={member.image}
                             alt={member.name}
-                            className="absolute bottom-0 w-[95%] h-[95%] object-contain object-bottom z-10 transition-transform duration-500 group-hover:scale-105 drop-shadow-[0_0_20px_rgba(255,255,255,0.08)] brightness-95 group-hover:brightness-110"
+fill
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                            className="object-contain object-bottom transition-all duration-700 group-hover:scale-110 group-hover:rotate-1 brightness-95 group-hover:brightness-110"
+priority={idx < 4}
                           />
                         ) : (
                           <div className="w-24 h-24 rounded-full bg-black/40 backdrop-blur-md border border-white/10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center mb-8">

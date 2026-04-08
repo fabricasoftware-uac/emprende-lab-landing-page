@@ -23,7 +23,7 @@ export default async function Home() {
     .from(entradas)
     .where(
       and(
-        eq(entradas.coleccionSlug, "tripulacion"),
+        eq(entradas.coleccionSlug, "tripulacion-estelar"),
         or(isNull(entradas.activo), eq(entradas.activo, true))
       )
     );

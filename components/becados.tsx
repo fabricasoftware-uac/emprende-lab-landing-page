@@ -103,10 +103,12 @@ export default function Becados({becados}: BecadosProps) {
                         <div className="relative w-full h-full rounded-full p-0.75 bg-linear-to-b from-white/20 to-transparent group-hover:from-white/40 transition-colors duration-500">
                           <div className="w-full h-full rounded-full overflow-hidden bg-[#050505] flex items-center justify-center relative">
                             {becado.imagen ? (
-                              <img 
+                              <Image 
                                 src={becado.imagen} 
                                 alt={becado.nombre}
-                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+fill
+                                sizes="128px"
+                                className="object-cover transition-all duration-700 group-hover:scale-115 group-hover:rotate-3"
                               />
                             ) : (
                               <div className="w-full h-full bg-linear-to-b from-white/5 to-transparent flex items-center justify-center">
