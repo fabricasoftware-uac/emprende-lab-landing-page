@@ -10,6 +10,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "./ui/carousel";
+import Image from "next/image";
 
 interface TeamMember {
   name: string;
@@ -82,13 +83,14 @@ export default function Equipo({ team = [] }: EquipoProps) {
                         {member.image ? (
                           <div className="relative w-full h-full z-20 overflow-hidden">
                               <Image
-                            src={member.image}
-                            alt={member.name}
-fill
+                                src={member.image}
+                                alt={member.name}
+                                fill
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                            className="object-contain object-bottom transition-all duration-700 group-hover:scale-110 group-hover:rotate-1 brightness-95 group-hover:brightness-110"
-priority={idx < 4}
-                          />
+                                className="object-contain object-bottom transition-all duration-700 group-hover:scale-110 group-hover:rotate-1 brightness-95 group-hover:brightness-110"
+                                priority={idx < 4}
+                              />
+                            </div>
                         ) : (
                           <div className="w-24 h-24 rounded-full bg-black/40 backdrop-blur-md border border-white/10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center mb-8">
                             <span className="text-4xl text-white/50">👩‍🚀</span>
