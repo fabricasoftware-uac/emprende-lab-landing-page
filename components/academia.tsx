@@ -67,7 +67,7 @@ export default function Academia() {
               </span>
             </h2>
             <p className="text-lg text-foreground/60 max-w-2xl mx-auto lg:mx-0 mb-8">
-              El centro de entrenamiento de nuestra tripulación espacial.
+              El centro de abordaje de nuestra tripulación espacial.
               Aprende, experimenta y prepara tu negocio para el despegue en
               nuestras instalaciones.
             </p>

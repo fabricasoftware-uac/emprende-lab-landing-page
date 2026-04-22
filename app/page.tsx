@@ -76,6 +76,29 @@ export default async function Home() {
     color: "from-purple-400 to-pink-400",
   }));
 
+  const proyectosRecords = await db
+    .select({ contenido: entradas.contenido })
+    .from(entradas)
+    .where(
+      and(
+        eq(entradas.coleccionSlug, "proyectos"),
+        or(isNull(entradas.activo), eq(entradas.activo, true))
+      )
+    );
+
+  const proyectosDb = proyectosRecords.map((r: any) => ({
+    name: r.contenido.nombre || "Proyecto sin nombre",
+    category: r.contenido.etiqueta || "Innovación",
+    description: r.contenido.descripcion || "",
+    img: r.contenido.imagen || "/placeholder_elab.svg",
+    color: r.contenido.color || "from-purple-500/20 to-blue-500/20",
+    glow: r.contenido.glow || "bg-purple-500/30",
+    borderColor: r.contenido.borderColor || "border-purple-500/20",
+    hoverBorder: r.contenido.hoverBorder || "hover:border-purple-500/50",
+    site_url: r.contenido.link || null,
+    span: r.contenido.span || "lg:col-span-6",
+  }));
+
   return (
     <div className="relative min-h-screen bg-linear-to-b from-[#2e1a47] to-background text-foreground overflow-hidden">
       {/* Cosmic background elements */}
@@ -100,7 +123,7 @@ export default async function Home() {
       <SpaceLabProgram />
 
       {/* Proyectos Destacados */}
-      <Proyectos />
+      <Proyectos projects={proyectosDb} />
 
       {/* Tienda */}
       <Tienda />

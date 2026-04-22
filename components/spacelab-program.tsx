@@ -10,7 +10,7 @@ const phases = [
     name: "Plan de Vuelo",
     description:
       "Transformación de mentalidad. Aprende a pensar como emprendedor.",
-    highlights: ["Describir", "Analizar", "Evaluar"],
+    highlights: ["Prototipar", "Analizar", "Evaluar"],
     icon: "📋",
   },
   {

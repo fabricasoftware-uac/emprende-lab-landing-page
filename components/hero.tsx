@@ -52,7 +52,7 @@ export default function Hero() {
         >
           <Rocket size={16} className="text-purple-400" />
           <span className="text-sm text-purple-300">
-            Laboratorio de Emprendimiento
+            Laboratorio de Emprendimiento e Innovación
           </span>
         </motion.div>
 

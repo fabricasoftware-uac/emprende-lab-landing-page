@@ -47,6 +47,78 @@ async function seed() {
     },
   }));
 
+  // 4. Proyectos
+  const proyectosData = [
+    {
+      id: crypto.randomUUID(),
+      proyectoId: PROYECTO_ID,
+      coleccionSlug: "proyectos",
+      contenido: {
+        nombre: "Fundación Mundo Mujer",
+        categoria: "Transformación Digital",
+        descripcion: "Emprendelab, en alianza con la Fundación Mundo Mujer, desarrolló un programa de incubación y aceleración para 20 ganadoras del Premio Leonor Melo de Velasco, brindando formación en áreas clave y estrategias de posicionamiento.",
+        imagen: "/mundo_mujer.webp",
+        url: "https://www.fmm.org.co/",
+        span: "lg:col-span-12 xl:col-span-7",
+        color: "from-purple-500/20 to-pink-500/20",
+        glow: "bg-purple-500/30",
+        borderColor: "border-purple-500/20",
+        hoverBorder: "hover:border-purple-500/50",
+      },
+    },
+    {
+      id: crypto.randomUUID(),
+      proyectoId: PROYECTO_ID,
+      coleccionSlug: "proyectos",
+      contenido: {
+        nombre: "Bantotal",
+        categoria: "Banca",
+        descripcion: "Bantotal es la plataforma bancaria líder en América Latina, que resuelve la operativa bancaria de misión crítica de Bancos, Financieras, Bancos Digitales y Fintech.",
+        imagen: "/bantotal.webp",
+        url: "https://www.bantotal.com/",
+        span: "lg:col-span-12 xl:col-span-5",
+        color: "from-blue-500/20 to-cyan-500/20",
+        glow: "bg-blue-500/30",
+        borderColor: "border-blue-500/20",
+        hoverBorder: "hover:border-blue-500/50",
+      },
+    },
+    {
+      id: crypto.randomUUID(),
+      proyectoId: PROYECTO_ID,
+      coleccionSlug: "proyectos",
+      contenido: {
+        nombre: "PopayánInn",
+        categoria: "Emprendimiento",
+        descripcion: "Programa de entrenamiento junto a la Universidad Autónoma del Cauca y la Alcaldía de Popayán que fortaleció a más de 100 emprendedores en habilidades clave.",
+        imagen: "/popayaninn.webp",
+        url: "https://popayaninn.com/",
+        span: "lg:col-span-12 xl:col-span-7",
+        color: "from-orange-500/20 to-yellow-500/20",
+        glow: "bg-orange-500/30",
+        borderColor: "border-orange-500/20",
+        hoverBorder: "hover:border-orange-500/50",
+      },
+    },
+    {
+      id: crypto.randomUUID(),
+      proyectoId: PROYECTO_ID,
+      coleccionSlug: "proyectos",
+      contenido: {
+        nombre: "Popayán UP",
+        categoria: "Emprendimiento",
+        descripcion: "Primer hub de innovación de la ciudad, uniendo academia y gobierno para impulsar el crecimiento y consolidación de negocios locales.",
+        imagen: "/popayanup.webp",
+        url: "https://archivo.uniautonoma.edu.co/actualidad/noticias/popayanup-primer-hub-innovacion-fue-exito-rotundo",
+        span: "lg:col-span-12 xl:col-span-5",
+        color: "from-orange-500/20 to-yellow-500/20",
+        glow: "bg-orange-500/30",
+        borderColor: "border-orange-500/20",
+        hoverBorder: "hover:border-orange-500/50",
+      },
+    }
+  ];
+
   try {
     console.log("Inserting Tripulación...");
     await db.insert(entradas).values(tripulacionData);
@@ -56,6 +128,9 @@ async function seed() {
     
     console.log("Inserting Empresas...");
     await db.insert(entradas).values(empresasData);
+
+    console.log("Inserting Proyectos...");
+    await db.insert(entradas).values(proyectosData);
 
     console.log("✅ Datos de prueba insertados con éxito!");
   } catch (error) {

@@ -88,7 +88,7 @@ export default function InnovationUnits() {
                 Fábrica de <span className="text-blue-400">Software</span>
               </h3>
               <p className="text-slate-400 text-lg leading-relaxed mb-8 max-w-xl">
-                Centro especializado en desarrollo de software personalizado. Transformamos ideas en soluciones digitales escalables utilizando tecnología de punta y metodologías ágiles.
+                Centro especializado en desarrollo de software a la medida. Transformamos ideas en soluciones digitales escalables utilizando tecnología de punta y metodologías ágiles.
               </p>
 
               <div className="flex flex-wrap gap-3">
