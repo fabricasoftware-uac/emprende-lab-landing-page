@@ -74,6 +74,7 @@ export default async function Home() {
     imagen: r.contenido.imagen || r.contenido.image || null,
     proyecto: r.contenido.proyecto || r.contenido.project || "EmprendeLab",
     color: "from-purple-400 to-pink-400",
+    programa: r.contenido.programa || "EmprendeLab",
   }));
 
   const proyectosRecords = await db

@@ -234,7 +234,7 @@ export default function Proyectos({ projects: projectsProp }: { projects?: Proje
 
       {/* Project Modal */}
       <Dialog open={!!selectedProject} onOpenChange={() => setSelectedProject(null)}>
-        <DialogContent className=" bg-slate-950/95 border-white/10 backdrop-blur-3xl text-white rounded-[2.5rem] p-0 overflow-y-auto min-w-250">
+        <DialogContent className=" bg-slate-950/95 border-white/10 backdrop-blur-3xl text-white rounded-[2.5rem] p-0 overflow-y-auto md:min-w-200 lg:min-w-250">
           <AnimatePresence>
             {selectedProject && (
               <motion.div
