@@ -279,9 +279,13 @@ export default function Proyectos({ projects: projectsProp }: { projects?: Proje
                         <Sparkles size={14} className="text-purple-400" />
                         Visión del Proyecto
                       </h4>
-                      <p className="text-slate-300 text-lg leading-relaxed font-medium">
-                        {selectedProject.description}
-                      </p>
+                      <div className="space-y-4">
+                        {selectedProject.description.split("\n").map((paragraph, pIdx) => (
+                          <p key={pIdx} className="text-slate-300 text-lg leading-relaxed font-medium">
+                            {paragraph}
+                          </p>
+                        ))}
+                      </div>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 border-t border-white/10">

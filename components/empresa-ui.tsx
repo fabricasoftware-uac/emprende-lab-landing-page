@@ -158,15 +158,25 @@ export function EmpresaModal({ empresa, onClose }: EmpresaModalProps) {
               </DialogHeader>
 
               <div className="space-y-10 flex-1 pr-2 w-full ">
-                <div className="space-y-4">
-                  <h4 className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase flex items-center gap-2">
-                    <Sparkles size={14} className={`text-${accentColor}-400`} />
-                    Visión y Propósito
-                  </h4>
-                  <p className="text-slate-300 text-lg leading-relaxed font-medium">
-                    {empresa.desc || "Esta empresa forma parte del ecosistema estratégico de EmprendeLab, trabajando continuamente en soluciones innovadoras para su industria."}
-                  </p>
-                </div>
+                  <div className="space-y-4">
+                    <h4 className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase flex items-center gap-2">
+                      <Sparkles size={14} className={`text-${accentColor}-400`} />
+                      Visión y Propósito
+                    </h4>
+                    <div className="space-y-4">
+                      {empresa.desc ? (
+                        empresa.desc.split("\n").map((paragraph, pIdx) => (
+                          <p key={pIdx} className="text-slate-300 text-lg leading-relaxed font-medium">
+                            {paragraph}
+                          </p>
+                        ))
+                      ) : (
+                        <p className="text-slate-300 text-lg leading-relaxed font-medium">
+                          Esta empresa forma parte del ecosistema estratégico de EmprendeLab, trabajando continuamente en soluciones innovadoras para su industria.
+                        </p>
+                      )}
+                    </div>
+                  </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-8 border-t border-white/10">
                   <div className="space-y-2">

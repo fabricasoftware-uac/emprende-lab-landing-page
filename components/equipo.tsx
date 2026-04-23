@@ -78,47 +78,86 @@ export default function Equipo({ team = [] }: EquipoProps) {
               {team.map((member, idx) => (
                 <CarouselItem key={idx} className="pl-6 md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: idx * 0.1 }}
+                    transition={{ duration: 0.7, delay: idx * 0.1, ease: [0.23, 1, 0.32, 1] }}
                     onClick={() => setSelectedMember(member)}
-                    className="group cursor-pointer h-full flex flex-col relative rounded-[2.5rem] overflow-hidden bg-slate-900/40 border border-white/5 hover:border-blue-500/30 transition-all duration-700 backdrop-blur-xl p-6 hover:shadow-[0_20px_80px_-20px_rgba(59,130,246,0.15)]"
+                    className="group cursor-pointer h-[480px] flex flex-col relative rounded-[2rem] overflow-hidden bg-[#0A0C10]/80 border border-white/5 hover:border-blue-500/50 transition-all duration-700 backdrop-blur-3xl p-0 hover:shadow-[0_0_50px_-10px_rgba(59,130,246,0.3)] group"
                   >
-                    <div className="relative mb-6 rounded-2xl overflow-hidden aspect-4/5 bg-slate-950/50 p-1">
-                      <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay"></div>
-                      <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-48 bg-linear-to-t ${member.imageColor || "from-blue-600/20 to-indigo-600/20"} blur-[60px] opacity-30 group-hover:opacity-60 transition-opacity duration-700`}></div>
+                    {/* Background Tech elements */}
+                    <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay z-0"></div>
+                    <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-blue-500/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-50"></div>
+                    
+                    {/* Corner Accents */}
+                    <div className="absolute top-4 left-4 w-4 h-4 border-t-2 border-l-2 border-blue-500/30 group-hover:border-blue-500 transition-colors z-20"></div>
+                    <div className="absolute top-4 right-4 w-4 h-4 border-t-2 border-r-2 border-blue-500/30 group-hover:border-blue-500 transition-colors z-20"></div>
+
+                    {/* Image Section - The 'Profile Scan' */}
+                    <div className="relative h-64 overflow-hidden bg-slate-950/40 m-4 rounded-[1.5rem] border border-white/5">
+                      <div className="absolute inset-0 bg-linear-to-b from-blue-500/5 to-transparent z-10"></div>
+                      
+                      {/* Animated Scan Line */}
+                      <div className="absolute top-0 left-0 w-full h-20 bg-linear-to-b from-blue-500/20 to-transparent -translate-y-full group-hover:animate-scan-line z-20 pointer-events-none"></div>
+
+                      <div className={`absolute bottom-[-20%] left-1/2 -translate-x-1/2 w-[120%] h-[60%] bg-${member.imageColor ? "blue-500" : "blue-500"}/20 blur-[60px] opacity-20 group-hover:opacity-40 transition-opacity duration-1000 rounded-full`}></div>
                       
                       {member.image ? (
-                        <div className="relative w-full h-full z-10">
+                        <div className="relative w-full h-full z-10 p-2">
                           <Image
                             src={member.image}
                             alt={member.name}
                             fill
-                            className="object-contain object-bottom transition-all duration-700 group-hover:scale-110 brightness-95 group-hover:brightness-110"
+                            className="object-contain object-bottom transition-all duration-1000 group-hover:scale-105 filter grayscale-[30%] group-hover:grayscale-0"
                           />
                         </div>
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-white/5">
-                           <UserCircle size={64} className="text-white/20" />
+                        <div className="w-full h-full flex items-center justify-center relative z-10">
+                           <UserCircle size={100} className="text-white/5 group-hover:text-blue-400/10 transition-colors duration-700" />
                         </div>
                       )}
+
+                      {/* Rank Overlay */}
+                      <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center z-30">
+                        <div className="px-2 py-0.5 rounded-sm bg-slate-950/80 border border-blue-500/20 backdrop-blur-md">
+                          <span className="text-[7px] font-black tracking-[0.3em] text-blue-400 uppercase">CORE_FLEET_UNIT</span>
+                        </div>
+                        <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div>
+                      </div>
                     </div>
 
-                    <div className="space-y-2 mt-auto">
-                      <h3 className="text-xl font-bold text-white group-hover:text-blue-300 transition-colors line-clamp-1">
-                        {member.name}
-                      </h3>
-                      <p className="text-xs font-black text-blue-400 uppercase tracking-widest">
-                        {member.role}
-                      </p>
-                      
-                      <div className="pt-4 flex items-center justify-between border-t border-white/5 mt-4">
-                        <span className="text-[10px] font-bold text-slate-500 flex items-center gap-1 group-hover:text-blue-400 transition-colors">
-                          SABER MÁS <ChevronRight size={10} />
-                        </span>
-                        <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/30 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500">
-                          <Sparkles size={14} />
+                    {/* Metadata Section */}
+                    <div className="px-8 pb-8 flex flex-col flex-1 relative z-10">
+                      <div className="pt-4 border-t border-white/5">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="w-10 h-0.5 bg-blue-500/40"></span>
+                          <p className="text-[9px] font-black text-blue-400 uppercase tracking-[0.25em]">
+                            {member.role}
+                          </p>
+                        </div>
+                        <h3 className="text-3xl font-black text-white tracking-tighter mb-4 group-hover:text-blue-50 transition-colors">
+                          {member.name.split(' ')[0]} <br/> 
+                          <span className="text-blue-500/80 group-hover:text-blue-400 transition-colors uppercase italic text-2xl">{member.name.split(' ').slice(1).join(' ')}</span>
+                        </h3>
+                      </div>
+
+                      {/* Technical Specs Footer */}
+                      <div className="mt-auto space-y-4">
+                        <div className="flex justify-between items-end">
+                           <div className="space-y-1">
+                              <p className="text-[8px] font-bold text-slate-600 uppercase tracking-widest">Access Level</p>
+                              <div className="flex gap-1">
+                                {[1,2,3,4,5].map(i => (
+                                  <div key={i} className={`w-3 h-1 rounded-full ${i <= 4 ? "bg-blue-500/60" : "bg-white/5"}`}></div>
+                                ))}
+                              </div>
+                           </div>
+                           <div className="flex flex-col items-end">
+                              <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-blue-400/40 group-hover:bg-blue-600 group-hover:text-white group-hover:shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-all duration-500 overflow-hidden relative">
+                                <Sparkles size={18} className="relative z-10" />
+                                <div className="absolute inset-0 bg-blue-500 opacity-0 group-hover:opacity-20 animate-pulse"></div>
+                              </div>
+                           </div>
                         </div>
                       </div>
                     </div>
@@ -192,9 +231,13 @@ export default function Equipo({ team = [] }: EquipoProps) {
                         <Sparkles size={14} className="text-blue-400" />
                         Trayectoria y Visión
                       </h4>
-                      <p className="text-slate-300 text-lg leading-relaxed font-medium">
-                        {selectedMember.desc}
-                      </p>
+                      <div className="space-y-4">
+                        {selectedMember.desc.split("\n").map((paragraph, pIdx) => (
+                          <p key={pIdx} className="text-slate-300 text-lg leading-relaxed font-medium">
+                            {paragraph}
+                          </p>
+                        ))}
+                      </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-6 pt-8 border-t border-white/10">

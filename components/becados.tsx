@@ -83,56 +83,95 @@ export default function Becados({ becados = [] }: BecadosProps) {
             opts={{ align: "start", loop: true }}
             className="w-full"
           >
-            <CarouselContent className="-ml-6 py-4">
-              {becados.map((becado, idx) => (
+            <CarouselContent className="-ml-6 py-4">              {becados.map((becado, idx) => (
                 <CarouselItem key={idx} className="pl-6 md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: idx * 0.1 }}
+                    transition={{ duration: 0.7, delay: idx * 0.1, ease: [0.23, 1, 0.32, 1] }}
                     onClick={() => setSelectedBecado(becado)}
-                    className="group cursor-pointer h-full flex flex-col relative rounded-[2.5rem] overflow-hidden bg-slate-900/40 border border-white/5 hover:border-purple-500/30 transition-all duration-700 backdrop-blur-xl p-8 hover:shadow-[0_20px_80px_-20px_rgba(168,85,247,0.15)]"
+                    className="group cursor-pointer h-[460px] flex flex-col relative rounded-[2.5rem] overflow-hidden bg-[#0D0512]/60 border border-white/5 hover:border-purple-500/50 transition-all duration-700 backdrop-blur-3xl p-8 hover:shadow-[0_0_60px_-15px_rgba(168,85,247,0.4)]"
                   >
-                    <div className="relative w-24 h-24 mb-8">
-                      <div className={`absolute inset-0 bg-linear-to-tr ${becado.color || "from-purple-500 to-pink-500"} blur-xl opacity-20 group-hover:opacity-60 transition-opacity duration-700 rounded-full`}></div>
-                      <div className="relative w-full h-full rounded-2xl overflow-hidden bg-[#050505] border border-white/10 group-hover:border-purple-500/50 transition-colors duration-500">
-                        {becado.imagen ? (
-                          <Image 
-                            src={becado.imagen} 
-                            alt={becado.nombre}
-                            fill
-                            className="object-cover transition-all duration-700 group-hover:scale-115"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-white/5">
-                            <UserCircle size={40} className="text-white/20" />
+                    {/* Background Pattern */}
+                    <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[radial-gradient(circle_at_2px_2px,rgba(255,255,255,0.1)_1px,transparent_0)] bg-[size:24px_24px]"></div>
+                    
+                    {/* Bio-Data Frame */}
+                    <div className="relative mb-10 flex items-center justify-between">
+                       <div className="relative w-28 h-28 group-hover:scale-110 transition-transform duration-700">
+                          {/* Rotating Border Effect */}
+                          <div className={`absolute inset-[-4px] rounded-full border-2 border-dashed ${becado.color === "from-purple-400 to-pink-400" ? "border-purple-500/30" : "border-purple-500/30"} animate-spin-slow group-hover:border-purple-500/60`}></div>
+                          
+                          <div className={`relative w-full h-full rounded-full overflow-hidden bg-slate-950 border-4 border-white/5 group-hover:border-purple-500/40 transition-all duration-500 shadow-2xl`}>
+                            {becado.imagen ? (
+                              <Image 
+                                src={becado.imagen} 
+                                alt={becado.nombre}
+                                fill
+                                className="object-cover transition-all duration-1000 group-hover:scale-110 filter saturate-[80%] group-hover:saturate-100"
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center bg-white/5">
+                                <UserCircle size={48} className="text-white/10 group-hover:text-purple-400 transition-all" />
+                              </div>
+                            )}
                           </div>
-                        )}
-                      </div>
-                    </div>
+                       </div>
 
-                    <div className="space-y-2">
-                       <h4 className="text-xl font-bold text-white tracking-tight line-clamp-1 group-hover:text-purple-300 transition-colors">
-                        {becado.nombre}
-                       </h4>
-                       <div className={`inline-flex py-1 text-[9px] font-black uppercase tracking-widest text-transparent bg-clip-text bg-linear-to-r ${becado.color || "from-purple-400 to-pink-400"}`}>
-                          {becado.rol}
+                       {/* Mock Bio-data bars */}
+                       <div className="flex flex-col gap-2 flex-1 items-end opacity-40 group-hover:opacity-100 transition-opacity">
+                          {[60, 85, 40].map((w, i) => (
+                            <div key={i} className="flex items-center gap-2">
+                               <div className="w-12 h-1 bg-white/5 rounded-full overflow-hidden">
+                                  <div className={`h-full ${becado.color === "from-purple-400 to-pink-400" ? "bg-purple-500" : "bg-purple-500"} transition-all duration-1000 delay-300`} style={{ width: `${w}%` }}></div>
+                               </div>
+                               <span className="text-[6px] font-black text-slate-500 tracking-widest">LOG_{i}</span>
+                            </div>
+                          ))}
                        </div>
                     </div>
 
-                    <div className="mt-8 pt-6 border-t border-white/5 flex items-center justify-between">
-                       <div className="flex items-center gap-2">
-                          <Store size={14} className="text-slate-500" />
-                          <span className="text-[10px] font-bold text-slate-400 truncate max-w-24">
-                            {becado.proyecto || "EmprendeLab"}
-                          </span>
+                    {/* Information Hierarchy */}
+                    <div className="flex flex-col flex-1 relative z-10">
+                       <div className="space-y-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            <div className="w-2 h-2 rounded-full bg-purple-500 animate-ping"></div>
+                            <p className={`text-[10px] font-black uppercase tracking-[0.3em] text-transparent bg-clip-text bg-linear-to-r ${becado.color || "from-purple-400 to-pink-400"}`}>
+                              {becado.rol.replace('Becado ', '')}
+                            </p>
+                          </div>
+                          <h4 className="text-4xl font-black text-white tracking-tighter leading-none mb-1">
+                            {becado.nombre.split(' ')[0]} <br/>
+                            <span className="text-2xl font-bold text-slate-400 group-hover:text-white transition-colors">{becado.nombre.split(' ').slice(1).join(' ')}</span>
+                          </h4>
                        </div>
-                       <ChevronRight size={14} className="text-slate-600 group-hover:text-purple-400 group-hover:translate-x-1 transition-all" />
+
+                       <div className="mt-auto">
+                          <div className="pt-6 border-t border-white/10">
+                             <div className="flex flex-col gap-1">
+                                <span className="text-[8px] font-bold text-slate-600 uppercase tracking-[0.2em]">Department_Assignment</span>
+                                <div className="flex items-center justify-between">
+                                   <div className="flex items-center gap-2">
+                                      <Terminal size={14} className="text-purple-400/60" />
+                                      <p className="text-xs font-black text-white uppercase tracking-wider">
+                                        {becado.proyecto || "General_Ops"}
+                                      </p>
+                                   </div>
+                                   <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-slate-500 group-hover:bg-purple-600 group-hover:text-white transition-all duration-500">
+                                      <ChevronRight size={16} />
+                                   </div>
+                                </div>
+                             </div>
+                          </div>
+                       </div>
                     </div>
+
+                    {/* Corner Accent Glow */}
+                    <div className={`absolute top-0 right-0 w-20 h-20 bg-purple-500/20 blur-[40px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity`}></div>
                   </motion.div>
                 </CarouselItem>
               ))}
+
             </CarouselContent>
             
             <div className="hidden md:block">
@@ -155,7 +194,7 @@ export default function Becados({ becados = [] }: BecadosProps) {
                 className="flex flex-col md:flex-row h-full max-h-[90vh] md:max-h-150"
               >
                 {/* Modal Side: Image/Profile */}
-                <div className="hidden md:flex md:w-1/3 relative bg-slate-900 items-center justify-center p-12 shrink-0">
+                <div className="w-1/3 hidden md:flex md:relative bg-slate-900 overflow-y-auto items-center justify-center p-12 shrink-0">
                   <div className={`absolute inset-0 bg-linear-to-br ${selectedBecado.color || "from-purple-500/20 to-pink-500/20"} opacity-30`}></div>
                   
                   <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-3xl overflow-hidden shadow-2xl border border-white/10">
@@ -204,15 +243,19 @@ export default function Becados({ becados = [] }: BecadosProps) {
                     <div className={`h-1 w-20 bg-linear-to-r ${selectedBecado.color || "from-purple-500 to-pink-500"} rounded-full mt-4`}></div>
                   </DialogHeader>
 
-                  <div className="space-y-8 flex-1 overflow-y-auto pr-2 custom-scrollbar w-full">
+                  <div className="space-y-8 flex-1 pr-2 w-full">
                     <div className="space-y-3">
                       <h4 className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase flex items-center gap-2">
                         <Sparkles size={14} className="text-purple-400" />
                         Perfil y Contribución
                       </h4>
-                      <p className="text-slate-300 text-lg leading-relaxed font-medium">
-                        {selectedBecado.desc}
-                      </p>
+                      <div className="space-y-4">
+                        {selectedBecado.desc.split("\n").map((paragraph, pIdx) => (
+                          <p key={pIdx} className="text-slate-300 text-lg leading-relaxed font-medium">
+                            {paragraph}
+                          </p>
+                        ))}
+                      </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-6 pt-8 border-t border-white/10">
