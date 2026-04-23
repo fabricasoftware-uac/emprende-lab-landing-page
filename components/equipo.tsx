@@ -83,7 +83,7 @@ export default function Equipo({ team = [] }: EquipoProps) {
                     viewport={{ once: true }}
                     transition={{ duration: 0.7, delay: idx * 0.1, ease: [0.23, 1, 0.32, 1] }}
                     onClick={() => setSelectedMember(member)}
-                    className="group cursor-pointer h-[480px] flex flex-col relative rounded-[2rem] overflow-hidden bg-[#0A0C10]/80 border border-white/5 hover:border-blue-500/50 transition-all duration-700 backdrop-blur-3xl p-0 hover:shadow-[0_0_50px_-10px_rgba(59,130,246,0.3)] group"
+                    className="group cursor-pointer h-120 flex flex-col relative rounded-4xl overflow-hidden bg-[#0A0C10]/80 border border-white/5 hover:border-blue-500/50 transition-all duration-700 backdrop-blur-3xl p-0 hover:shadow-[0_0_50px_-10px_rgba(59,130,246,0.3)] group"
                   >
                     {/* Background Tech elements */}
                     <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay z-0"></div>
@@ -94,7 +94,7 @@ export default function Equipo({ team = [] }: EquipoProps) {
                     <div className="absolute top-4 right-4 w-4 h-4 border-t-2 border-r-2 border-blue-500/30 group-hover:border-blue-500 transition-colors z-20"></div>
 
                     {/* Image Section - The 'Profile Scan' */}
-                    <div className="relative h-64 overflow-hidden bg-slate-950/40 m-4 rounded-[1.5rem] border border-white/5">
+                    <div className="relative h-64 overflow-hidden bg-slate-950/40 m-4 rounded-3xl border border-white/5">
                       <div className="absolute inset-0 bg-linear-to-b from-blue-500/5 to-transparent z-10"></div>
                       
                       {/* Animated Scan Line */}
@@ -108,7 +108,7 @@ export default function Equipo({ team = [] }: EquipoProps) {
                             src={member.image}
                             alt={member.name}
                             fill
-                            className="object-contain object-bottom transition-all duration-1000 group-hover:scale-105 filter grayscale-[30%] group-hover:grayscale-0"
+                            className="object-contain object-bottom transition-all duration-1000 group-hover:scale-105 filter grayscale-30 group-hover:grayscale-0"
                           />
                         </div>
                       ) : (

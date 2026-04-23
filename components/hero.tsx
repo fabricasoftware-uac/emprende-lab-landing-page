@@ -9,7 +9,7 @@ export default function Hero() {
   return (
     <section className="relative min-h-screen pt-20 flex items-center justify-center overflow-hidden">
       {/* Animated background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-purple-600/10 via-blue-600/10 to-transparent"></div>
+      <div className="absolute inset-0 bg-linear-to-b from-purple-600/10 via-blue-600/10 to-transparent"></div>
 
       {/* Abstract Glowing Planets */}
       <motion.div
@@ -18,7 +18,7 @@ export default function Hero() {
           y: { duration: 12, repeat: Infinity, ease: "easeInOut" },
           rotate: { duration: 150, repeat: Infinity, ease: "linear" },
         }}
-        className="absolute -top-32 -right-32 w-[30rem] h-[30rem] rounded-full bg-linear-to-br from-indigo-600/20 via-purple-600/10 to-transparent blur-3xl pointer-events-none"
+        className="absolute -top-32 -right-32 w-120 h-120 rounded-full bg-linear-to-br from-indigo-600/20 via-purple-600/10 to-transparent blur-3xl pointer-events-none"
       ></motion.div>
 
       <motion.div
@@ -37,7 +37,7 @@ export default function Hero() {
       <motion.div
         animate={{ rotate: -360 }}
         transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-112 h-112 border border-white/5 rounded-full border-b-cyan-500/40 pointer-events-none"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-md h-112 border border-white/5 rounded-full border-b-cyan-500/40 pointer-events-none"
       >
         <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-cyan-400 rounded-full shadow-[0_0_15px_rgba(34,211,238,0.8)]"></div>
       </motion.div>
@@ -93,7 +93,7 @@ export default function Hero() {
         >
           <a
             href="#empresas"
-            className="px-8 py-4 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold hover:shadow-2xl hover:shadow-purple-500/40 transition-all hover:scale-105 flex items-center gap-2 group cursor-pointer"
+            className="px-8 py-4 rounded-full bg-linear-to-r from-purple-500 to-blue-500 text-white font-semibold hover:shadow-2xl hover:shadow-purple-500/40 transition-all hover:scale-105 flex items-center gap-2 group cursor-pointer"
           >
             Explorar emprendimientos
             <ArrowRight

@@ -244,7 +244,7 @@ export default function Proyectos({ projects: projectsProp }: { projects?: Proje
                 className="flex flex-col md:flex-row h-full max-h-[85vh] md:max-h-150"
               >
                 {/* Modal Side: Image/Branding */}
-                <div className="md:w-1/2 relative bg-slate-900 overflow-hidden">
+                <div className="md:w-1/3 relative bg-slate-900 overflow-hidden">
                   <div className="absolute inset-0 bg-linear-to-br from-purple-500/10 to-transparent"></div>
                   <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20"></div>
                   <div className="relative h-full w-full p-12 flex items-center justify-center">
@@ -265,7 +265,7 @@ export default function Proyectos({ projects: projectsProp }: { projects?: Proje
                 </div>
 
                 {/* Modal Side: Details */}
-                <div className="md:w-1/2 p-8 md:p-12 flex flex-col relative bg-slate-950/50">
+                <div className="md:w-2/3 p-8 md:p-12 flex flex-col relative bg-slate-950/50 overflow-y-auto custom-scrollbar">
                   <DialogHeader className="mb-8 text-left">
                     <DialogTitle className="text-4xl md:text-5xl font-black tracking-tighter text-white mb-2 leading-none">
                       {selectedProject.name}
@@ -273,7 +273,7 @@ export default function Proyectos({ projects: projectsProp }: { projects?: Proje
                     <div className="h-1 w-20 bg-linear-to-r from-purple-500 to-transparent rounded-full"></div>
                   </DialogHeader>
 
-                  <div className="space-y-8 flex-1 overflow-y-auto pr-2 custom-scrollbar">
+                  <div className="space-y-8 flex-1 pr-2">
                     <div className="space-y-3">
                       <h4 className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase flex items-center gap-2">
                         <Sparkles size={14} className="text-purple-400" />
