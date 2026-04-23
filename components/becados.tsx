@@ -91,16 +91,16 @@ export default function Becados({ becados = [] }: BecadosProps) {
                     viewport={{ once: true }}
                     transition={{ duration: 0.7, delay: idx * 0.1, ease: [0.23, 1, 0.32, 1] }}
                     onClick={() => setSelectedBecado(becado)}
-                    className="group cursor-pointer h-[460px] flex flex-col relative rounded-[2.5rem] overflow-hidden bg-[#0D0512]/60 border border-white/5 hover:border-purple-500/50 transition-all duration-700 backdrop-blur-3xl p-8 hover:shadow-[0_0_60px_-15px_rgba(168,85,247,0.4)]"
+                    className="group cursor-pointer h-115 flex flex-col relative rounded-[2.5rem] overflow-hidden bg-[#0D0512]/60 border border-white/5 hover:border-purple-500/50 transition-all duration-700 backdrop-blur-3xl p-8 hover:shadow-[0_0_60px_-15px_rgba(168,85,247,0.4)]"
                   >
                     {/* Background Pattern */}
-                    <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[radial-gradient(circle_at_2px_2px,rgba(255,255,255,0.1)_1px,transparent_0)] bg-[size:24px_24px]"></div>
+                    <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[radial-gradient(circle_at_2px_2px,rgba(255,255,255,0.1)_1px,transparent_0)] bg-size-[24px_24px]"></div>
                     
                     {/* Bio-Data Frame */}
                     <div className="relative mb-10 flex items-center justify-between">
                        <div className="relative w-28 h-28 group-hover:scale-110 transition-transform duration-700">
                           {/* Rotating Border Effect */}
-                          <div className={`absolute inset-[-4px] rounded-full border-2 border-dashed ${becado.color === "from-purple-400 to-pink-400" ? "border-purple-500/30" : "border-purple-500/30"} animate-spin-slow group-hover:border-purple-500/60`}></div>
+                          <div className={`absolute -inset-1 rounded-full border-2 border-dashed ${becado.color === "from-purple-400 to-pink-400" ? "border-purple-500/30" : "border-purple-500/30"} animate-spin-slow group-hover:border-purple-500/60`}></div>
                           
                           <div className={`relative w-full h-full rounded-full overflow-hidden bg-slate-950 border-4 border-white/5 group-hover:border-purple-500/40 transition-all duration-500 shadow-2xl`}>
                             {becado.imagen ? (
@@ -108,7 +108,7 @@ export default function Becados({ becados = [] }: BecadosProps) {
                                 src={becado.imagen} 
                                 alt={becado.nombre}
                                 fill
-                                className="object-cover transition-all duration-1000 group-hover:scale-110 filter saturate-[80%] group-hover:saturate-100"
+                                className="object-cover transition-all duration-1000 group-hover:scale-110 filter saturate-80 group-hover:saturate-100"
                               />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center bg-white/5">
@@ -149,7 +149,7 @@ export default function Becados({ becados = [] }: BecadosProps) {
                        <div className="mt-auto">
                           <div className="pt-6 border-t border-white/10">
                              <div className="flex flex-col gap-1">
-                                <span className="text-[8px] font-bold text-slate-600 uppercase tracking-[0.2em]">Department_Assignment</span>
+                                <span className="text-[8px] font-bold text-slate-600 uppercase tracking-[0.2em]">Proyecto Destacado</span>
                                 <div className="flex items-center justify-between">
                                    <div className="flex items-center gap-2">
                                       <Terminal size={14} className="text-purple-400/60" />
@@ -167,7 +167,7 @@ export default function Becados({ becados = [] }: BecadosProps) {
                     </div>
 
                     {/* Corner Accent Glow */}
-                    <div className={`absolute top-0 right-0 w-20 h-20 bg-purple-500/20 blur-[40px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity`}></div>
+                    <div className={`absolute top-0 right-0 w-20 h-20 bg-purple-500/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity`}></div>
                   </motion.div>
                 </CarouselItem>
               ))}
