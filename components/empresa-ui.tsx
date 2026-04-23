@@ -134,7 +134,7 @@ export function EmpresaModal({ empresa, onClose }: EmpresaModalProps) {
             </div>
 
             {/* Modal Side: Details */}
-            <div className="w-full md:w-2/3 p-8 md:p-12 flex flex-col items-start relative overflow-auto bg-slate-950/50">
+            <div className="w-full md:w-2/3 p-8 md:p-12 flex flex-col items-start relative bg-slate-950/50 overflow-y-auto custom-scrollbar ">
               <div className="mb-8">
                 <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-${accentColor}-400/10 border border-${accentColor}-400/20 text-[10px] font-bold tracking-widest uppercase text-${accentColor}-400`}>
                   Empresa del Ecosistema
@@ -157,7 +157,7 @@ export function EmpresaModal({ empresa, onClose }: EmpresaModalProps) {
                 <div className={`h-1 w-20 bg-linear-to-r from-${accentColor}-500 to-transparent rounded-full mt-6`}></div>
               </DialogHeader>
 
-              <div className="space-y-10 flex-1 overflow-y-auto pr-2 custom-scrollbar w-full">
+              <div className="space-y-10 flex-1 pr-2 w-full ">
                 <div className="space-y-4">
                   <h4 className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase flex items-center gap-2">
                     <Sparkles size={14} className={`text-${accentColor}-400`} />

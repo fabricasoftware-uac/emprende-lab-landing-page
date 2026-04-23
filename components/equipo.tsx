@@ -147,7 +147,7 @@ export default function Equipo({ team = [] }: EquipoProps) {
                 className="flex flex-col md:flex-row h-full max-h-[90vh] md:max-h-150"
               >
                 {/* Modal Side: Image */}
-                <div className="hidden md:flex md:w-1/2 relative bg-slate-900 overflow-hidden items-end justify-center shrink-0">
+                <div className="hidden md:flex md:w-1/3 relative bg-slate-900 overflow-hidden items-end justify-center shrink-0">
                   <div className="absolute inset-0 bg-linear-to-br from-blue-500/20 to-transparent"></div>
                   <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20"></div>
                   <div className={`absolute bottom-0 w-64 h-64 bg-linear-to-t ${selectedMember.imageColor || "from-blue-600/30 to-indigo-600/30"} blur-[80px] opacity-40`}></div>
@@ -169,7 +169,7 @@ export default function Equipo({ team = [] }: EquipoProps) {
                 </div>
 
                 {/* Modal Side: Details */}
-                <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col items-start relative bg-slate-950/50">
+                <div className="w-full md:w-2/3 p-8 md:p-12 flex flex-col items-start relative bg-slate-950/50 overflow-y-auto custom-scrollbar">
                   <div className="mb-8">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-[10px] font-bold tracking-widest uppercase text-blue-400">
                       Tripulación
@@ -186,7 +186,7 @@ export default function Equipo({ team = [] }: EquipoProps) {
                     <div className="h-1 w-20 bg-linear-to-r from-blue-500 to-transparent rounded-full mt-4"></div>
                   </DialogHeader>
 
-                  <div className="space-y-8 flex-1 overflow-y-auto pr-2 custom-scrollbar w-full">
+                  <div className="space-y-8 flex-1 pr-2 w-full">
                     <div className="space-y-3">
                       <h4 className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase flex items-center gap-2">
                         <Sparkles size={14} className="text-blue-400" />
