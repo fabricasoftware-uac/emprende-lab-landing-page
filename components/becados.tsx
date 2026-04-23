@@ -155,7 +155,7 @@ export default function Becados({ becados = [] }: BecadosProps) {
                 className="flex flex-col md:flex-row h-full max-h-[90vh] md:max-h-150"
               >
                 {/* Modal Side: Image/Profile */}
-                <div className="w-1/3 hidden md:relative bg-slate-900 overflow-y-auto items-center justify-center p-12">
+                <div className="hidden md:flex md:w-1/3 relative bg-slate-900 items-center justify-center p-12 shrink-0">
                   <div className={`absolute inset-0 bg-linear-to-br ${selectedBecado.color || "from-purple-500/20 to-pink-500/20"} opacity-30`}></div>
                   
                   <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-3xl overflow-hidden shadow-2xl border border-white/10">
@@ -187,7 +187,7 @@ export default function Becados({ becados = [] }: BecadosProps) {
                 </div>
 
                 {/* Modal Side: Details */}
-                <div className="sm:w-2/3 p-8 md:p-12 flex flex-col items-start relative overflow-auto bg-slate-950/50">
+                <div className="w-full md:w-2/3 p-8 md:p-12 flex flex-col items-start relative overflow-auto bg-slate-950/50">
                   <div className="mb-8">
                     <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold tracking-widest uppercase text-transparent bg-clip-text bg-linear-to-r ${selectedBecado.color || "from-purple-400 to-pink-400"}`}>
                       Nuestros becados

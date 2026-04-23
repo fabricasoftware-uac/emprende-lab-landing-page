@@ -147,12 +147,12 @@ export default function Equipo({ team = [] }: EquipoProps) {
                 className="flex flex-col md:flex-row h-full max-h-[90vh] md:max-h-150"
               >
                 {/* Modal Side: Image */}
-                <div className="md:w-1/2 relative bg-slate-900 overflow-hidden flex items-end justify-center">
+                <div className="hidden md:flex md:w-1/2 relative bg-slate-900 overflow-hidden items-end justify-center shrink-0">
                   <div className="absolute inset-0 bg-linear-to-br from-blue-500/20 to-transparent"></div>
                   <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20"></div>
                   <div className={`absolute bottom-0 w-64 h-64 bg-linear-to-t ${selectedMember.imageColor || "from-blue-600/30 to-indigo-600/30"} blur-[80px] opacity-40`}></div>
                   
-                  <div className="relative w-full h-[80%] z-10 px-8 hidden md:block">
+                  <div className="relative w-full h-[80%] z-10 px-8">
                     {selectedMember.image ? (
                       <Image 
                         src={selectedMember.image} 
@@ -169,7 +169,7 @@ export default function Equipo({ team = [] }: EquipoProps) {
                 </div>
 
                 {/* Modal Side: Details */}
-                <div className="md:w-1/2 p-8 md:p-12 flex flex-col items-start relative bg-slate-950/50">
+                <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col items-start relative bg-slate-950/50">
                   <div className="mb-8">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-[10px] font-bold tracking-widest uppercase text-blue-400">
                       Tripulación

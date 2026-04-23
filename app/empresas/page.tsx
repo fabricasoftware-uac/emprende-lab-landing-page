@@ -25,10 +25,8 @@ export default async function EmpresasPage() {
     encargado: r.contenido.encargado || "No especificado",
     logo: r.contenido.logo || r.contenido.imagen || r.contenido.image || null,
     esAcelerada: r.contenido.tipo === "acelerada" || r.contenido.esAcelerada || false,
-    social: {
-      instagram: r.contenido.instagram || null,
-      website: r.contenido.website || r.contenido.sitio_web || r.contenido.otro || null,
-    }
+    instagram: r.contenido.instagram || null,
+    otro: r.contenido.website || r.contenido.sitio_web || r.contenido.otro || null,
   }));
 
   return <EmpresasClient empresas={empresasDb} />;

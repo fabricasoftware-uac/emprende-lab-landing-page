@@ -81,7 +81,7 @@ export default function Academia() {
             className="flex-1 w-full"
           >
             {/* Placeholder for Academia Facilities Image */}
-            <div className="relative w-full aspect-video md:aspect-[21/9] lg:aspect-video rounded-3xl overflow-hidden glass p-2 group">
+            <div className="relative w-full aspect-video md:aspect-21/9 lg:aspect-video rounded-3xl overflow-hidden glass p-2 group">
               <div className="w-full h-full relative rounded-2xl overflow-hidden bg-black/40 border border-white/10">
                 <Image
                   src="/academia.webp"
