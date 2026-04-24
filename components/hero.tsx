@@ -69,6 +69,7 @@ export default function Hero() {
             width={490}
             height={390}
             className="object-contain"
+            priority={true}
           />
         </motion.h1>
 

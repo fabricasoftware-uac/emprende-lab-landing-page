@@ -1,16 +1,18 @@
 import Navbar from "@/components/navbar";
 import Hero from "@/components/hero";
-import Academia from "@/components/academia";
-import Transferencia from "@/components/transferencia";
-import SpaceLabProgram from "@/components/spacelab-program";
-import Proyectos from "@/components/proyectos";
-import InnovationUnits from "@/components/servicios";
-import Empresas from "@/components/empresas";
-import Becados from "@/components/becados";
-import Tienda from "@/components/sostenibilidad";
-import Equipo from "@/components/equipo";
-import Footer from "@/components/footer";
 import FloatingElements from "@/components/floating-elements";
+import nextDynamic from "next/dynamic";
+
+const InnovationUnits = nextDynamic(() => import("@/components/servicios"));
+const Academia = nextDynamic(() => import("@/components/academia"));
+const Transferencia = nextDynamic(() => import("@/components/transferencia"));
+const SpaceLabProgram = nextDynamic(() => import("@/components/spacelab-program"));
+const Proyectos = nextDynamic(() => import("@/components/proyectos"));
+const Empresas = nextDynamic(() => import("@/components/empresas"));
+const Becados = nextDynamic(() => import("@/components/becados"));
+const Tienda = nextDynamic(() => import("@/components/sostenibilidad"));
+const Equipo = nextDynamic(() => import("@/components/equipo"));
+const Footer = nextDynamic(() => import("@/components/footer"));
 import { db } from "@/db";
 import { entradas } from "@/db/schema";
 import { eq, and, ne, isNull, or } from "drizzle-orm";
