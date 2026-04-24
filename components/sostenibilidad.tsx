@@ -156,7 +156,7 @@ export default function Tienda() {
             variants={itemVariants}
             className="md:col-span-12 lg:col-span-7 group relative rounded-[2.5rem] overflow-hidden bg-linear-to-br from-emerald-900/40 via-teal-900/40 to-green-900/40 border border-white/10 hover:border-emerald-500/40 transition-all duration-500 p-8 sm:p-12 mb-8 flex flex-col justify-center"
           >
-            <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay pointer-events-none"></div>
+            
             
             <div className="relative z-10 flex flex-col items-start gap-8">
               <div className="max-w-xl">

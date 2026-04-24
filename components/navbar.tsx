@@ -88,6 +88,7 @@ export default function Navbar() {
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="lg:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
+            aria-label="Toggle mobile menu"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>

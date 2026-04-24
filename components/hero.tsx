@@ -57,11 +57,8 @@ export default function Hero() {
         </motion.div>
 
         {/* Main Heading */}
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight flex justify-center w-full"
+        <h1
+          className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight flex justify-center w-full animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200"
         >
           <Image
             src="/placeholder_elab.svg"
@@ -71,19 +68,16 @@ export default function Hero() {
             className="object-contain"
             priority={true}
           />
-        </motion.h1>
+        </h1>
 
         {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.4 }}
-          className="text-lg sm:text-xl text-foreground/60 mb-10 max-w-2xl mx-auto leading-relaxed"
+        <p
+          className="text-lg sm:text-xl text-foreground/60 mb-10 max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-700 delay-400 fill-mode-both"
         >
           Lanzamos tus ideas al espacio. Te acompañamos en cada etapa de tu
           viaje hacia el éxito a través de aceleración, consultoría y formación
           especializada.
-        </motion.p>
+        </p>
 
         {/* CTA Buttons */}
         <motion.div

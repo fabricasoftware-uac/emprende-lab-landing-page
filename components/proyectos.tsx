@@ -246,7 +246,6 @@ export default function Proyectos({ projects: projectsProp }: { projects?: Proje
                 {/* Modal Side: Image/Branding */}
                 <div className="md:w-1/3 relative bg-slate-900 overflow-hidden">
                   <div className="absolute inset-0 bg-linear-to-br from-purple-500/10 to-transparent"></div>
-                  <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20"></div>
                   <div className="relative h-full w-full p-12 flex items-center justify-center">
                     <div className="relative w-full h-full max-h-48">
                       <Image 

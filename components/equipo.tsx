@@ -86,7 +86,7 @@ export default function Equipo({ team = [] }: EquipoProps) {
                     className="group cursor-pointer h-120 flex flex-col relative rounded-4xl overflow-hidden bg-[#0A0C10]/80 border border-white/5 hover:border-blue-500/50 transition-all duration-700 backdrop-blur-3xl p-0 hover:shadow-[0_0_50px_-10px_rgba(59,130,246,0.3)] group"
                   >
                     {/* Background Tech elements */}
-                    <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay z-0"></div>
+                    
                     <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-blue-500/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-50"></div>
                     
                     {/* Corner Accents */}
@@ -188,7 +188,7 @@ export default function Equipo({ team = [] }: EquipoProps) {
                 {/* Modal Side: Image */}
                 <div className="hidden md:flex md:w-1/3 relative bg-slate-900 overflow-hidden items-end justify-center shrink-0">
                   <div className="absolute inset-0 bg-linear-to-br from-blue-500/20 to-transparent"></div>
-                  <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20"></div>
+                  
                   <div className={`absolute bottom-0 w-64 h-64 bg-linear-to-t ${selectedMember.imageColor || "from-blue-600/30 to-indigo-600/30"} blur-[80px] opacity-40`}></div>
                   
                   <div className="relative w-full h-[80%] z-10 px-8">

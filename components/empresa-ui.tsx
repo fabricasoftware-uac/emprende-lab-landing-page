@@ -113,7 +113,7 @@ export function EmpresaModal({ empresa, onClose }: EmpresaModalProps) {
             {/* Modal Side: Identity */}
             <div className="hidden md:flex md:w-1/3 relative bg-slate-900 items-center justify-center p-12 shrink-0">
               <div className={`absolute inset-0 bg-linear-to-br from-${accentColor}-600/20 to-transparent`}></div>
-              <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10"></div>
+              
               
               <div className="relative w-full aspect-square max-w-60 flex items-center justify-center p-8 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-xl shadow-2xl">
                 <Image 

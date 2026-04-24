@@ -156,7 +156,7 @@ export default function InnovationUnits() {
             variants={itemVariants}
             className="lg:col-span-12 group relative rounded-[2.5rem] overflow-hidden bg-linear-to-r from-blue-900/40 via-purple-900/40 to-pink-900/40 border border-white/10 hover:border-white/20 transition-all duration-500 p-8 sm:p-12 mb-8"
           >
-            <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay pointer-events-none"></div>
+            
             
             <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="max-w-2xl text-center md:text-left">
