@@ -34,10 +34,10 @@ export default function AdminDashboardPage() {
   }, []);
 
   const statIcons = {
-    "Startups Aceleradas": Rocket,
+    "Empresas Aceleradas": Rocket,
     "Tripulación Activa": Users,
     "Becados Actuales": GraduationCap,
-    "Empresas Aliadas": Building2,
+    "Emprendimientos": Building2,
   };
 
   if (loading) {
@@ -82,9 +82,9 @@ export default function AdminDashboardPage() {
           return (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2 }}
               className="glass rounded-2xl p-6 border border-white/5 relative overflow-hidden group hover:border-purple-500/30 transition-all"
             >
               <div
@@ -128,14 +128,14 @@ export default function AdminDashboardPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
+          transition={{ duration: 0.3 }}
           className="col-span-1 lg:col-span-2 glass rounded-2xl p-6 border border-white/5"
         >
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-white">
-              Actividad Reciente en el Gantry
+              Actividad Reciente
             </h3>
             <span className="text-xs text-purple-300/40 px-2 py-1 rounded-md border border-white/5 bg-white/5">
               Últimos registros
@@ -175,9 +175,9 @@ export default function AdminDashboardPage() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
+          transition={{ duration: 0.3 }}
           className="glass rounded-2xl p-6 border border-white/5"
         >
           <h3 className="text-lg font-semibold text-white mb-4">

@@ -3,7 +3,7 @@
 import { ReactNode, useState } from "react";
 import { Sidebar } from "@/components/admin/sidebar";
 import { Topbar } from "@/components/admin/topbar";
-import FloatingElements from "@/components/floating-elements";
+import { StaticBackground } from "@/components/admin/static-background";
 import { authClient } from "@/lib/auth-client";
 import Unauthorized from "@/components/global/Unauthorized";
 
@@ -24,9 +24,9 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="relative flex h-screen bg-linear-to-b from-[#2e1a47]/90 to-background text-foreground">
+    <div className="relative flex h-screen bg-[#0f071a] text-foreground">
       {/* Background layer */}
-      <FloatingElements />
+      <StaticBackground />
 
       {/* Sidebar Drawer for mobile / fixed for desktop */}
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />

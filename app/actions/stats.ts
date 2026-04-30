@@ -14,47 +14,31 @@ export async function getAdminDashboardData() {
   }
 
   try {
-    // 1. Total startups (empresas)
-    const [totalEmpresas] = await db.select({ count: count() })
-      .from(entradas)
-      .where(eq(entradas.coleccionSlug, 'empresas'));
-
-    // 2. Startups Aceleradas
-    const [aceleradas] = await db.select({ count: count() })
-      .from(entradas)
-      .where(
-        and(
-          eq(entradas.coleccionSlug, 'empresas'),
-          sql`${entradas.contenido} ->> 'esacelerada' = 'true'`
-        )
-      );
-
-    // 3. Tripulación Activa
-    const [tripulacion] = await db.select({ count: count() })
-      .from(entradas)
-      .where(eq(entradas.coleccionSlug, 'tripulacion-estelar'));
-
-    // 4. Becados Actuales
-    const [becados] = await db.select({ count: count() })
-      .from(entradas)
-      .where(eq(entradas.coleccionSlug, 'becados'));
-
-    // 5. Recent Alerts (last 5 entries)
-    const recentEntries = await db.select()
-        .from(entradas)
-        .orderBy(sql`${entradas.creadoEn} DESC`)
-        .limit(5);
+    // Optimized fetching in parallel
+    const [
+      [totalEmpresas],
+      [aceleradas],
+      [tripulacion],
+      [becados],
+      recentEntries
+    ] = await Promise.all([
+      db.select({ count: count() }).from(entradas).where(eq(entradas.coleccionSlug, 'empresas')),
+      db.select({ count: count() }).from(entradas).where(and(eq(entradas.coleccionSlug, 'empresas'), sql`${entradas.contenido} ->> 'esacelerada' = 'true'`)),
+      db.select({ count: count() }).from(entradas).where(eq(entradas.coleccionSlug, 'tripulacion-estelar')),
+      db.select({ count: count() }).from(entradas).where(eq(entradas.coleccionSlug, 'becados')),
+      db.select().from(entradas).orderBy(sql`${entradas.creadoEn} DESC`).limit(5)
+    ]);
 
     return {
       stats: [
         {
-          label: "Startups Aceleradas",
+          label: "Empresas Aceleradas",
           value: aceleradas.count.toString(),
           trend: "+0%",
           color: "from-purple-500 to-indigo-500",
         },
         {
-          label: "Tripulación Activa",
+          label: "Tripulación",
           value: tripulacion.count.toString(),
           trend: "+0%",
           color: "from-blue-500 to-cyan-500",
