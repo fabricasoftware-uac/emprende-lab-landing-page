@@ -15,11 +15,14 @@ const Equipo = nextDynamic(() => import("@/components/equipo"));
 const Footer = nextDynamic(() => import("@/components/footer"));
 import { db } from "@/db";
 import { entradas } from "@/db/schema";
-import { eq, and, ne, isNull, or } from "drizzle-orm";
+import { eq, and, isNull, or } from "drizzle-orm";
 
-export const dynamic = "force-dynamic";
+// OPTIMIZACIÓN CRÍTICA: En lugar de forzar renderizado dinámico en cada clic, 
+// cacheamos la página en el servidor y la actualizamos cada 1 hora (3600 segundos).
+export const revalidate = 3600;
 
 export default async function Home() {
+  // 1. Petición de Tripulación
   const tripulacionRecords = await db
     .select({ contenido: entradas.contenido })
     .from(entradas)
@@ -38,6 +41,7 @@ export default async function Home() {
     imageColor: r.contenido.color || "from-blue-600 to-indigo-600",
   }));
 
+  // 2. Petición de Empresas
   const empresasRecords = await db
     .select({ contenido: entradas.contenido })
     .from(entradas)
@@ -59,6 +63,7 @@ export default async function Home() {
     otro: r.contenido.otro || null,
   }));
 
+  // 3. Petición de Becados
   const becadosRecords = await db
     .select({ contenido: entradas.contenido })
     .from(entradas)
@@ -79,6 +84,7 @@ export default async function Home() {
     programa: r.contenido.programa || "EmprendeLab",
   }));
 
+  // 4. Petición de Proyectos
   const proyectosRecords = await db
     .select({ contenido: entradas.contenido })
     .from(entradas)
@@ -102,8 +108,28 @@ export default async function Home() {
     span: r.contenido.span || "lg:col-span-6",
   }));
 
+  // OPTIMIZACIÓN SEO: JSON-LD Schema de Organización para que Google identifique la marca
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "EmprendeLab",
+    "alternateName": "EmprendeLab Web",
+    "url": "https://www.emprendelab-web.com",
+    "logo": "https://www.emprendelab-web.com/dark_elab_favicon.png",
+    "description": "Lanzamos tus ideas al espacio. Te acompañamos en cada etapa de tu viaje hacia el éxito a través de aceleración, consultoría y formación especializada.",
+    "sameAs": [
+      "https://www.instagram.com/emprende_lab"
+    ]
+  };
+
   return (
     <div className="relative min-h-screen bg-linear-to-b from-[#2e1a47] to-background text-foreground overflow-hidden">
+      {/* Inyección de Datos Estructurados */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       {/* Cosmic background elements */}
       <FloatingElements />
 
