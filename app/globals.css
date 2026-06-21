@@ -218,19 +218,16 @@
 @layer utilities {
   .float {
     animation: float 3s ease-in-out infinite;
-    will-change: transform;
     transform: translateZ(0);
   }
 
   .float-slow {
     animation: float-slow 4s ease-in-out infinite;
-    will-change: transform;
     transform: translateZ(0);
   }
 
   .glow-pulse {
     animation: glow-pulse 2s ease-in-out infinite;
-    will-change: box-shadow;
     transform: translateZ(0);
   }
 
@@ -243,18 +240,15 @@
       transparent 100%
     );
     background-size: 1000px 100%;
-    will-change: background-position;
   }
 
   .shooting-star {
     animation: shooting-star linear infinite;
-    will-change: transform;
     transform: translateZ(0);
   }
 
   .twinkle {
     animation: twinkle ease-in-out infinite;
-    will-change: transform, opacity;
     transform: translateZ(0);
   }
 

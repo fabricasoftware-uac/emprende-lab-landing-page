@@ -43,7 +43,6 @@ export default function FloatingElements() {
               top: `${(i * 23 + 7) % 100}%`,
               animationDelay: `${(i * 0.7) % 5}s`,
               animationDuration: `${2 + (i % 4)}s`,
-              willChange: "transform, opacity",
             }}
           />
         ))}
@@ -61,7 +60,6 @@ export default function FloatingElements() {
               top: `${star.top}%`,
               animationDelay: `${star.delay}s`,
               animationDuration: `${star.duration}s`,
-              willChange: "transform, opacity",
             }}
           >
             <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-1 bg-white rounded-full shadow-[0_0_10px_2px_white]" />
