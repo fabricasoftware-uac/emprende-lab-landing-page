@@ -14,14 +14,15 @@ import {
 import { Modal } from "@/components/admin/modal";
 import { ConfirmModal } from "@/components/admin/confirm-modal";
 import { authClient } from "@/lib/auth-client";
+import type { Proyecto, BetterAuthUser } from "@/types/cms";
 
 export function ProjectsManager() {
-  const [projects, setProjects] = useState<any[]>([]);
-  const [users, setUsers] = useState<any[]>([]);
+  const [projects, setProjects] = useState<Proyecto[]>([]);
+  const [users, setUsers] = useState<BetterAuthUser[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingProject, setEditingProject] = useState<any>(null);
+  const [editingProject, setEditingProject] = useState<Proyecto | null>(null);
   const [formData, setFormData] = useState({
     nombre: "",
     descripcion: "",
@@ -49,11 +50,12 @@ export function ProjectsManager() {
           query: { limit: 100 },
         });
       if (usersError) throw usersError;
-      setUsers((usersData?.users || []).filter((u: any) => !u.deletedAt));
-    } catch (error: any) {
+      setUsers((usersData?.users || []) as BetterAuthUser[]);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Error al cargar datos.";
       console.error(error);
       toast.error("Error al cargar datos.");
-      setError(error?.message || "Error al cargar datos.");
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -63,7 +65,7 @@ export function ProjectsManager() {
     fetchData();
   }, []);
 
-  const handleEdit = (project: any) => {
+  const handleEdit = (project: Proyecto) => {
     setEditingProject(project);
     setFormData({
       nombre: project.nombre,
@@ -111,9 +113,12 @@ export function ProjectsManager() {
         userId: "",
       });
       fetchData();
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errMsg = typeof error === "object" && error !== null && "error" in error
+        ? (error as { error: string }).error
+        : "Error al procesar el proyecto";
       console.error(error);
-      toast.error(error?.error || "Error al procesar el proyecto");
+      toast.error(errMsg);
     } finally {
       setSubmitting(false);
     }
@@ -132,8 +137,11 @@ export function ProjectsManager() {
       }
       toast.success("Proyecto eliminado correctamente");
       fetchData();
-    } catch (error: any) {
-      toast.error(error?.error || "Error al eliminar");
+    } catch (error: unknown) {
+      const errMsg = typeof error === "object" && error !== null && "error" in error
+        ? (error as { error: string }).error
+        : "Error al eliminar";
+      toast.error(errMsg);
     } finally {
       setDeleting(false);
       setDeleteId(null);

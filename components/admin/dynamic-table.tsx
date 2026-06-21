@@ -13,9 +13,9 @@ import Image from "next/image";
 
 interface DynamicTableProps {
   fields: FieldConfig[];
-  data: any[];
-  onEdit: (record: any) => void;
-  onDeactivate: (record: any) => void;
+  data: Record<string, unknown>[];
+  onEdit: (record: Record<string, unknown>) => void;
+  onDeactivate: (record: Record<string, unknown>) => void;
   onCreate: () => void;
   title: string;
 }
@@ -83,26 +83,26 @@ export function DynamicTable({
               {filteredData.length > 0 ? (
                 filteredData.map((row, i) => (
                   <tr
-                    key={row.id || i}
+                    key={String(row.id ?? i)}
                     className={`transition-colors group ${row.activo !== false ? "hover:bg-white/5" : "bg-red-500/5 opacity-50 hover:bg-red-500/10"}`}
                   >
-                    {fields.map((field) => (
+                    {fields.map((field) => {
+                      const val = row[field.name];
+                      return (
                       <td
-                        key={`${row.id}-${field.name}`}
+                        key={`${String(row.id ?? "")}-${field.name}`}
                         className="px-6 py-4 whitespace-nowrap text-sm text-purple-100/90"
                       >
                         {field.type === "file" ? (
                           <div className="w-10 h-10 rounded-full bg-white/5 border border-purple-500/20 overflow-hidden flex items-center justify-center shrink-0">
-                            {row[field.name] ? (
+                            {val ? (
                               <img
                                 src={
-                                  typeof row[field.name] === "string" &&
-                                  row[field.name].length > 0
-                                    ? row[field.name]
-                                    : row[field.name] instanceof File ||
-                                        row[field.name] instanceof Blob
-                                      ? URL.createObjectURL(row[field.name])
-                                      : "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=200&auto=format&fit=crop" // Mock fallback for localStorage objects
+                                  typeof val === "string" && val.length > 0
+                                    ? val
+                                    : val instanceof File || val instanceof Blob
+                                      ? URL.createObjectURL(val)
+                                      : "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=200&auto=format&fit=crop"
                                 }
                                 alt="preview"
                                 className="object-cover w-full h-full"
@@ -117,20 +117,21 @@ export function DynamicTable({
                           </div>
                         ) : field.type === "select" ? (
                           <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-purple-500/20 text-purple-200 border border-purple-500/30">
-                            {row[field.name]}
+                            {String(val ?? "")}
                           </span>
                         ) : field.type === "textarea" ? (
                           <div
                             className="max-w-xs truncate"
-                            title={row[field.name]}
+                            title={String(val ?? "")}
                           >
-                            {row[field.name]}
+                            {String(val ?? "")}
                           </div>
                         ) : (
-                          <div className="font-medium">{row[field.name]}</div>
+                          <div className="font-medium">{String(val ?? "")}</div>
                         )}
                       </td>
-                    ))}
+                      );
+                    })}
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm">
                       <div className="flex items-center justify-end gap-2">
                         <button

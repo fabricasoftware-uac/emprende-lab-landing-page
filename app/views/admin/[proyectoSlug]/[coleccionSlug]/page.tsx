@@ -3,6 +3,7 @@ import { proyectos, esquemas, entradas } from "@/db/schema";
 import { eq, and, sql, count } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import { DynamicCollectionClient } from "./client-page";
+import type { Proyecto, Esquema, Entrada } from "@/types/cms";
 
 interface Props {
   params: Promise<{ proyectoSlug: string; coleccionSlug: string }>;
@@ -78,9 +79,9 @@ export default async function ColeccionPage({ params, searchParams }: Props) {
       </div>
       <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
         <DynamicCollectionClient
-          proyecto={proyecto}
-          esquema={esquema}
-          initialRecords={records}
+          proyecto={proyecto as unknown as Proyecto}
+          esquema={esquema as unknown as Esquema}
+          initialRecords={records as unknown as Entrada[]}
           currentPage={currentPage}
           totalPages={totalPages}
           totalRecords={totalResult.total}

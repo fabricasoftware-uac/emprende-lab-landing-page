@@ -49,8 +49,9 @@ export function ImageUploader({
       } else {
         throw new Error(data.error || "La subida falló");
       }
-    } catch (error: any) {
-      toast.error(error.message || "Error de red");
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Error de red";
+      toast.error(message);
       console.error(error);
     } finally {
       setUploading(false);

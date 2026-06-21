@@ -14,6 +14,7 @@ import {
 import { motion } from "framer-motion";
 import { authClient } from "@/lib/auth-client";
 import { useEffect, useState } from "react";
+import type { NavItem, Esquema } from "@/types/cms";
 
 const fabricaNavItems = [
   { name: "Usuarios", href: "/views/fabrica/usuarios", icon: Shield },
@@ -32,9 +33,7 @@ export function Sidebar({
   const { data: session } = authClient.useSession();
   const role = session?.user?.role || "user";
 
-  const [esquemasNavItems, setEsquemasNavItems] = useState<
-    { name: string; href: string; icon: any }[]
-  >([]);
+  const [esquemasNavItems, setEsquemasNavItems] = useState<NavItem[]>([]);
 
   useEffect(() => {
     if (role === "user") {
@@ -53,7 +52,7 @@ export function Sidebar({
             const dataEsq = await resEsq.json();
 
             if (dataEsq.data) {
-              const items = dataEsq.data.map((esq: any) => ({
+              const items = dataEsq.data.map((esq: Esquema) => ({
                 name: esq.nombre,
                 href: `/views/admin/${userProject.slug}/${esq.slug}`,
                 icon: FileText,

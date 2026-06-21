@@ -16,6 +16,7 @@ const Footer = nextDynamic(() => import("@/components/footer"));
 import { db } from "@/db";
 import { entradas } from "@/db/schema";
 import { eq, and, isNull, or } from "drizzle-orm";
+import type { EntradaRow } from "@/types/cms";
 
 // OPTIMIZACIÓN CRÍTICA: En lugar de forzar renderizado dinámico en cada clic, 
 // cacheamos la página en el servidor y la actualizamos cada 1 hora (3600 segundos).
@@ -33,13 +34,16 @@ export default async function Home() {
       )
     );
 
-  const team = tripulacionRecords.map((r: any) => ({
-    name: r.contenido.nombre || r.contenido.name || "Sin Nombre",
-    role: r.contenido.rol || r.contenido.role || "Sin Rol",
-    desc: r.contenido.descripcion || r.contenido.desc || "Sin Descripción",
-    image: r.contenido.imagen || r.contenido.image || null,
-    imageColor: r.contenido.color || "from-blue-600 to-indigo-600",
-  }));
+  const team = tripulacionRecords.map((r: EntradaRow) => {
+    const c = r.contenido as Record<string, unknown>;
+    return {
+      name: String(c.nombre || c.name || "Sin Nombre"),
+      role: String(c.rol || c.role || "Sin Rol"),
+      desc: String(c.descripcion || c.desc || "Sin Descripción"),
+      image: (c.imagen || c.image || undefined) as string | undefined,
+      imageColor: String(c.color || "from-blue-600 to-indigo-600"),
+    };
+  });
 
   // 2. Petición de Empresas
   const empresasRecords = await db
@@ -52,16 +56,19 @@ export default async function Home() {
       )
     ).limit(6);
 
-  const empresasDb = empresasRecords.map((r: any) => ({
-    name: r.contenido.nombre || r.contenido.name || "Sin Nombre",
-    category: r.contenido.categoria || r.contenido.category || "Sin Categoría",
-    desc: r.contenido.descripcion || r.contenido.desc || "Sin Descripción",
-    encargado: r.contenido.encargado || "No especificado",
-    logo: r.contenido.logo || r.contenido.imagen || r.contenido.image || null,
-    esAcelerada: r.contenido.esAcelerada || false,
-    instagram: r.contenido.instagram || null,
-    otro: r.contenido.otro || null,
-  }));
+  const empresasDb = empresasRecords.map((r: EntradaRow) => {
+    const c = r.contenido as Record<string, unknown>;
+    return {
+      name: String(c.nombre || c.name || "Sin Nombre"),
+      category: String(c.categoria || c.category || "Sin Categoría"),
+      desc: String(c.descripcion || c.desc || "Sin Descripción"),
+      encargado: String(c.encargado || "No especificado"),
+      logo: (c.logo || c.imagen || c.image || undefined) as string | undefined,
+      esAcelerada: Boolean(c.esAcelerada),
+      instagram: (c.instagram || undefined) as string | undefined,
+      otro: (c.otro || undefined) as string | undefined,
+    };
+  });
 
   // 3. Petición de Becados
   const becadosRecords = await db
@@ -74,15 +81,18 @@ export default async function Home() {
       )
     );
 
-  const becadosDb = becadosRecords.map((r: any) => ({
-    nombre: r.contenido.nombre || r.contenido.name || "Sin Nombre",
-    desc: r.contenido.descripcion || r.contenido.desc || "Sin Descripción",
-    rol: r.contenido.rol || r.contenido.role || "Sin Rol",
-    imagen: r.contenido.imagen || r.contenido.image || null,
-    proyecto: r.contenido.proyecto || r.contenido.project || "EmprendeLab",
-    color: "from-purple-400 to-pink-400",
-    programa: r.contenido.programa || "EmprendeLab",
-  }));
+  const becadosDb = becadosRecords.map((r: EntradaRow) => {
+    const c = r.contenido as Record<string, unknown>;
+    return {
+      nombre: String(c.nombre || c.name || "Sin Nombre"),
+      desc: String(c.descripcion || c.desc || "Sin Descripción"),
+      rol: String(c.rol || c.role || "Sin Rol"),
+      imagen: (c.imagen || c.image || undefined) as string | undefined,
+      proyecto: String(c.proyecto || c.project || "EmprendeLab"),
+      color: "from-purple-400 to-pink-400",
+      programa: String(c.programa || "EmprendeLab"),
+    };
+  });
 
   // 4. Petición de Proyectos
   const proyectosRecords = await db
@@ -95,18 +105,21 @@ export default async function Home() {
       )
     );
 
-  const proyectosDb = proyectosRecords.map((r: any) => ({
-    name: r.contenido.nombre || "Proyecto sin nombre",
-    category: r.contenido.etiqueta || "Innovación",
-    description: r.contenido.descripcion || "",
-    img: r.contenido.imagen || "/placeholder_elab.svg",
-    color: r.contenido.color || "from-purple-500/20 to-blue-500/20",
-    glow: r.contenido.glow || "bg-purple-500/30",
-    borderColor: r.contenido.borderColor || "border-purple-500/20",
-    hoverBorder: r.contenido.hoverBorder || "hover:border-purple-500/50",
-    site_url: r.contenido.link || null,
-    span: r.contenido.span || "lg:col-span-6",
-  }));
+  const proyectosDb = proyectosRecords.map((r: EntradaRow) => {
+    const c = r.contenido as Record<string, unknown>;
+    return {
+      name: String(c.nombre || "Proyecto sin nombre"),
+      category: String(c.etiqueta || "Innovación"),
+      description: String(c.descripcion || ""),
+      img: String(c.imagen || "/placeholder_elab.svg"),
+      color: String(c.color || "from-purple-500/20 to-blue-500/20"),
+      glow: String(c.glow || "bg-purple-500/30"),
+      borderColor: String(c.borderColor || "border-purple-500/20"),
+      hoverBorder: String(c.hoverBorder || "hover:border-purple-500/50"),
+      site_url: (c.link || undefined) as string | undefined,
+      span: String(c.span || "lg:col-span-6"),
+    };
+  });
 
   // OPTIMIZACIÓN SEO: JSON-LD Schema de Organización para que Google identifique la marca
   const jsonLd = {

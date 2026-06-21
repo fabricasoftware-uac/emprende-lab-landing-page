@@ -44,9 +44,10 @@ export async function POST(req: NextRequest) {
     const fileUrl = `${publicUrlBase}/${fileName}`;
 
     return NextResponse.json({ success: true, url: fileUrl });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "";
     console.error("Upload error:", error);
-    return NextResponse.json({ success: false, error: "Error interno al subir archivo a R2: " + (error?.message || "") }, { status: 500 });
+    return NextResponse.json({ success: false, error: "Error interno al subir archivo a R2: " + message }, { status: 500 });
   }
 }
 

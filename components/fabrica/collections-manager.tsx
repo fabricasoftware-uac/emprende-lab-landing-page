@@ -16,22 +16,16 @@ import {
 } from "lucide-react";
 import { Modal } from "@/components/admin/modal";
 import { ConfirmModal } from "@/components/admin/confirm-modal";
-
-interface Field {
-  id: string; // técnico: slug
-  label: string; // legible
-  type: "text" | "number" | "image" | "boolean" | "textarea";
-  required: boolean;
-}
+import type { Proyecto, Esquema, Campo } from "@/types/cms";
 
 export function CollectionsManager() {
-  const [projects, setProjects] = useState<any[]>([]);
+  const [projects, setProjects] = useState<Proyecto[]>([]);
   const [selectedProjectId, setSelectedProjectId] = useState<string>("");
-  const [collections, setCollections] = useState<any[]>([]);
+  const [collections, setCollections] = useState<Esquema[]>([]);
   const [loading, setLoading] = useState(true);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingCollection, setEditingCollection] = useState<any>(null);
+  const [editingCollection, setEditingCollection] = useState<Esquema | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -40,7 +34,7 @@ export function CollectionsManager() {
     nombre: "",
     slug: "",
     esRegistroUnico: false,
-    campos: [] as Field[],
+    campos: [] as Campo[],
   });
 
   const fetchData = async () => {
@@ -98,7 +92,7 @@ export function CollectionsManager() {
     setFormData({ ...formData, campos: newFields });
   };
 
-  const updateField = (index: number, updates: Partial<Field>) => {
+  const updateField = (index: number, updates: Partial<Campo>) => {
     const newFields = [...formData.campos];
     newFields[index] = { ...newFields[index], ...updates };
     setFormData({ ...formData, campos: newFields });
@@ -163,7 +157,7 @@ export function CollectionsManager() {
     setDeleteId(id);
   };
 
-  const handleEdit = (col: any) => {
+  const handleEdit = (col: Esquema) => {
     setEditingCollection(col);
     setFormData({
       nombre: col.nombre,
@@ -174,7 +168,7 @@ export function CollectionsManager() {
     setIsModalOpen(true);
   };
 
-  const toggleActive = async (col: any) => {
+  const toggleActive = async (col: Esquema) => {
     try {
       const res = await fetch("/api/esquemas", {
         method: "PATCH",
@@ -450,7 +444,7 @@ export function CollectionsManager() {
                     <select
                       value={field.type}
                       onChange={(e) =>
-                        updateField(idx, { type: e.target.value as any })
+                        updateField(idx, { type: e.target.value as Campo["type"] })
                       }
                       className="bg-[#1a0f2e] border border-purple-500/10 rounded-lg px-2 py-1 text-[10px] text-purple-200"
                     >

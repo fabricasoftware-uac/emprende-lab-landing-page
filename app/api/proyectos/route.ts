@@ -66,9 +66,9 @@ export async function POST(req: NextRequest) {
         }).returning();
 
         return NextResponse.json({ data: res[0] });
-    } catch (error: any) {
+    } catch (error) {
         console.error(error);
-        if (error.code === '23505') {
+        if (typeof error === "object" && error !== null && "code" in error && (error as { code: string }).code === "23505") {
             return NextResponse.json({ error: "El slug ya está en uso" }, { status: 400 });
         }
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
@@ -100,9 +100,9 @@ export async function PATCH(req: NextRequest) {
             .returning();
 
         return NextResponse.json({ data: res[0] });
-    } catch (error: any) {
+    } catch (error) {
         console.error(error);
-        if (error.code === '23505') {
+        if (typeof error === "object" && error !== null && "code" in error && (error as { code: string }).code === "23505") {
             return NextResponse.json({ error: "El slug ya está en uso" }, { status: 400 });
         }
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });

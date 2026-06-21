@@ -7,8 +7,8 @@ import { Loader2 } from "lucide-react";
 
 interface DynamicFormProps {
   fields: FieldConfig[];
-  initialData?: any;
-  onSubmit: (data: any) => Promise<void>;
+  initialData?: Record<string, unknown>;
+  onSubmit: (data: Record<string, unknown>) => Promise<void>;
   onCancel: () => void;
 }
 
@@ -18,7 +18,7 @@ export function DynamicForm({
   onSubmit,
   onCancel,
 }: DynamicFormProps) {
-  const [formData, setFormData] = useState<Record<string, any>>({});
+  const [formData, setFormData] = useState<Record<string, unknown>>({});
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export function DynamicForm({
       setFormData(initialData);
     } else {
       // Initialize empty state
-      const emptyState: Record<string, any> = {};
+      const emptyState: Record<string, unknown> = {};
       fields.forEach((field) => {
         emptyState[field.name] =
           field.type === "select" && field.options
@@ -37,7 +37,7 @@ export function DynamicForm({
     }
   }, [initialData, fields]);
 
-  const handleChange = (name: string, value: any) => {
+  const handleChange = (name: string, value: unknown) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -70,7 +70,7 @@ export function DynamicForm({
                 id={field.name}
                 type="text"
                 required={field.required}
-                value={formData[field.name] || ""}
+                value={String(formData[field.name] ?? "")}
                 onChange={(e) => handleChange(field.name, e.target.value)}
                 className={inputClasses}
                 placeholder={`Ingresa ${field.label.toLowerCase()}`}
@@ -82,7 +82,7 @@ export function DynamicForm({
                 id={field.name}
                 type="number"
                 required={field.required}
-                value={formData[field.name] || ""}
+                value={String(formData[field.name] ?? "")}
                 onChange={(e) => handleChange(field.name, e.target.value)}
                 className={inputClasses}
               />
@@ -92,7 +92,7 @@ export function DynamicForm({
               <textarea
                 id={field.name}
                 required={field.required}
-                value={formData[field.name] || ""}
+                value={String(formData[field.name] ?? "")}
                 onChange={(e) => handleChange(field.name, e.target.value)}
                 className={`${inputClasses} min-h-30 resize-y`}
                 placeholder={`Escribe la ${field.label.toLowerCase()}`}
@@ -104,7 +104,7 @@ export function DynamicForm({
                 <select
                   id={field.name}
                   required={field.required}
-                  value={formData[field.name] || ""}
+                  value={String(formData[field.name] ?? "")}
                   onChange={(e) => handleChange(field.name, e.target.value)}
                   className={`${inputClasses} appearance-none cursor-pointer`}
                 >
@@ -124,8 +124,8 @@ export function DynamicForm({
             {field.type === "file" && (
               <FileUpload
                 label={`Sube una ${field.label.toLowerCase()}`}
-                value={formData[field.name]}
-                onChange={(file) => handleChange(field.name, file)}
+                value={String(formData[field.name] ?? "")}
+                onChange={(file: File | null) => handleChange(field.name, file)}
               />
             )}
           </div>

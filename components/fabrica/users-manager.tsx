@@ -14,9 +14,10 @@ import { Modal } from "@/components/admin/modal";
 import { ConfirmModal } from "@/components/admin/confirm-modal"; // New import
 
 import { authClient } from "@/lib/auth-client";
+import type { BetterAuthUser } from "@/types/cms";
 
 export function UsersManager() {
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<BetterAuthUser[]>([]);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -31,7 +32,7 @@ export function UsersManager() {
     passwordConfirm: "",
     role: "user",
   });
-  const [editingUser, setEditingUser] = useState<any | null>(null);
+  const [editingUser, setEditingUser] = useState<BetterAuthUser | null>(null);
 
   const resetForm = () => {
     setFormData({
@@ -54,9 +55,9 @@ export function UsersManager() {
       });
       if (error) throw error;
       // Filter out soft-deleted users
-      const activeUsers = (data?.users || []).filter((u: any) => !u.deletedAt);
+      const activeUsers = ((data?.users || []) as BetterAuthUser[]).filter((u) => !u.deletedAt);
       setUsers(activeUsers);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(error);
       toast.error("Error al cargar los usuarios. Asegúrate de tener permisos.");
     } finally {
@@ -106,15 +107,16 @@ export function UsersManager() {
       setIsModalOpen(false);
       resetForm();
       fetchUsers();
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Error al procesar la solicitud";
       console.error(error);
-      toast.error(error?.message || "Error al procesar la solicitud");
+      toast.error(message);
     } finally {
       setSubmitting(false);
     }
   };
 
-  const handleEdit = (user: any) => {
+  const handleEdit = (user: BetterAuthUser) => {
     setEditingUser(user);
     setFormData({
       name: user.name || "",
@@ -132,15 +134,13 @@ export function UsersManager() {
     try {
       const { error } = await authClient.admin.updateUser({
         userId: deleteId,
-        data: {
-          deletedAt: new Date(),
-        } as any,
+        data: { deletedAt: new Date() } as { deletedAt: Date },
       });
       if (error) throw error;
 
       toast.success("Usuario eliminado");
       setUsers(users.filter((u) => u.id !== deleteId));
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(error);
       toast.error("Error al eliminar el usuario");
     } finally {

@@ -5,16 +5,17 @@ import { entradas } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
+import type { Campo } from "@/types/cms";
 
 export async function saveEntrada(
   proyectoId: string,
   coleccionSlug: string,
-  campos: any[],
-  formData: any,
+  campos: Campo[],
+  formData: Record<string, unknown>,
   recordId?: string
 ) {
   // 1. Build dynamic Zod Schema based on our campos definition
-  const shape: any = {};
+  const shape: z.ZodRawShape = {};
   for (const field of campos) {
     let validator;
     switch (field.type) {
@@ -33,7 +34,7 @@ export async function saveEntrada(
         validator = z.string();
         break;
       default:
-        validator = z.any();
+        validator = z.unknown();
     }
     
     // For non-boolean fields, handle optionality and empty string

@@ -14,9 +14,10 @@ import {
 import { useEffect, useState } from "react";
 import { getAdminDashboardData } from "@/app/actions/stats";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { DashboardData, StatItem, AlertItem } from "@/types/cms";
 
 export default function AdminDashboardPage() {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -77,7 +78,7 @@ export default function AdminDashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
-        {data?.stats.map((stat: any, i: number) => {
+        {data?.stats.map((stat: StatItem, i: number) => {
           const Icon = statIcons[stat.label as keyof typeof statIcons] || Activity;
           return (
             <motion.div
@@ -144,7 +145,7 @@ export default function AdminDashboardPage() {
           
           <div className="space-y-1">
             {data?.alerts && data.alerts.length > 0 ? (
-              data.alerts.map((alert: any, i: number) => (
+              data.alerts.map((alert: AlertItem, i: number) => (
                 <div 
                   key={alert.id}
                   className="flex items-center gap-4 p-4 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/5 group"

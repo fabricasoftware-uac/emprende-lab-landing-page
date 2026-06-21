@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { entradas } from "@/db/schema";
 import { eq, and, or, isNull, sql } from "drizzle-orm";
+import type { EntradaRow } from "@/types/cms";
 import EmpresasClient from "./empresas-client";
 
 export const dynamic = "force-dynamic";
@@ -18,16 +19,19 @@ export default async function EmpresasPage() {
     )
     .orderBy(sql`${entradas.creadoEn} DESC`);
 
-  const empresasDb = empresasRecords.map((r: any) => ({
-    name: r.contenido.nombre || r.contenido.name || "Sin Nombre",
-    category: r.contenido.tipo || r.contenido.categoria || r.contenido.category || "Sin Categoría",
-    desc: r.contenido.descripcion || r.contenido.desc || "Sin Descripción",
-    encargado: r.contenido.encargado || "No especificado",
-    logo: r.contenido.logo || r.contenido.imagen || r.contenido.image || null,
-    esAcelerada: r.contenido.tipo === "acelerada" || r.contenido.esAcelerada || false,
-    instagram: r.contenido.instagram || null,
-    otro: r.contenido.website || r.contenido.sitio_web || r.contenido.otro || null,
-  }));
+  const empresasDb = empresasRecords.map((r: EntradaRow) => {
+    const c = r.contenido as Record<string, unknown>;
+    return {
+      name: String(c.nombre || c.name || "Sin Nombre"),
+      category: String(c.tipo || c.categoria || c.category || "Sin Categoría"),
+      desc: String(c.descripcion || c.desc || "Sin Descripción"),
+      encargado: String(c.encargado || "No especificado"),
+      logo: (c.logo || c.imagen || c.image || undefined) as string | undefined,
+      esAcelerada: Boolean(c.tipo === "acelerada" || c.esAcelerada),
+      instagram: (c.instagram || undefined) as string | undefined,
+      otro: (c.website || c.sitio_web || c.otro || undefined) as string | undefined,
+    };
+  });
 
   return <EmpresasClient empresas={empresasDb} />;
 }
