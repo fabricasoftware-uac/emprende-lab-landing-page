@@ -104,7 +104,7 @@ export default async function Home() {
   };
 
   return (
-    <div className="relative min-h-screen min-h-dvh bg-linear-to-b from-[#2e1a47] to-background text-foreground overflow-hidden">
+    <div className="relative min-h-screen bg-linear-to-b from-[#2e1a47] to-background text-foreground overflow-hidden">
       {/* Inyección de Datos Estructurados */}
       <script
         type="application/ld+json"

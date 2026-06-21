@@ -128,9 +128,8 @@
     background: #2e1a47;
   }
   body {
-    @apply text-foreground;
-    background: #2e1a47;
-    padding-bottom: env(safe-area-inset-bottom);
+    @apply bg-background text-foreground;
+    padding-top: env(safe-area-inset-top);
   }
 }
 
@@ -205,30 +204,17 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
 @layer utilities {
   .float {
     animation: float 3s ease-in-out infinite;
-    transform: translateZ(0);
   }
 
   .float-slow {
     animation: float-slow 4s ease-in-out infinite;
-    transform: translateZ(0);
   }
 
   .glow-pulse {
     animation: glow-pulse 2s ease-in-out infinite;
-    transform: translateZ(0);
   }
 
   .shimmer {
@@ -244,12 +230,10 @@
 
   .shooting-star {
     animation: shooting-star linear infinite;
-    transform: translateZ(0);
   }
 
   .twinkle {
     animation: twinkle ease-in-out infinite;
-    transform: translateZ(0);
   }
 
   .glass {
@@ -283,5 +267,3 @@
     filter: drop-shadow(0 0 8px rgba(253, 224, 71, 0.4));
   }
 }
-
-
