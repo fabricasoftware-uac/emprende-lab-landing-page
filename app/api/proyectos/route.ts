@@ -20,16 +20,16 @@ export async function GET(req: NextRequest) {
                 template: proyectos.template,
                 estado: proyectos.estado,
                 createdAt: proyectos.createdAt,
-                userId: proyectos.user_id,
+                userId: proyectos.userId,
                 userName: user.name,
                 userEmail: user.email,
             })
             .from(proyectos)
-            .leftJoin(user, eq(proyectos.user_id, user.id))
+            .leftJoin(user, eq(proyectos.userId, user.id))
             .$dynamic();
             
         if (session.user.role !== "admin") {
-            query = query.where(eq(proyectos.user_id, session.user.id));
+            query = query.where(eq(proyectos.userId, session.user.id));
         }
 
         const list = await query.orderBy(proyectos.createdAt);
@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
             nombre,
             descripcion,
             slug,
-            user_id: userId,
+            userId,
             template: template || "default",
             estado: "active",
         }).returning();
@@ -92,9 +92,9 @@ export async function PATCH(req: NextRequest) {
                 nombre,
                 descripcion,
                 slug,
-                user_id: userId,
+                userId,
                 template,
-                updatedAt: new Date(),
+                updatedAt: new Date().toISOString(),
             })
             .where(eq(proyectos.id, id))
             .returning();

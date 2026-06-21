@@ -41,8 +41,10 @@ Copy `.env.example` to `.env`. Required vars:
 ### Database (`db/`)
 - `db/schema.ts` — Drizzle schema (user, session, account, verification, proyectos, esquemas, entradas). Column naming uses camelCase for JS, postgres columns defined as text strings.
 - `db/index.ts` — exports `db` (drizzle instance connected via `@neondatabase/serverless`).
-- `drizzle.config.ts` — expects `DATABASE_URL`, schema at `./db/schema.ts`, output dir `./drizzle/` (migrations not yet generated).
-- No drizzle migrations directory exists yet. Run `npx drizzle-kit generate` to create them, `npx drizzle-kit migrate` to apply.
+- `drizzle.config.ts` — expects `DATABASE_URL`, schema at `./db/schema.ts`, output dir `./drizzle/`.
+- Schema is reconciled with the live DB via `drizzle-kit pull`. Any future schema changes should be made in `db/schema.ts` and then `drizzle-kit generate` → `drizzle-kit migrate`.
+- Timestamps use `mode: 'string'` (matching `@neondatabase/serverless`). Writes must use `.toISOString()`, e.g. `.set({ actualizadoEn: new Date().toISOString() })`.
+- No snapshot/migration exists yet (baseline = empty). First real migration will be the next schema change.
 
 ### Auth (`lib/auth.ts`, `lib/auth-client.ts`)
 - Server: `lib/auth.ts` exports `auth` (Better Auth instance with drizzle adapter + email/password + admin plugin).

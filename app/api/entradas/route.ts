@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
         if (id) {
             // Update
             const res = await db.update(entradas)
-                .set({ contenido, actualizadoEn: new Date() })
+                .set({ contenido, actualizadoEn: new Date().toISOString() })
                 .where(eq(entradas.id, id))
                 .returning();
             return NextResponse.json({ data: res[0] });

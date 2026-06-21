@@ -60,7 +60,7 @@ export async function saveEntrada(
     if (recordId) {
       // Update existing
       await db.update(entradas)
-        .set({ contenido: parsed.data, actualizadoEn: new Date() })
+        .set({ contenido: parsed.data, actualizadoEn: new Date().toISOString() })
         .where(eq(entradas.id, recordId));
     } else {
       // Create new
@@ -82,7 +82,7 @@ export async function saveEntrada(
 export async function toggleActiveEntrada(id: string, currentStatus: boolean) {
   try {
     await db.update(entradas)
-      .set({ activo: !currentStatus, actualizadoEn: new Date() })
+      .set({ activo: !currentStatus, actualizadoEn: new Date().toISOString() })
       .where(eq(entradas.id, id));
     
     revalidatePath("/", "layout");
