@@ -31,7 +31,6 @@ export function DynamicCollectionClient({
   // Single record for singleton
   const singletonRecord = isSingleton ? initialRecords[0] : null;
 
-  const [records, setRecords] = useState<Entrada[]>(initialRecords);
   const [submitting, setSubmitting] = useState(false);
 
   const [deleteId, setDeleteId] = useState<string | null>(null);

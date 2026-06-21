@@ -6,7 +6,9 @@ import nextDynamic from "next/dynamic";
 const InnovationUnits = nextDynamic(() => import("@/components/servicios"));
 const Academia = nextDynamic(() => import("@/components/academia"));
 const Transferencia = nextDynamic(() => import("@/components/transferencia"));
-const SpaceLabProgram = nextDynamic(() => import("@/components/spacelab-program"));
+const SpaceLabProgram = nextDynamic(
+  () => import("@/components/spacelab-program"),
+);
 const Proyectos = nextDynamic(() => import("@/components/proyectos"));
 const Empresas = nextDynamic(() => import("@/components/empresas"));
 const Becados = nextDynamic(() => import("@/components/becados"));
@@ -18,7 +20,7 @@ import { entradas } from "@/db/schema";
 import { eq, and, isNull, or } from "drizzle-orm";
 import type { EntradaRow } from "@/types/cms";
 
-// OPTIMIZACIÓN CRÍTICA: En lugar de forzar renderizado dinámico en cada clic, 
+// OPTIMIZACIÓN CRÍTICA: En lugar de forzar renderizado dinámico en cada clic,
 // cacheamos la página en el servidor y la actualizamos cada 1 hora (3600 segundos).
 export const revalidate = 3600;
 
@@ -30,8 +32,8 @@ export default async function Home() {
     .where(
       and(
         eq(entradas.coleccionSlug, "tripulacion-estelar"),
-        or(isNull(entradas.activo), eq(entradas.activo, true))
-      )
+        or(isNull(entradas.activo), eq(entradas.activo, true)),
+      ),
     );
 
   const team = tripulacionRecords.map((r: EntradaRow) => {
@@ -52,9 +54,10 @@ export default async function Home() {
     .where(
       and(
         eq(entradas.coleccionSlug, "empresas"),
-        or(isNull(entradas.activo), eq(entradas.activo, true))
-      )
-    ).limit(6);
+        or(isNull(entradas.activo), eq(entradas.activo, true)),
+      ),
+    )
+    .limit(6);
 
   const empresasDb = empresasRecords.map((r: EntradaRow) => {
     const c = r.contenido as Record<string, unknown>;
@@ -77,8 +80,8 @@ export default async function Home() {
     .where(
       and(
         eq(entradas.coleccionSlug, "becados"),
-        or(isNull(entradas.activo), eq(entradas.activo, true))
-      )
+        or(isNull(entradas.activo), eq(entradas.activo, true)),
+      ),
     );
 
   const becadosDb = becadosRecords.map((r: EntradaRow) => {
@@ -101,8 +104,8 @@ export default async function Home() {
     .where(
       and(
         eq(entradas.coleccionSlug, "proyectos"),
-        or(isNull(entradas.activo), eq(entradas.activo, true))
-      )
+        or(isNull(entradas.activo), eq(entradas.activo, true)),
+      ),
     );
 
   const proyectosDb = proyectosRecords.map((r: EntradaRow) => {
@@ -125,14 +128,13 @@ export default async function Home() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "EmprendeLab",
-    "alternateName": "EmprendeLab Web",
-    "url": "https://www.emprendelab-web.com",
-    "logo": "https://www.emprendelab-web.com/dark_elab_favicon.png",
-    "description": "Lanzamos tus ideas al espacio. Te acompañamos en cada etapa de tu viaje hacia el éxito a través de aceleración, consultoría y formación especializada.",
-    "sameAs": [
-      "https://www.instagram.com/emprende_lab"
-    ]
+    name: "EmprendeLab",
+    alternateName: "EmprendeLab Web",
+    url: "https://www.emprendelab-web.com",
+    logo: "https://www.emprendelab-web.com/dark_elab_favicon.png",
+    description:
+      "Lanzamos tus ideas al espacio. Te acompañamos en cada etapa de tu viaje hacia el éxito a través de aceleración, consultoría y formación especializada.",
+    sameAs: ["https://www.instagram.com/emprende_lab"],
   };
 
   return (

@@ -7,5 +7,6 @@ if (!process.env.DATABASE_URL) {
 }
 
 const sql = neon(process.env.DATABASE_URL);
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 export const db = drizzle(sql, { schema });

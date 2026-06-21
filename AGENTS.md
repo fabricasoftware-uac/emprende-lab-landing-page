@@ -15,7 +15,8 @@
 pnpm dev          # next dev
 pnpm build        # next build
 pnpm start        # next start
-pnpm lint         # eslint . (note: eslint is not installed; this is a no-op)
+pnpm lint         # eslint . (flat config, no-explicit-any enforced)
+pnpm format       # prettier --write .
 ```
 
 Seeds and scripts (run with `tsx`):
@@ -68,7 +69,8 @@ Copy `.env.example` to `.env`. Required vars:
 - Section components: `hero.tsx`, `servicios.tsx`, `academia.tsx`, `transferencia.tsx`, `spacelab-program.tsx`, `proyectos.tsx`, `empresas.tsx`, `becados.tsx`, `equipo.tsx`, `sostenibilidad.tsx`, `footer.tsx`, `navbar.tsx`, `floating-elements.tsx`.
 
 ## Gotchas
-- **Build ignores TS errors**: `next.config.mjs` has `typescript.ignoreBuildErrors: true`. The build won't catch type errors. Always run `pnpm lint` before committing.
+- **Shared types** are in `types/cms.ts`. Before adding new domain entities, check if a type already exists there.
+- **`any` is banned** by eslint (`@typescript-eslint/no-explicit-any: error`). Use `unknown` or proper types.
 - **No test runner configured**. There is no `vitest`, `jest`, or `playwright` setup.
 - **No CI workflows** in `.github/workflows/`. Deployment is via Vercel auto-deploy on merge to `main` (per README's v0 integration).
 - The project is linked to v0.app for AI-generated UI. The v0 runtime files (`__v0_*.js/tsx`) are gitignored.
