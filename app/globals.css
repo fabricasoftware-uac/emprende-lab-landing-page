@@ -290,8 +290,4 @@
   }
 }
 
-/* Performance: lazy-render sections below the fold */
-section + section {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 500px;
-}
+
