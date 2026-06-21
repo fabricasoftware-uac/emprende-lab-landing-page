@@ -20,7 +20,7 @@ export default async function EquipoPage() {
   });
 
   return (
-    <div className="relative min-h-screen bg-linear-to-b from-[#2e1a47] to-background text-foreground overflow-hidden">
+    <div className="relative min-h-dvh bg-linear-to-b from-[#2e1a47] to-background text-foreground overflow-hidden">
       <FloatingElements />
       <Navbar />
       <EquipoGrid team={team} />

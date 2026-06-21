@@ -14,7 +14,7 @@ import Logo from "./logo";
 import Image from "next/image";
 export default function Footer() {
   return (
-    <footer className="relative border-t border-white/10 bg-gradient-to-b from-transparent to-purple-900/10 overflow-hidden">
+    <footer className="relative border-t border-white/10 bg-gradient-to-b from-transparent to-purple-900/10 overflow-hidden" style={{ paddingBottom: "env(safe-area-inset-bottom)" }}>
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}

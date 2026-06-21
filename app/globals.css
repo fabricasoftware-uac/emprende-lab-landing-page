@@ -128,8 +128,9 @@
     background: #2e1a47;
   }
   body {
-    @apply bg-background text-foreground;
-    padding-top: env(safe-area-inset-top);
+    @apply text-foreground;
+    background: #2e1a47;
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }
 
@@ -204,17 +205,33 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 @layer utilities {
   .float {
     animation: float 3s ease-in-out infinite;
+    will-change: transform;
+    transform: translateZ(0);
   }
 
   .float-slow {
     animation: float-slow 4s ease-in-out infinite;
+    will-change: transform;
+    transform: translateZ(0);
   }
 
   .glow-pulse {
     animation: glow-pulse 2s ease-in-out infinite;
+    will-change: box-shadow;
+    transform: translateZ(0);
   }
 
   .shimmer {
@@ -226,14 +243,19 @@
       transparent 100%
     );
     background-size: 1000px 100%;
+    will-change: background-position;
   }
 
   .shooting-star {
     animation: shooting-star linear infinite;
+    will-change: transform;
+    transform: translateZ(0);
   }
 
   .twinkle {
     animation: twinkle ease-in-out infinite;
+    will-change: transform, opacity;
+    transform: translateZ(0);
   }
 
   .glass {
@@ -266,4 +288,10 @@
     color: rgb(253, 224, 71);
     filter: drop-shadow(0 0 8px rgba(253, 224, 71, 0.4));
   }
+}
+
+/* Performance: lazy-render sections below the fold */
+section + section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 500px;
 }
