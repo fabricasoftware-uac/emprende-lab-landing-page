@@ -6,6 +6,7 @@ import { Loader2, Plus, Edit, Trash2, Eye, EyeOff, ChevronLeft, ChevronRight } f
 import { Modal } from "@/components/admin/modal";
 import { ConfirmModal } from "@/components/admin/confirm-modal";
 import { ImageUploader } from "@/components/admin/image-uploader";
+import { PositionPicker } from "@/components/admin/position-picker";
 import { saveEntrada, toggleActiveEntrada } from "./actions";
 import { useRouter } from "next/navigation";
 import type { Proyecto, Esquema, Entrada, Campo } from "@/types/cms";
@@ -178,6 +179,26 @@ export function DynamicCollectionClient({
             onChange={(url: string) => handleFieldChange(field.id, url)}
             label={field.label}
             required={field.required}
+          />
+        );
+      case "text":
+        if (field.id === "posicionImagen") {
+          return (
+            <PositionPicker
+              value={String(raw ?? "center center")}
+              onChange={(val) => handleFieldChange(field.id, val)}
+              imageUrl={String(formData["imagen"] ?? "")}
+            />
+          );
+        }
+        return (
+          <input
+            type="text"
+            required={field.required}
+            value={String(raw ?? "")}
+            onChange={(e) => handleFieldChange(field.id, e.target.value)}
+            className={commonClasses}
+            placeholder={field.label}
           />
         );
       default:

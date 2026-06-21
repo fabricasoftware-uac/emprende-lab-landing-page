@@ -36,6 +36,7 @@ interface Becado {
   proyecto?: string;
   color?: string;
   programa?: string;
+  posicionImagen?: string;
 }
 
 interface BecadosProps {
@@ -109,6 +110,7 @@ export default function Becados({ becados = [] }: BecadosProps) {
                                 alt={becado.nombre}
                                 fill
                                 className="object-cover transition-all duration-1000 group-hover:scale-110 filter saturate-80 group-hover:saturate-100"
+                                style={{ objectPosition: becado.posicionImagen || "center center" }}
                               />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center bg-white/5">
@@ -203,7 +205,8 @@ export default function Becados({ becados = [] }: BecadosProps) {
                         src={selectedBecado.imagen} 
                         alt={selectedBecado.nombre} 
                         fill
-                        className="object-cover" 
+                        className="object-cover"
+                        style={{ objectPosition: selectedBecado.posicionImagen || "center center" }}
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-white/5">

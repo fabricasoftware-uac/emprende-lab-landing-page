@@ -94,6 +94,7 @@ export default async function Home() {
       proyecto: String(c.proyecto || c.project || "EmprendeLab"),
       color: "from-purple-400 to-pink-400",
       programa: String(c.programa || "EmprendeLab"),
+      posicionImagen: (c.posicionImagen as string) || "center center",
     };
   });
 
