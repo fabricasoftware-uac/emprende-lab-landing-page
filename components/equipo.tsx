@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import { Linkedin, Twitter, ExternalLink, ChevronRight, Sparkles, UserCircle } from "lucide-react";
+import { Linkedin, Twitter, ExternalLink, ChevronRight, Sparkles, UserCircle, ArrowRight } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
 import {
   Carousel,
@@ -13,12 +13,7 @@ import {
 } from "./ui/carousel";
 import Image from "next/image";
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { EquipoModal } from "@/components/global/equipo-modal";
 
 interface TeamMember {
   name: string;
@@ -32,9 +27,10 @@ interface TeamMember {
 
 interface EquipoProps {
   team?: TeamMember[];
+  showViewAll?: boolean;
 }
 
-export default function Equipo({ team = [] }: EquipoProps) {
+export default function Equipo({ team = [], showViewAll }: EquipoProps) {
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
 
   if (!team || team.length === 0) return null;
@@ -172,104 +168,24 @@ export default function Equipo({ team = [] }: EquipoProps) {
             </div>
           </Carousel>
         </div>
+
+        {showViewAll && (
+          <div className="flex justify-center mt-12">
+            <Link
+              href="/equipo"
+              className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-white/5 border border-blue-500/20 text-blue-200 font-medium text-sm hover:bg-blue-500/10 hover:border-blue-500/40 transition-all group"
+            >
+              Ver toda la tripulación
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+        )}
       </div>
 
-      {/* Member Modal */}
-      <Dialog open={!!selectedMember} onOpenChange={() => setSelectedMember(null)}>
-        <DialogContent className="md:min-w-200 lg:min-w-250 bg-slate-950/98 border-white/10 backdrop-blur-3xl text-white rounded-[2.5rem] p-0 overflow-hidden outline-hidden focus:ring-0">
-          <AnimatePresence>
-            {selectedMember && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                className="flex flex-col md:flex-row h-full max-h-[90vh] md:max-h-150"
-              >
-                {/* Modal Side: Image */}
-                <div className="hidden md:flex md:w-1/3 relative bg-slate-900 overflow-hidden items-end justify-center shrink-0">
-                  <div className="absolute inset-0 bg-linear-to-br from-blue-500/20 to-transparent"></div>
-                  
-                  <div className={`absolute bottom-0 w-64 h-64 bg-linear-to-t ${selectedMember.imageColor || "from-blue-600/30 to-indigo-600/30"} blur-[80px] opacity-40`}></div>
-                  
-                  <div className="relative w-full h-[80%] z-10 px-8">
-                    {selectedMember.image ? (
-                      <Image 
-                        src={selectedMember.image} 
-                        alt={selectedMember.name} 
-                        fill
-                        className="object-contain object-bottom drop-shadow-[0_0_30px_rgba(59,130,246,0.3)]" 
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <UserCircle size={120} className="text-white/10" />
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Modal Side: Details */}
-                <div className="w-full md:w-2/3 p-8 md:p-12 flex flex-col items-start relative bg-slate-950/50 overflow-y-auto custom-scrollbar">
-                  <div className="mb-8">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-[10px] font-bold tracking-widest uppercase text-blue-400">
-                      Tripulación
-                    </div>
-                  </div>
-
-                  <DialogHeader className="mb-8 text-left p-0">
-                    <DialogTitle className="text-4xl md:text-5xl font-black tracking-tighter text-white mb-2 leading-none p-0">
-                      {selectedMember.name}
-                    </DialogTitle>
-                    <p className="text-blue-400 font-bold uppercase tracking-[0.2em] text-xs">
-                      {selectedMember.role}
-                    </p>
-                    <div className="h-1 w-20 bg-linear-to-r from-blue-500 to-transparent rounded-full mt-4"></div>
-                  </DialogHeader>
-
-                  <div className="space-y-8 flex-1 pr-2 w-full">
-                    <div className="space-y-3">
-                      <h4 className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase flex items-center gap-2">
-                        <Sparkles size={14} className="text-blue-400" />
-                        Trayectoria y Visión
-                      </h4>
-                      <div className="space-y-4">
-                        {selectedMember.desc.split("\n").map((paragraph, pIdx) => (
-                          <p key={pIdx} className="text-slate-300 text-lg leading-relaxed font-medium">
-                            {paragraph}
-                          </p>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-6 pt-8 border-t border-white/10">
-                      <div className="space-y-1">
-                         <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Estado</h4>
-                         <p className="text-sm font-bold text-blue-400 flex items-center gap-1.5">
-                            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
-                            Activo en Misión
-                         </p>
-                      </div>
-                      <div className="space-y-1">
-                         <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Nivel</h4>
-                         <p className="text-sm font-bold text-white/90">Especialista Élite</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-8 pt-8 border-t border-white/10 flex items-center gap-4 w-full">
-                   
-                    <button 
-                      onClick={() => setSelectedMember(null)}
-                      className="flex-1 px-8 py-4 rounded-2xl bg-white/5 border border-white/10 font-bold hover:bg-white/10 transition-all text-slate-400 hover:text-white"
-                    >
-                      Cerrar Perfil
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </DialogContent>
-      </Dialog>
+      <EquipoModal
+        member={selectedMember}
+        onClose={() => setSelectedMember(null)}
+      />
     </section>
   );
 }

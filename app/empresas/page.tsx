@@ -1,23 +1,11 @@
-import { db } from "@/db";
-import { entradas } from "@/db/schema";
-import { eq, and, or, isNull, sql } from "drizzle-orm";
+import { getEntradasBySlug } from "@/lib/data";
 import type { EntradaRow } from "@/types/cms";
 import EmpresasClient from "./empresas-client";
 
 export const dynamic = "force-dynamic";
 
 export default async function EmpresasPage() {
-  // Fetch All Active Records
-  const empresasRecords = await db
-    .select({ contenido: entradas.contenido })
-    .from(entradas)
-    .where(
-      and(
-        eq(entradas.coleccionSlug, "empresas"),
-        or(isNull(entradas.activo), eq(entradas.activo, true))
-      )
-    )
-    .orderBy(sql`${entradas.creadoEn} DESC`);
+  const empresasRecords = await getEntradasBySlug("empresas");
 
   const empresasDb = empresasRecords.map((r: EntradaRow) => {
     const c = r.contenido as Record<string, unknown>;

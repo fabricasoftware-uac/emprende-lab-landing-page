@@ -15,9 +15,7 @@ const Becados = nextDynamic(() => import("@/components/becados"));
 const Tienda = nextDynamic(() => import("@/components/sostenibilidad"));
 const Equipo = nextDynamic(() => import("@/components/equipo"));
 const Footer = nextDynamic(() => import("@/components/footer"));
-import { db } from "@/db";
-import { entradas } from "@/db/schema";
-import { eq, and, isNull, or } from "drizzle-orm";
+import { getEntradasBySlug } from "@/lib/data";
 import type { EntradaRow } from "@/types/cms";
 
 // OPTIMIZACIÓN CRÍTICA: En lugar de forzar renderizado dinámico en cada clic,
@@ -25,16 +23,8 @@ import type { EntradaRow } from "@/types/cms";
 export const revalidate = 3600;
 
 export default async function Home() {
-  // 1. Petición de Tripulación
-  const tripulacionRecords = await db
-    .select({ contenido: entradas.contenido })
-    .from(entradas)
-    .where(
-      and(
-        eq(entradas.coleccionSlug, "tripulacion-estelar"),
-        or(isNull(entradas.activo), eq(entradas.activo, true)),
-      ),
-    );
+  // 1. Tripulación (limit 8)
+  const tripulacionRecords = await getEntradasBySlug("tripulacion-estelar", 8);
 
   const team = tripulacionRecords.map((r: EntradaRow) => {
     const c = r.contenido as Record<string, unknown>;
@@ -47,17 +37,8 @@ export default async function Home() {
     };
   });
 
-  // 2. Petición de Empresas
-  const empresasRecords = await db
-    .select({ contenido: entradas.contenido })
-    .from(entradas)
-    .where(
-      and(
-        eq(entradas.coleccionSlug, "empresas"),
-        or(isNull(entradas.activo), eq(entradas.activo, true)),
-      ),
-    )
-    .limit(6);
+  // 2. Empresas (limit 6)
+  const empresasRecords = await getEntradasBySlug("empresas", 6);
 
   const empresasDb = empresasRecords.map((r: EntradaRow) => {
     const c = r.contenido as Record<string, unknown>;
@@ -73,16 +54,8 @@ export default async function Home() {
     };
   });
 
-  // 3. Petición de Becados
-  const becadosRecords = await db
-    .select({ contenido: entradas.contenido })
-    .from(entradas)
-    .where(
-      and(
-        eq(entradas.coleccionSlug, "becados"),
-        or(isNull(entradas.activo), eq(entradas.activo, true)),
-      ),
-    );
+  // 3. Becados (limit 8)
+  const becadosRecords = await getEntradasBySlug("becados", 8);
 
   const becadosDb = becadosRecords.map((r: EntradaRow) => {
     const c = r.contenido as Record<string, unknown>;
@@ -98,16 +71,8 @@ export default async function Home() {
     };
   });
 
-  // 4. Petición de Proyectos
-  const proyectosRecords = await db
-    .select({ contenido: entradas.contenido })
-    .from(entradas)
-    .where(
-      and(
-        eq(entradas.coleccionSlug, "proyectos"),
-        or(isNull(entradas.activo), eq(entradas.activo, true)),
-      ),
-    );
+  // 4. Proyectos (sin límite)
+  const proyectosRecords = await getEntradasBySlug("proyectos");
 
   const proyectosDb = proyectosRecords.map((r: EntradaRow) => {
     const c = r.contenido as Record<string, unknown>;
@@ -177,10 +142,10 @@ export default async function Home() {
       <Empresas empresas={empresasDb} />
 
       {/* Becados */}
-      <Becados becados={becadosDb} />
+      <Becados becados={becadosDb} showViewAll />
 
       {/* Tripulación Estelar */}
-      <Equipo team={team} />
+      <Equipo team={team} showViewAll />
 
       {/* Footer */}
       <Footer />
